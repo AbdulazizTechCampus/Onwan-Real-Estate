@@ -1822,6 +1822,65 @@ body {
     padding: 10px 20px;
     font-size: 0.9rem;
   }
+
+  /* Property Cards Mobile */
+  .properties-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 0 10px;
+  }
+
+  /* Agent Cards Mobile */
+  .agents-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 15px;
+    padding: 0 10px;
+  }
+
+  .agent-card {
+    max-width: none;
+    width: 100%;
+  }
+
+  .agent-photo {
+    width: 55px;
+    height: 55px;
+  }
+
+  .social-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .contact-agent-btn {
+    width: 30px;
+    height: 30px;
+  }
+
+  .contact-agent-btn .social-icon {
+    width: 16px;
+    height: 16px;
+  }
+
+  /* General Mobile Optimizations */
+  .container {
+    padding: 0 15px;
+  }
+
+  .section {
+    padding: 30px 0;
+  }
+
+  .section-title {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+  }
+
+  .modal-content {
+    width: 95%;
+    margin: 20px auto;
+    padding: 20px;
+  }
 }
 
 @media (max-width: 480px) {
