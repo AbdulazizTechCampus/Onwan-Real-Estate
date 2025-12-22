@@ -227,6 +227,7 @@
   current_focus:
     - "Update Broker Card Social Media Icons"
     - "Update Broker Card CSS Styling"
+    - "Mobile Header Responsive Design Optimization"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
