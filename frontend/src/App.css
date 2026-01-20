@@ -82,30 +82,28 @@ body {
 @import url('https://fonts.googleapis.com/css2?family=Clother:wght@400;600;700&display=swap');
 
 .site-title {
-  font-size: 2.2rem;
-  font-weight: 800;
-  margin: 0;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 12px;
-  line-height: 1.2;
+  gap: 2px;
+  margin: 0;
 }
 
 .site-name-arabic {
   color: #FF0000;
-  text-shadow: 0 2px 4px rgba(255, 0, 0, 0.3);
+  font-size: 1.4rem;
+  font-weight: 700;
   font-family: 'Cairo', 'Amiri', Arial, sans-serif;
-  font-weight: 800;
-  font-style: normal;
+  text-shadow: 0 1px 2px rgba(255, 0, 0, 0.3);
 }
 
 .site-name-english {
-  color: #FF0000;
-  font-size: 1.8rem;
-  font-family: 'Clother', 'Arial Black', Arial, sans-serif;
+  color: #D4AF37;
+  font-size: 1.4rem;
   font-weight: 700;
+  font-family: 'Clother', 'Arial Black', Arial, sans-serif;
   letter-spacing: 1px;
-  text-shadow: 0 2px 4px rgba(255, 0, 0, 0.3);
+  text-shadow: 0 1px 2px rgba(212, 175, 55, 0.3);
 }
 
 .site-subtitle {
