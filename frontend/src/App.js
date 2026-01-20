@@ -252,7 +252,7 @@ const Header = ({ onLoginClick, currentUser, onLogout }) => {
       <div className="container">
         <div className="header-content">
           <div className="logo-section">
-            <img src="https://customer-assets.emergentagent.com/job_realty-cards/artifacts/1axjwxse_Logo%201010%20%281%29.png" alt="الموقع" className="logo" />
+            <img src="https://customer-assets.emergentagent.com/job_realty-cards/artifacts/m10g087d_Olog%201002.png" alt="الموقع" className="logo" />
             <div className="brand-info">
               <div className="site-title">
                 <div className="site-name-arabic">عنوان</div>
@@ -1391,7 +1391,7 @@ function App() {
           <div className="footer-content">
             <div className="footer-section">
               <div className="footer-logo">
-                <img src="https://customer-assets.emergentagent.com/job_realty-cards/artifacts/1axjwxse_Logo%201010%20%281%29.png" alt="الموقع" className="logo" />
+                <img src="https://customer-assets.emergentagent.com/job_realty-cards/artifacts/m10g087d_Olog%201002.png" alt="الموقع" className="logo" />
                 <h3>عنوان</h3>
                 <p>منصة الوساطة والتسويق العقاري</p>
               </div>
