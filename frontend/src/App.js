@@ -252,7 +252,7 @@ const Header = ({ onLoginClick, currentUser, onLogout }) => {
       <div className="container">
         <div className="header-content">
           <div className="logo-section">
-            <img src="https://customer-assets.emergentagent.com/job_realty-cards/artifacts/m10g087d_Olog%201002.png" alt="الموقع" className="logo" />
+            <img src="https://customer-assets.emergentagent.com/job_realty-cards/artifacts/w1hf3c8g_Logo%201020%20copy.png" alt="الموقع" className="logo" />
             <div className="brand-info">
               <div className="site-title">
                 <div className="site-name-arabic">عنوان</div>
