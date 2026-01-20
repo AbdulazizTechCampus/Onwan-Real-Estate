@@ -254,12 +254,9 @@ const Header = ({ onLoginClick, currentUser, onLogout }) => {
           <div className="logo-section">
             <img src="https://customer-assets.emergentagent.com/job_realty-cards/artifacts/1axjwxse_Logo%201010%20%281%29.png" alt="الموقع" className="logo" />
             <div className="brand-info">
-              <h1 className="site-title">
-                <span className="site-name-arabic">عنوان</span>
-                <span className="site-name-english">ONWAN</span>
-              </h1>
-              <div className="site-subtitle-container">
-                <p className="site-subtitle">منصة الوساطة والتسويق العقاري</p>
+              <div className="site-title">
+                <div className="site-name-arabic">عنوان</div>
+                <div className="site-name-english">ONWAN</div>
               </div>
             </div>
           </div>
