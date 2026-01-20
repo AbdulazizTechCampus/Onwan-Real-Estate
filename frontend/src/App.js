@@ -1394,7 +1394,7 @@ function App() {
           <div className="footer-content">
             <div className="footer-section">
               <div className="footer-logo">
-                <img src="https://customer-assets.emergentagent.com/job_realty-cards/artifacts/ws08ksmp_Aunwan-11%20copy.png" alt="أونوان" className="logo" />
+                <img src="https://customer-assets.emergentagent.com/job_realty-cards/artifacts/1axjwxse_Logo%201010%20%281%29.png" alt="الموقع" className="logo" />
                 <h3>عنوان</h3>
                 <p>منصة الوساطة والتسويق العقاري</p>
               </div>
