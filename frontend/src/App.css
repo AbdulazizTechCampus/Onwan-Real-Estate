@@ -41,13 +41,13 @@ body {
 
 /* Header Styles */
 .header {
-  background: var(--primary-light);
+  background: white;
   border-bottom: 2px solid var(--primary-teal);
   padding: 15px 0;
   position: sticky;
   top: 0;
   z-index: 1000;
-  box-shadow: 0 4px 20px rgba(191, 215, 234, 0.3);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
 .header-content {
