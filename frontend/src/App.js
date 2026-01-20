@@ -247,52 +247,130 @@ const SAMPLE_AGENTS = [
 
 // Header Component
 const Header = ({ onLoginClick, currentUser, onLogout }) => {
+  const [activeDropdown, setActiveDropdown] = useState(null);
+
+  const toggleDropdown = (dropdownName) => {
+    setActiveDropdown(activeDropdown === dropdownName ? null : dropdownName);
+  };
+
+  const closeDropdowns = () => {
+    setActiveDropdown(null);
+  };
+
   return (
-    <header className="header">
+    <header className="header" onClick={closeDropdowns}>
       <div className="container">
         <div className="header-content">
           <div className="logo-section">
             <img src="https://customer-assets.emergentagent.com/job_realty-cards/artifacts/w1hf3c8g_Logo%201020%20copy.png" alt="الموقع" className="logo" />
           </div>
           
-          <nav className="main-nav">
-            <ul>
-              <li className="nav-item dropdown">
-                <a href="#properties" className="nav-link">العقارات</a>
-                <div className="dropdown-content">
-                  <a href="#add-property">إضافة عقار</a>
-                  <a href="#property-request">طلب عقار</a>
+          <nav className="main-navigation">
+            <div className="nav-menu">
+              {/* العقارات Menu */}
+              <div className="nav-item dropdown" onClick={(e) => { e.stopPropagation(); toggleDropdown('properties'); }}>
+                <a href="#" className="nav-link">
+                  <svg className="nav-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                  </svg>
+                  العقارات
+                  <svg className="dropdown-arrow" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M7 10l5 5 5-5z"/>
+                  </svg>
+                </a>
+                <div className={`dropdown-menu ${activeDropdown === 'properties' ? 'active' : ''}`}>
+                  <a href="#" className="dropdown-item">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                    </svg>
+                    إضافة عقار
+                  </a>
+                  <a href="#" className="dropdown-item">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/>
+                    </svg>
+                    طلب عقار
+                  </a>
+                  <a href="#" className="dropdown-item">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                      <path d="m12 21.35-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                    المفضلة
+                  </a>
+                  <a href="#" className="dropdown-item">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                    </svg>
+                    المشاهدة والاهتمام
+                  </a>
                 </div>
-              </li>
-              <li className="nav-item dropdown">
-                <a href="#brokers" className="nav-link">الوساطة</a>
-                <div className="dropdown-content">
-                  <a href="#brokers-list">الوسطاء</a>
-                  <a href="#mediation-contract">عقد وساطة</a>
-                  <a href="#marketing-contract">عقد تسويق</a>
+              </div>
+
+              {/* الوساطة Menu */}
+              <div className="nav-item dropdown" onClick={(e) => { e.stopPropagation(); toggleDropdown('brokerage'); }}>
+                <a href="#" className="nav-link">
+                  <svg className="nav-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                  </svg>
+                  الوساطة
+                  <svg className="dropdown-arrow" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M7 10l5 5 5-5z"/>
+                  </svg>
+                </a>
+                <div className={`dropdown-menu ${activeDropdown === 'brokerage' ? 'active' : ''}`}>
+                  <a href="#" className="dropdown-item">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zm4 18v-6h2.5l-2.54-7.63A2.996 2.996 0 0 0 17.06 7H16.5c-.83 0-1.5.67-1.5 1.5v5c0 .83.67 1.5 1.5 1.5h1c.06 0 .12-.01.17-.02L18 22h2z"/>
+                    </svg>
+                    الوسطاء
+                  </a>
+                  <a href="#" className="dropdown-item">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"/>
+                    </svg>
+                    العقود
+                  </a>
                 </div>
-              </li>
-              <li><a href="#photography" className="nav-link">التصوير</a></li>
-              <li><a href="#pricing" className="nav-link">الأسعار والباقات</a></li>
-              <li><a href="#policies" className="nav-link">السياسات والشروط</a></li>
-              <li><a href="#support" className="nav-link">الدعم</a></li>
-              <li><a href="#language" className="nav-link">اللغة (عربي/E)</a></li>
-            </ul>
+              </div>
+
+              {/* الدعم */}
+              <div className="nav-item">
+                <a href="#" className="nav-link">
+                  <svg className="nav-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/>
+                  </svg>
+                  الدعم
+                </a>
+              </div>
+
+              {/* اللغة */}
+              <div className="nav-item">
+                <a href="#" className="nav-link">
+                  <svg className="nav-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/>
+                  </svg>
+                  اللغة
+                </a>
+              </div>
+            </div>
           </nav>
-          
+
           <div className="auth-section">
             {currentUser ? (
               <div className="user-menu">
                 <div className="user-info">
-                  <span className="welcome-text">
-                    مرحباً، {currentUser.full_name_arabic || currentUser.phone_number}
-                  </span>
+                  <span className="user-name">مرحباً، {currentUser.full_name_arabic || currentUser.phone_number}</span>
                   <span className="user-type-badge">{USER_TYPES[currentUser.user_type]}</span>
                 </div>
                 <button onClick={onLogout} className="logout-btn">تسجيل الخروج</button>
               </div>
             ) : (
-              <button onClick={onLoginClick} className="login-btn">تسجيل الدخول</button>
+              <button onClick={onLoginClick} className="login-btn">
+                <svg className="nav-icon" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                </svg>
+                تسجيل الدخول
+              </button>
             )}
           </div>
         </div>
