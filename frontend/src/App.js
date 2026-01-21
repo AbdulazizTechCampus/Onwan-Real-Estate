@@ -245,9 +245,10 @@ const SAMPLE_AGENTS = [
   }
 ];
 
-// Header Component
+// Header Component - Modern Design
 const Header = ({ onLoginClick, currentUser, onLogout }) => {
   const [activeDropdown, setActiveDropdown] = useState(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const toggleDropdown = (dropdownName) => {
     setActiveDropdown(activeDropdown === dropdownName ? null : dropdownName);
@@ -258,121 +259,184 @@ const Header = ({ onLoginClick, currentUser, onLogout }) => {
   };
 
   return (
-    <header className="header" onClick={closeDropdowns}>
-      <div className="container">
-        <div className="header-content">
-          <div className="logo-section">
-            <img src="https://customer-assets.emergentagent.com/job_realty-cards/artifacts/w1hf3c8g_Logo%201020%20copy.png" alt="الموقع" className="logo" />
-          </div>
-          
-          <nav className="main-navigation">
-            <div className="nav-menu">
-              {/* العقارات Menu */}
-              <div className="nav-item dropdown" onClick={(e) => { e.stopPropagation(); toggleDropdown('properties'); }}>
-                <a href="#" className="nav-link">
-                  <svg className="nav-icon" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
-                  </svg>
-                  العقارات
-                  <svg className="dropdown-arrow" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M7 10l5 5 5-5z"/>
-                  </svg>
-                </a>
-                <div className={`dropdown-menu ${activeDropdown === 'properties' ? 'active' : ''}`}>
-                  <a href="#" className="dropdown-item">
+    <header className="header-modern" onClick={closeDropdowns}>
+      <div className="header-container">
+        {/* Right Side - Logo */}
+        <div className="header-logo">
+          <img src="https://customer-assets.emergentagent.com/job_realty-cards/artifacts/w1hf3c8g_Logo%201020%20copy.png" alt="عنوان" className="logo-img" />
+          <span className="logo-tagline">ذكاء اصطناعي</span>
+        </div>
+
+        {/* Center - Navigation */}
+        <nav className="header-nav">
+          {/* العقارات Dropdown */}
+          <div className="nav-dropdown" onClick={(e) => { e.stopPropagation(); toggleDropdown('properties'); }}>
+            <button className="nav-dropdown-btn" data-testid="properties-dropdown">
+              العقارات
+              <svg className="dropdown-chevron" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M7 10l5 5 5-5z"/>
+              </svg>
+            </button>
+            <div className={`dropdown-panel ${activeDropdown === 'properties' ? 'show' : ''}`}>
+              <div className="dropdown-panel-content">
+                <a href="#" className="dropdown-link" data-testid="add-property-link">
+                  <div className="dropdown-link-icon add">
                     <svg viewBox="0 0 24 24" fill="currentColor">
                       <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
                     </svg>
-                    إضافة عقار
-                  </a>
-                  <a href="#" className="dropdown-item">
+                  </div>
+                  <div className="dropdown-link-text">
+                    <span className="dropdown-link-title">إضافة عقار</span>
+                    <span className="dropdown-link-desc">أضف عقارك للبيع أو الإيجار</span>
+                  </div>
+                </a>
+                <a href="#" className="dropdown-link" data-testid="request-property-link">
+                  <div className="dropdown-link-icon request">
                     <svg viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/>
+                      <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
                     </svg>
-                    طلب عقار
-                  </a>
-                  <a href="#" className="dropdown-item">
-                    <svg viewBox="0 0 24 24" fill="currentColor">
-                      <path d="m12 21.35-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                    </svg>
-                    المفضلة
-                  </a>
-                  <a href="#" className="dropdown-item">
+                  </div>
+                  <div className="dropdown-link-text">
+                    <span className="dropdown-link-title">طلب عقار</span>
+                    <span className="dropdown-link-desc">اطلب عقارك المناسب</span>
+                  </div>
+                </a>
+                <a href="#" className="dropdown-link" data-testid="interest-link">
+                  <div className="dropdown-link-icon interest">
                     <svg viewBox="0 0 24 24" fill="currentColor">
                       <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
                     </svg>
-                    المشاهدة والاهتمام
-                  </a>
-                </div>
-              </div>
-
-              {/* الوساطة Menu */}
-              <div className="nav-item dropdown" onClick={(e) => { e.stopPropagation(); toggleDropdown('brokerage'); }}>
-                <a href="#" className="nav-link">
-                  <svg className="nav-icon" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-                  </svg>
-                  الوساطة
-                  <svg className="dropdown-arrow" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M7 10l5 5 5-5z"/>
-                  </svg>
+                  </div>
+                  <div className="dropdown-link-text">
+                    <span className="dropdown-link-title">الاهتمام والتواصل</span>
+                    <span className="dropdown-link-desc">تابع اهتماماتك وتواصلك</span>
+                  </div>
                 </a>
-                <div className={`dropdown-menu ${activeDropdown === 'brokerage' ? 'active' : ''}`}>
-                  <a href="#" className="dropdown-item">
+                <a href="#" className="dropdown-link" data-testid="favorites-link">
+                  <div className="dropdown-link-icon favorites">
                     <svg viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zm4 18v-6h2.5l-2.54-7.63A2.996 2.996 0 0 0 17.06 7H16.5c-.83 0-1.5.67-1.5 1.5v5c0 .83.67 1.5 1.5 1.5h1c.06 0 .12-.01.17-.02L18 22h2z"/>
+                      <path d="m12 21.35-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
                     </svg>
-                    الوسطاء
-                  </a>
-                  <a href="#" className="dropdown-item">
-                    <svg viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"/>
-                    </svg>
-                    العقود
-                  </a>
-                </div>
-              </div>
-
-              {/* الدعم */}
-              <div className="nav-item">
-                <a href="#" className="nav-link">
-                  <svg className="nav-icon" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/>
-                  </svg>
-                  الدعم
-                </a>
-              </div>
-
-              {/* اللغة */}
-              <div className="nav-item">
-                <a href="#" className="nav-link">
-                  <svg className="nav-icon" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/>
-                  </svg>
-                  اللغة
+                  </div>
+                  <div className="dropdown-link-text">
+                    <span className="dropdown-link-title">المفضلة</span>
+                    <span className="dropdown-link-desc">عقاراتك المفضلة</span>
+                  </div>
                 </a>
               </div>
             </div>
-          </nav>
+          </div>
 
-          <div className="auth-section">
-            {currentUser ? (
-              <div className="user-menu">
-                <div className="user-info">
-                  <span className="user-name">مرحباً، {currentUser.full_name_arabic || currentUser.phone_number}</span>
-                  <span className="user-type-badge">{USER_TYPES[currentUser.user_type]}</span>
-                </div>
-                <button onClick={onLogout} className="logout-btn">تسجيل الخروج</button>
+          {/* الوساطة Dropdown */}
+          <div className="nav-dropdown" onClick={(e) => { e.stopPropagation(); toggleDropdown('brokerage'); }}>
+            <button className="nav-dropdown-btn" data-testid="brokerage-dropdown">
+              الوساطة
+              <svg className="dropdown-chevron" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M7 10l5 5 5-5z"/>
+              </svg>
+            </button>
+            <div className={`dropdown-panel ${activeDropdown === 'brokerage' ? 'show' : ''}`}>
+              <div className="dropdown-panel-content">
+                <a href="#" className="dropdown-link" data-testid="brokers-link">
+                  <div className="dropdown-link-icon brokers">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+                    </svg>
+                  </div>
+                  <div className="dropdown-link-text">
+                    <span className="dropdown-link-title">الوسطاء</span>
+                    <span className="dropdown-link-desc">تصفح الوسطاء المعتمدين</span>
+                  </div>
+                </a>
+                <a href="#" className="dropdown-link" data-testid="contracts-link">
+                  <div className="dropdown-link-icon contracts">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm4 18H6V4h7v5h5v11zM9 13v2h6v-2H9zm0 4v2h4v-2H9z"/>
+                    </svg>
+                  </div>
+                  <div className="dropdown-link-text">
+                    <span className="dropdown-link-title">العقود</span>
+                    <span className="dropdown-link-desc">إدارة عقودك</span>
+                  </div>
+                </a>
               </div>
-            ) : (
-              <button onClick={onLoginClick} className="login-btn">
-                <svg className="nav-icon" viewBox="0 0 24 24" fill="currentColor">
+            </div>
+          </div>
+
+          {/* الدعم */}
+          <a href="#" className="nav-link-simple" data-testid="support-link">
+            الدعم
+          </a>
+
+          {/* اللغة */}
+          <a href="#" className="nav-link-simple" data-testid="language-link">
+            <svg className="lang-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/>
+            </svg>
+            اللغة
+          </a>
+        </nav>
+
+        {/* Left Side - Auth & Actions */}
+        <div className="header-actions">
+          {currentUser ? (
+            <div className="user-logged-in">
+              <div className="user-avatar">
+                <svg viewBox="0 0 24 24" fill="currentColor">
                   <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
                 </svg>
-                تسجيل الدخول
+              </div>
+              <div className="user-details">
+                <span className="user-greeting">مرحباً، {currentUser.full_name_arabic || currentUser.phone_number}</span>
+                <span className="user-role">{USER_TYPES[currentUser.user_type]}</span>
+              </div>
+              <button onClick={onLogout} className="btn-logout" data-testid="logout-btn">
+                خروج
               </button>
-            )}
-          </div>
+            </div>
+          ) : (
+            <button onClick={onLoginClick} className="btn-login" data-testid="login-btn">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+              </svg>
+              تسجيل الدخول
+            </button>
+          )}
+
+          {/* Mobile Menu Button */}
+          <button 
+            className="mobile-menu-btn" 
+            onClick={(e) => { e.stopPropagation(); setMobileMenuOpen(!mobileMenuOpen); }}
+            data-testid="mobile-menu-btn"
+          >
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              {mobileMenuOpen ? (
+                <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+              ) : (
+                <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+              )}
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Menu */}
+      <div className={`mobile-menu ${mobileMenuOpen ? 'open' : ''}`}>
+        <div className="mobile-menu-section">
+          <div className="mobile-menu-title">العقارات</div>
+          <a href="#" className="mobile-menu-link">إضافة عقار</a>
+          <a href="#" className="mobile-menu-link">طلب عقار</a>
+          <a href="#" className="mobile-menu-link">الاهتمام والتواصل</a>
+          <a href="#" className="mobile-menu-link">المفضلة</a>
+        </div>
+        <div className="mobile-menu-section">
+          <div className="mobile-menu-title">الوساطة</div>
+          <a href="#" className="mobile-menu-link">الوسطاء</a>
+          <a href="#" className="mobile-menu-link">العقود</a>
+        </div>
+        <div className="mobile-menu-section">
+          <a href="#" className="mobile-menu-link">الدعم</a>
+          <a href="#" className="mobile-menu-link">اللغة</a>
         </div>
       </div>
     </header>
