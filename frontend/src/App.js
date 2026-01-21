@@ -101,6 +101,7 @@ const SAMPLE_PROPERTIES = [
     featured: true,
     views: 1250,
     publishDate: '2024-01-15',
+    coordinates: [24.8204, 46.6275], // حي الملقا
     agent: {
       name: 'أحمد محمد العبدالله',
       phone: '+966501234567',
@@ -122,6 +123,7 @@ const SAMPLE_PROPERTIES = [
     featured: true,
     views: 890,
     publishDate: '2024-01-10',
+    coordinates: [24.6632, 46.7186], // حي الملز
     agent: {
       name: 'فاطمة سالم الخالد',
       phone: '+966502345678',
@@ -141,6 +143,7 @@ const SAMPLE_PROPERTIES = [
     featured: true,
     views: 2150,
     publishDate: '2024-01-08',
+    coordinates: [21.5433, 39.1728], // جدة
     agent: {
       name: 'خالد عبدالرحمن النمر',
       phone: '+966503456789',
@@ -162,6 +165,7 @@ const SAMPLE_PROPERTIES = [
     featured: false,
     views: 765,
     publishDate: '2024-01-12',
+    coordinates: [24.8607, 46.6458], // حي النرجس
     agent: {
       name: 'سارة أحمد الفريح',
       phone: '+966504567890',
@@ -181,6 +185,7 @@ const SAMPLE_PROPERTIES = [
     featured: false,
     views: 420,
     publishDate: '2024-01-18',
+    coordinates: [24.6903, 46.6854], // حي العليا
     agent: {
       name: 'محمد علي السويد',
       phone: '+966505678901',
@@ -202,6 +207,7 @@ const SAMPLE_PROPERTIES = [
     featured: true,
     views: 3420,
     publishDate: '2024-01-05',
+    coordinates: [24.8142, 46.5983], // حي الياسمين
     agent: {
       name: 'عبدالله راشد القحطاني',
       phone: '+966506789012',
