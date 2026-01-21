@@ -194,8 +194,8 @@ body {
 
 /* Icon Colors */
 .dropdown-link-icon.add {
-  background: linear-gradient(135deg, #ddd6fe 0%, #c4b5fd 100%);
-  color: #7c3aed;
+  background: linear-gradient(135deg, #ccfbf1 0%, #99f6e4 100%);
+  color: var(--primary-teal);
 }
 
 .dropdown-link-icon.request {
@@ -204,13 +204,13 @@ body {
 }
 
 .dropdown-link-icon.interest {
-  background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%);
-  color: #db2777;
+  background: linear-gradient(135deg, #ffe4e6 0%, #fecdd3 100%);
+  color: var(--accent-coral);
 }
 
 .dropdown-link-icon.favorites {
   background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
-  color: #dc2626;
+  color: var(--accent-red);
 }
 
 .dropdown-link-icon.brokers {
