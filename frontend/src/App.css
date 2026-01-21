@@ -79,9 +79,15 @@ body {
   object-fit: contain;
 }
 
+.logo-img-large {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+}
+
 .logo-tagline {
   font-size: 0.7rem;
-  color: #9333ea;
+  color: var(--primary-teal);
   font-weight: 500;
   white-space: nowrap;
 }
