@@ -254,7 +254,7 @@ const SAMPLE_AGENTS = [
 ];
 
 // Header Component - Modern Design
-const Header = ({ onLoginClick, currentUser, onLogout }) => {
+const Header = ({ onLoginClick, currentUser, onLogout, onOpenMap }) => {
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isArabic, setIsArabic] = useState(true);
