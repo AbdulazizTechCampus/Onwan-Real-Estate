@@ -671,7 +671,7 @@ const SearchBar = ({ onSearch }) => {
     }
     
     // Check for cities
-    Object.values(REGIONS_AND_CITIES).forEach(region => {
+    Object.values(SAUDI_REGIONS).forEach(region => {
       region.cities.forEach(city => {
         if (lowerCommand.includes(city)) {
           setSearchData(prev => ({ ...prev, city: city }));
