@@ -602,6 +602,35 @@ body {
   height: 20px;
 }
 
+/* Mobile Map Button */
+.mobile-map-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, var(--accent-coral) 0%, var(--accent-red) 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  margin-bottom: 12px;
+  transition: all 0.3s ease;
+}
+
+.mobile-map-btn:hover {
+  opacity: 0.9;
+}
+
+.mobile-map-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
 /* Mobile Support Info */
 .mobile-support-info {
   padding: 10px 0;
