@@ -1402,6 +1402,7 @@ const LoginModal = ({ isOpen, onClose, onSuccess }) => {
 function App() {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
+  const [showFullMap, setShowFullMap] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem('access_token');
