@@ -457,7 +457,7 @@ body {
 }
 
 .mobile-menu-link:hover {
-  color: #9333ea;
+  color: var(--primary-teal);
 }
 
 /* ========================================
