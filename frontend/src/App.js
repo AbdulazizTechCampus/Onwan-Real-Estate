@@ -249,6 +249,7 @@ const SAMPLE_AGENTS = [
 const Header = ({ onLoginClick, currentUser, onLogout }) => {
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isArabic, setIsArabic] = useState(true);
 
   const toggleDropdown = (dropdownName) => {
     setActiveDropdown(activeDropdown === dropdownName ? null : dropdownName);
@@ -258,13 +259,16 @@ const Header = ({ onLoginClick, currentUser, onLogout }) => {
     setActiveDropdown(null);
   };
 
+  const toggleLanguage = () => {
+    setIsArabic(!isArabic);
+  };
+
   return (
     <header className="header-modern" onClick={closeDropdowns}>
       <div className="header-container">
         {/* Right Side - Logo */}
         <div className="header-logo">
-          <img src="https://customer-assets.emergentagent.com/job_realty-cards/artifacts/w1hf3c8g_Logo%201020%20copy.png" alt="عنوان" className="logo-img" />
-          <span className="logo-tagline">ذكاء اصطناعي</span>
+          <img src="https://customer-assets.emergentagent.com/job_realty-cards/artifacts/w1hf3c8g_Logo%201020%20copy.png" alt="عنوان" className="logo-img-large" />
         </div>
 
         {/* Center - Navigation */}
