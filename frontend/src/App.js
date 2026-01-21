@@ -1692,6 +1692,14 @@ function App() {
         onClose={() => setShowLoginModal(false)}
         onSuccess={handleLoginSuccess}
       />
+
+      {/* Full Page Map Modal */}
+      {showFullMap && (
+        <FullPageMap
+          properties={SAMPLE_PROPERTIES}
+          onClose={() => setShowFullMap(false)}
+        />
+      )}
     </div>
   );
 }
