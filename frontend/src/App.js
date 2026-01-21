@@ -1461,6 +1461,7 @@ function App() {
         onLoginClick={() => setShowLoginModal(true)}
         currentUser={currentUser}
         onLogout={handleLogout}
+        onOpenMap={() => setShowFullMap(true)}
       />
       
       <SearchBar onSearch={handleSearch} />
