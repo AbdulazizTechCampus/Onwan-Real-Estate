@@ -573,6 +573,61 @@ body {
   height: 20px;
 }
 
+/* Mobile Support Info */
+.mobile-support-info {
+  padding: 10px 0;
+}
+
+.mobile-support-phone {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 6px;
+  direction: ltr;
+  text-align: right;
+}
+
+.mobile-support-hours {
+  font-size: 0.8rem;
+  color: #6b7280;
+  margin-bottom: 12px;
+}
+
+.mobile-support-buttons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.mobile-support-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.mobile-support-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+.mobile-support-btn.whatsapp {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+.mobile-support-btn.call {
+  background: rgba(8, 126, 139, 0.1);
+  color: var(--primary-teal);
+}
+
 /* ========================================
    OLD HEADER STYLES (kept for compatibility)
    ======================================== */
