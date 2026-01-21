@@ -602,7 +602,7 @@ const SearchBar = ({ onSearch }) => {
     const { name, value } = e.target;
     
     if (name === 'region') {
-      const cities = value ? REGIONS_AND_CITIES[value]?.cities || [] : [];
+      const cities = value ? SAUDI_REGIONS[value]?.cities || [] : [];
       setAvailableCities(cities);
       setSearchData(prev => ({ ...prev, [name]: value, city: '' })); // Reset city when region changes
     } else {
