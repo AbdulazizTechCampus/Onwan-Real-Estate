@@ -441,7 +441,7 @@ body {
 .mobile-menu-title {
   font-size: 0.85rem;
   font-weight: 700;
-  color: #9333ea;
+  color: var(--primary-teal);
   margin-bottom: 10px;
   text-transform: uppercase;
 }
