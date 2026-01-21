@@ -721,7 +721,7 @@ const SearchBar = ({ onSearch }) => {
             <div className="search-field">
               <select name="region" value={searchData.region} onChange={handleInputChange}>
                 <option value="">اختر المنطقة</option>
-                {Object.entries(REGIONS_AND_CITIES).map(([key, region]) => (
+                {Object.entries(SAUDI_REGIONS).map(([key, region]) => (
                   <option key={key} value={key}>{region.name}</option>
                 ))}
               </select>
