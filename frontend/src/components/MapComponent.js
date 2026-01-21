@@ -96,23 +96,26 @@ export const PropertyMap = ({
   const [mapCenter, setMapCenter] = useState(center);
   const [searchRadius, setSearchRadius] = useState(null);
 
-  // Saudi Arabia major cities coordinates
-  const saudiCities = {
-    'الرياض': [24.7136, 46.6753],
-    'جدة': [21.4858, 39.1925],
-    'مكة المكرمة': [21.3891, 39.8579],
-    'المدينة المنورة': [24.5247, 39.5692],
-    'الدمام': [26.4207, 50.0888],
-    'الخبر': [26.2172, 50.1971],
-    'الطائف': [21.2703, 40.4158],
-    'تبوك': [28.3838, 36.5550],
-    'بريدة': [26.3267, 43.9750],
-    'خميس مشيط': [18.3093, 42.7230],
+  // Saudi Arabia 13 Administrative Regions with coordinates
+  const saudiRegions = {
+    'منطقة الرياض': [24.7136, 46.6753],
+    'منطقة مكة المكرمة': [21.4225, 39.8262],
+    'منطقة المدينة المنورة': [24.5247, 39.5692],
+    'منطقة القصيم': [26.3267, 43.9750],
+    'المنطقة الشرقية': [26.4207, 50.0888],
+    'منطقة عسير': [18.2164, 42.5053],
+    'منطقة تبوك': [28.3838, 36.5550],
+    'منطقة حائل': [27.5219, 41.6907],
+    'منطقة الحدود الشمالية': [30.9843, 41.1183],
+    'منطقة جازان': [16.8892, 42.5611],
+    'منطقة نجران': [17.4933, 44.1277],
+    'منطقة الباحة': [20.0129, 41.4677],
+    'منطقة الجوف': [29.8117, 40.0818],
   };
 
-  const handleCitySelect = (city) => {
-    if (saudiCities[city]) {
-      setMapCenter(saudiCities[city]);
+  const handleRegionSelect = (region) => {
+    if (saudiRegions[region]) {
+      setMapCenter(saudiRegions[region]);
     }
   };
 
