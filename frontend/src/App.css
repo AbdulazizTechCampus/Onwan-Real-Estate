@@ -292,6 +292,94 @@ body {
   color: #6b7280;
 }
 
+/* Support Dropdown Panel */
+.support-panel {
+  min-width: 320px;
+}
+
+.support-content {
+  padding: 24px;
+  text-align: center;
+}
+
+.support-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 16px;
+}
+
+.support-phone {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 12px;
+  direction: ltr;
+  letter-spacing: 1px;
+}
+
+.support-hours {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: #6b7280;
+  margin-bottom: 20px;
+}
+
+.support-hours svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.support-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.support-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 20px;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.support-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+.whatsapp-btn {
+  background: #dcfce7;
+  color: #16a34a;
+  border: 1px solid #bbf7d0;
+}
+
+.whatsapp-btn:hover {
+  background: #bbf7d0;
+  transform: translateY(-2px);
+}
+
+.call-btn {
+  background: rgba(8, 126, 139, 0.1);
+  color: var(--primary-teal);
+  border: 1px solid rgba(8, 126, 139, 0.2);
+}
+
+.call-btn:hover {
+  background: rgba(8, 126, 139, 0.2);
+  transform: translateY(-2px);
+}
+
 /* Header Actions */
 .header-actions {
   display: flex;
