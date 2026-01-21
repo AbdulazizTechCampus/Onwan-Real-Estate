@@ -292,6 +292,34 @@ body {
   color: #6b7280;
 }
 
+/* Our Properties Map Button in Header */
+.nav-map-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 18px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: white;
+  background: linear-gradient(135deg, var(--accent-coral) 0%, var(--accent-red) 100%);
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: inherit;
+  box-shadow: 0 4px 15px rgba(255, 90, 95, 0.3);
+}
+
+.nav-map-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 90, 95, 0.4);
+}
+
+.nav-map-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
 /* Support Dropdown Panel */
 .support-panel {
   min-width: 320px;
