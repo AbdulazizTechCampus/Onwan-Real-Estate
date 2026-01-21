@@ -124,12 +124,12 @@ export const PropertyMap = ({
       {showSearch && (
         <div className="map-search-controls">
           <select 
-            onChange={(e) => handleCitySelect(e.target.value)}
+            onChange={(e) => handleRegionSelect(e.target.value)}
             className="map-city-select"
           >
-            <option value="">اختر المدينة</option>
-            {Object.keys(saudiCities).map(city => (
-              <option key={city} value={city}>{city}</option>
+            <option value="">اختر المنطقة</option>
+            {Object.keys(saudiRegions).map(region => (
+              <option key={region} value={region}>{region}</option>
             ))}
           </select>
           {selectedLocation && (
