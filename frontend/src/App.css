@@ -460,6 +460,31 @@ body {
   color: var(--primary-teal);
 }
 
+/* Mobile Language Toggle */
+.mobile-lang-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 0;
+  background: none;
+  border: none;
+  color: #374151;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+  transition: color 0.2s ease;
+}
+
+.mobile-lang-toggle:hover {
+  color: var(--primary-teal);
+}
+
+.mobile-lang-toggle .globe-icon {
+  width: 20px;
+  height: 20px;
+}
+
 /* ========================================
    OLD HEADER STYLES (kept for compatibility)
    ======================================== */
