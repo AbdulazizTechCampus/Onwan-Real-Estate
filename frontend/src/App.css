@@ -256,12 +256,40 @@ body {
 
 .nav-link-simple:hover {
   background: #f3f4f6;
-  color: #9333ea;
+  color: var(--primary-teal);
 }
 
 .lang-icon {
   width: 18px;
   height: 18px;
+}
+
+/* Language Toggle Button */
+.lang-toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #6b7280;
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.lang-toggle-btn:hover {
+  background: #e5e7eb;
+  color: var(--primary-teal);
+}
+
+.globe-icon {
+  width: 18px;
+  height: 18px;
+  color: #6b7280;
 }
 
 /* Header Actions */
