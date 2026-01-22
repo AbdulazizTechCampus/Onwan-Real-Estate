@@ -835,8 +835,8 @@ body {
 
 .search-inputs {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr auto auto auto;
-  gap: 15px;
+  grid-template-columns: 1fr 1fr 1fr 1fr auto auto auto auto;
+  gap: 12px;
   align-items: center;
 }
 
