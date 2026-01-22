@@ -148,6 +148,224 @@ body {
   min-width: 220px;
 }
 
+/* View More Card */
+.view-more-card {
+  flex: 0 0 180px;
+  min-width: 180px;
+  height: 400px;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border: 2px dashed #cbd5e1;
+}
+
+.view-more-card:hover {
+  background: linear-gradient(135deg, var(--primary-teal) 0%, var(--primary-dark) 100%);
+  border-color: transparent;
+}
+
+.view-more-card:hover .view-more-content {
+  color: white;
+}
+
+.view-more-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  color: #64748b;
+  transition: color 0.3s ease;
+}
+
+.view-more-icon {
+  width: 50px;
+  height: 50px;
+  background: rgba(8, 126, 139, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.view-more-card:hover .view-more-icon {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.view-more-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.view-more-content span {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+/* Property Watermark */
+.property-watermark {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  width: 40px;
+  height: 40px;
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.property-watermark img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
+}
+
+/* ========================================
+   REGIONS SECTION - NEW DESIGN
+   ======================================== */
+
+.regions-section-new {
+  padding: 60px 0;
+  background: #f8fafc;
+}
+
+.section-header-center {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.section-title-center {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1a202c;
+  margin-bottom: 10px;
+}
+
+.section-subtitle-center {
+  font-size: 1rem;
+  color: #6b7280;
+}
+
+.regions-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.region-card {
+  position: relative;
+  padding: 30px 25px;
+  border-radius: 20px;
+  text-decoration: none;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.region-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+/* Region Colors */
+.region-card.riyadh {
+  background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%);
+  color: white;
+}
+
+.region-card.jeddah {
+  background: linear-gradient(135deg, #ec4899 0%, #be185d 100%);
+  color: white;
+}
+
+.region-card.makkah {
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  color: white;
+}
+
+.region-card.madinah {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: white;
+}
+
+.region-card.eastern {
+  background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
+  color: white;
+}
+
+.region-card.all-regions {
+  background: linear-gradient(135deg, #374151 0%, #1f2937 100%);
+  color: white;
+}
+
+.region-illustration {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 80px;
+  height: 60px;
+  color: white;
+}
+
+.region-content {
+  position: relative;
+  z-index: 1;
+}
+
+.region-content h3 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.region-show-all {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.region-show-all:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.region-count {
+  position: relative;
+  z-index: 1;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-top: 15px;
+  opacity: 0.9;
+}
+
+/* Mobile Responsive for Regions */
+@media (max-width: 992px) {
+  .regions-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 576px) {
+  .regions-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .region-card {
+    min-height: 150px;
+  }
+}
+
 /* Mobile Carousel */
 @media (max-width: 768px) {
   .carousel-header {
