@@ -1624,25 +1624,14 @@ function App() {
           </section>
         )}
         
-        {/* Featured Properties */}
+        {/* Featured Properties - Carousel */}
         <section className="properties-section">
           <div className="container">
-            <div className="section-header">
-              <h2 className="section-title">العقارات المميزة</h2>
-              <div className="section-tabs">
-                <button className="tab-btn active">الكل</button>
-                <button className="tab-btn">للبيع</button>
-                <button className="tab-btn">للإيجار</button>
-                <button className="tab-btn">المشاريع</button>
-              </div>
-              <a href="#more" className="more-link">المزيد →</a>
-            </div>
-            
-            <div className="properties-grid">
+            <Carousel title="العقارات المميزة" subtitle="اكتشف أفضل العقارات المختارة لك">
               {featuredProperties.map(property => (
                 <PropertyCard key={property.id} property={property} />
               ))}
-            </div>
+            </Carousel>
           </div>
         </section>
 
