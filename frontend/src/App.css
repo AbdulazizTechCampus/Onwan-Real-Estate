@@ -1549,7 +1549,56 @@ body {
   font-size: 0.9rem;
   font-weight: 500;
   color: #2d3748;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
+}
+
+/* New Contact Buttons - Like Support Card */
+.agent-contact-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.contact-whatsapp-btn,
+.contact-call-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.contact-whatsapp-btn svg,
+.contact-call-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+.contact-whatsapp-btn {
+  background: #dcfce7;
+  color: #16a34a;
+  border: 1px solid #bbf7d0;
+}
+
+.contact-whatsapp-btn:hover {
+  background: #bbf7d0;
+  transform: translateY(-1px);
+}
+
+.contact-call-btn {
+  background: rgba(8, 126, 139, 0.1);
+  color: var(--primary-teal);
+  border: 1px solid rgba(8, 126, 139, 0.2);
+}
+
+.contact-call-btn:hover {
+  background: rgba(8, 126, 139, 0.2);
+  transform: translateY(-1px);
 }
 
 .agent-contact {
