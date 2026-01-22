@@ -1075,7 +1075,7 @@ const SocialMediaIcons = {
 };
 
 // Carousel Component for horizontal scrolling
-const Carousel = ({ children, title, subtitle }) => {
+const Carousel = ({ children, title, subtitle, showMoreLink = "#" }) => {
   const scrollContainerRef = React.useRef(null);
 
   const scroll = (direction) => {
@@ -1112,6 +1112,17 @@ const Carousel = ({ children, title, subtitle }) => {
       <div className="carousel-container" ref={scrollContainerRef}>
         <div className="carousel-track">
           {children}
+          {/* View More Card */}
+          <a href={showMoreLink} className="view-more-card">
+            <div className="view-more-content">
+              <div className="view-more-icon">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+                </svg>
+              </div>
+              <span>عرض المزيد</span>
+            </div>
+          </a>
         </div>
       </div>
     </div>
