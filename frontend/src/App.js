@@ -1713,7 +1713,6 @@ function App() {
               ))}
             </Carousel>
           </div>
-          </div>
         </section>
       </main>
       
