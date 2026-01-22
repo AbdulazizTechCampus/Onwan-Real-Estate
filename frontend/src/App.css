@@ -1391,7 +1391,13 @@ body {
   margin-bottom: 8px;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
+}
+
+.sar-icon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
 }
 
 .currency-symbol {
