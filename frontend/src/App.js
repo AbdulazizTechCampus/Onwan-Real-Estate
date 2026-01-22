@@ -1704,19 +1704,15 @@ function App() {
           </div>
         </section>
         
-        {/* Agents Section */}
+        {/* Agents Section - Carousel */}
         <section className="agents-section">
           <div className="container">
-            <div className="section-header">
-              <h2 className="section-title">الوسطاء المميزون</h2>
-              <a href="#more-agents" className="more-link">المزيد →</a>
-            </div>
-            
-            <div className="agents-grid">
+            <Carousel title="الوسطاء المميزون" subtitle="تواصل مع أفضل الوسطاء العقاريين">
               {SAMPLE_AGENTS.map(agent => (
                 <AgentCard key={agent.id} agent={agent} />
               ))}
-            </div>
+            </Carousel>
+          </div>
           </div>
         </section>
       </main>
