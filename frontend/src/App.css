@@ -1560,8 +1560,14 @@ body {
   align-items: center;
   gap: 4px;
   font-size: 0.85rem;
-  color: #6b7280;
-  font-weight: 500;
+  color: #374151;
+  font-weight: 600;
+}
+
+.publish-date svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
 }
 
 .views {
