@@ -1738,10 +1738,104 @@ body {
 
 .agents-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 20px;
 }
 
+/* Simple Agent Card - New Design */
+.agent-card-simple {
+  background: white;
+  border: 2px solid var(--primary-teal);
+  border-radius: 20px;
+  padding: 20px 15px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(8, 126, 139, 0.1);
+  position: relative;
+  text-align: center;
+}
+
+.agent-card-simple:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(8, 126, 139, 0.15);
+}
+
+.follow-btn-simple {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: rgba(8, 126, 139, 0.1);
+  color: var(--primary-teal);
+  border: 1px solid rgba(8, 126, 139, 0.2);
+  padding: 4px 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.follow-btn-simple:hover {
+  background: var(--primary-teal);
+  color: white;
+}
+
+.follow-btn-simple.following {
+  background: var(--primary-teal);
+  color: white;
+}
+
+.agent-photo-simple {
+  width: 80px;
+  height: 80px;
+  margin: 10px auto 15px;
+  background: linear-gradient(135deg, var(--primary-teal) 0%, var(--primary-dark) 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 0.7rem;
+  text-align: center;
+  line-height: 1.3;
+}
+
+.agent-name-simple {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1a202c;
+  margin-bottom: 4px;
+}
+
+.agent-location-simple {
+  font-size: 0.85rem;
+  color: #6b7280;
+  margin-bottom: 10px;
+}
+
+.agent-rating-simple {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+}
+
+.agent-rating-simple .stars {
+  color: #fbbf24;
+  font-size: 0.9rem;
+}
+
+.agent-rating-simple .rating-value {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--primary-teal);
+}
+
+.agent-rating-simple .rating-count {
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
+/* Old Agent Card Styles - Keep for compatibility */
 .agent-card {
   background: white;
   border: 2px solid var(--primary-teal);
