@@ -1074,12 +1074,12 @@ const PropertyCard = ({ property }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [isInterested, setIsInterested] = useState(false);
 
-  // تحويل التاريخ إلى أرقام عربية
-  const formatArabicDate = (dateString) => {
+  // تنسيق التاريخ بالأرقام الإنجليزية
+  const formatDate = (dateString) => {
     const date = new Date(dateString);
-    const day = toArabicNumbers(date.getDate());
-    const month = toArabicNumbers(date.getMonth() + 1);
-    const year = toArabicNumbers(date.getFullYear());
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
     return `${day}/${month}/${year}`;
   };
 
@@ -1131,7 +1131,8 @@ const PropertyCard = ({ property }) => {
       <div className="property-content">
         <h3 className="property-title">{property.title}</h3>
         <div className="property-price">
-          {property.price} <span className="currency-symbol">﷼</span>
+          {property.price}
+          <img src="https://customer-assets.emergentagent.com/job_realestate-refresh/artifacts/xb5u2agi_%D8%B1%D9%8A%D8%A7%D9%84.svg.png" alt="ريال" className="sar-icon" />
         </div>
         <div className="property-location">
           <PropertyIcons.Location />
@@ -1142,18 +1143,18 @@ const PropertyCard = ({ property }) => {
           <div className="property-icons">
             <div className="property-icon">
               <PropertyIcons.Area />
-              {toArabicNumbers(property.area)} م²
+              {property.area} م²
             </div>
             {property.bedrooms && (
               <div className="property-icon">
                 <PropertyIcons.Bed />
-                {toArabicNumbers(property.bedrooms)}
+                {property.bedrooms}
               </div>
             )}
             {property.bathrooms && (
               <div className="property-icon">
                 <PropertyIcons.Bath />
-                {toArabicNumbers(property.bathrooms)}
+                {property.bathrooms}
               </div>
             )}
           </div>
@@ -1162,11 +1163,11 @@ const PropertyCard = ({ property }) => {
         <div className="property-stats">
           <span className="publish-date">
             <PropertyIcons.Date />
-            {formatArabicDate(property.publishDate)}
+            {formatDate(property.publishDate)}
           </span>
           <span className="views">
             <PropertyIcons.Views />
-            {toArabicNumbers(property.views)} مشاهدة
+            {property.views} مشاهدة
           </span>
         </div>
         
