@@ -1442,6 +1442,7 @@ body {
   width: 24px;
   height: 24px;
   object-fit: contain;
+  filter: invert(35%) sepia(85%) saturate(500%) hue-rotate(150deg) brightness(90%);
 }
 
 .currency-symbol {
