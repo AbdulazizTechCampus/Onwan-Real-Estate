@@ -767,6 +767,15 @@ const SearchBar = ({ onSearch }) => {
             </div>
             
             <div className="search-field">
+              <select name="district" value={searchData.district} onChange={handleInputChange} disabled={!searchData.city || availableDistricts.length === 0}>
+                <option value="">اختر الحي</option>
+                {availableDistricts.map(district => (
+                  <option key={district} value={district}>{district}</option>
+                ))}
+              </select>
+            </div>
+            
+            <div className="search-field">
               <select name="category" value={searchData.category} onChange={handleInputChange}>
                 <option value="">فئة العقار</option>
                 {Object.entries(PROPERTY_CATEGORIES).map(([key, value]) => (
