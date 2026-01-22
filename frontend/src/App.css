@@ -1389,6 +1389,14 @@ body {
   color: var(--primary-teal);
   font-weight: bold;
   margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.currency-symbol {
+  font-size: 1.1rem;
+  color: var(--primary-teal);
 }
 
 .property-location {
