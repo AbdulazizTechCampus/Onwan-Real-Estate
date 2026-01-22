@@ -1201,80 +1201,30 @@ const PropertyCard = ({ property }) => {
   );
 };
 
-// Agent Card Component - Exact match to reference image
+// Agent Card Component - Simplified Design
 const AgentCard = ({ agent }) => {
   const [isFollowing, setIsFollowing] = useState(false);
 
   return (
-    <div className="agent-card">
-      <div className="agent-card-header">
-        <div></div>
-        <button 
-          className={`follow-btn ${isFollowing ? 'following' : ''}`}
-          onClick={() => setIsFollowing(!isFollowing)}
-        >
-          {isFollowing ? 'متابع' : 'متابعة'}
-        </button>
+    <div className="agent-card-simple">
+      <button 
+        className={`follow-btn-simple ${isFollowing ? 'following' : ''}`}
+        onClick={() => setIsFollowing(!isFollowing)}
+      >
+        {isFollowing ? 'متابع ✓' : 'متابعة'}
+      </button>
+      
+      <div className="agent-photo-simple">
+        <span>لا توجد صورة</span>
       </div>
       
-      <div className="agent-main-info">
-        <div className="agent-photo-container">
-          <div className="agent-photo">
-            لا توجد صورة
-          </div>
-        </div>
-        
-        <h3 className="agent-name">{agent.name}</h3>
-        <div className="agent-location">{agent.region}</div>
-        
-        <div className="agent-rating">
-          <span className="rating-stars">★★★★★</span>
-          <span className="rating-number">{agent.rating}</span>
-          <span className="rating-count">({agent.followers})</span>
-        </div>
-        
-        <div className="agent-join-date">انضم في فبراير 2024</div>
-      </div>
+      <h3 className="agent-name-simple">{agent.name}</h3>
+      <div className="agent-location-simple">{agent.region}</div>
       
-      <div className="agent-stats">
-        <div className="stat">
-          <span className="stat-number">{agent.properties}</span>
-          <span className="stat-label">عقار</span>
-        </div>
-        <div className="stat">
-          <span className="stat-number">{agent.requests}</span>
-          <span className="stat-label">طلب</span>
-        </div>
-        <div className="stat">
-          <span className="stat-number">{agent.followers}</span>
-          <span className="stat-label">متابع</span>
-        </div>
-      </div>
-      
-      <div className="agent-actions">
-        <div className="social-media-icons">
-          <button className="social-btn whatsapp" title="واتساب">
-            <SocialMediaIcons.WhatsApp />
-          </button>
-          <button className="social-btn instagram" title="إنستغرام">
-            <SocialMediaIcons.Instagram />
-          </button>
-          <button className="social-btn x" title="X (تويتر)">
-            <SocialMediaIcons.X />
-          </button>
-          <button className="social-btn snapchat" title="سناب شات">
-            <SocialMediaIcons.Snapchat />
-          </button>
-          <button className="social-btn tiktok" title="تيك توك">
-            <SocialMediaIcons.TikTok />
-          </button>
-          <button className="social-btn linkedin" title="لينكد إن">
-            <SocialMediaIcons.LinkedIn />
-          </button>
-        </div>
-        <button className="contact-agent-btn">
-          <SocialMediaIcons.Phone />
-        </button>
+      <div className="agent-rating-simple">
+        <span className="stars">★★★★★</span>
+        <span className="rating-value">{agent.rating}</span>
+        <span className="rating-count">({agent.followers})</span>
       </div>
     </div>
   );
