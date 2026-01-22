@@ -977,6 +977,50 @@ body {
   font-size: 0.95rem;
 }
 
+/* New Small Filter and Search Buttons */
+.filter-btn-small,
+.search-btn-small {
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.filter-btn-small {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: white;
+}
+
+.filter-btn-small:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+.filter-btn-small svg,
+.search-btn-small svg {
+  width: 16px;
+  height: 16px;
+}
+
+.search-btn-small {
+  background: linear-gradient(135deg, var(--accent-coral) 0%, var(--accent-red) 100%);
+  border: none;
+  color: white;
+  box-shadow: 0 2px 10px rgba(255, 90, 95, 0.3);
+}
+
+.search-btn-small:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(255, 90, 95, 0.4);
+}
+
 .advanced-search-btn {
   background: rgba(191, 215, 234, 0.2);
   border: 2px solid var(--primary-light);
