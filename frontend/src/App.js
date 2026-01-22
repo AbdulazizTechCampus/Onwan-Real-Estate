@@ -1053,31 +1053,69 @@ const SocialMediaIcons = {
   )
 };
 
-// Property Card Component
+// Property Card Component - Updated Design
 const PropertyCard = ({ property }) => {
-  const [isFavorite, setIsFavorite] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
+  const [isInterested, setIsInterested] = useState(false);
+
+  // تحويل التاريخ إلى أرقام عربية
+  const formatArabicDate = (dateString) => {
+    const date = new Date(dateString);
+    const day = toArabicNumbers(date.getDate());
+    const month = toArabicNumbers(date.getMonth() + 1);
+    const year = toArabicNumbers(date.getFullYear());
+    return `${day}/${month}/${year}`;
+  };
 
   return (
-    <div className="property-card">
+    <div className="property-card" data-testid={`property-card-${property.id}`}>
       <div className="property-image">
         <img src={property.image} alt={property.title} />
-        <div className="property-status">{property.status}</div>
-        <div className="property-actions">
-          <button 
-            className={`action-btn favorite ${isFavorite ? 'active' : ''}`}
-            onClick={() => setIsFavorite(!isFavorite)}
-          >
-            ❤️
-          </button>
-          <button className="action-btn share">📤</button>
+        
+        {/* Status & Featured Badges */}
+        <div className="property-badges-top">
+          <div className={`property-status-badge ${property.status === 'للبيع' ? 'for-sale' : 'for-rent'}`}>
+            {property.status}
+          </div>
+          {property.featured && <div className="featured-badge-new">مميز</div>}
         </div>
-        {property.featured && <div className="featured-badge">مميز</div>}
+        
+        {/* Action Buttons - Left Side */}
+        <div className="property-actions-left">
+          <button 
+            className={`card-action-btn like ${isLiked ? 'active' : ''}`}
+            onClick={() => setIsLiked(!isLiked)}
+            title="إعجاب"
+          >
+            <svg viewBox="0 0 24 24" fill={isLiked ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2">
+              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
+          </button>
+          <button 
+            className={`card-action-btn interest ${isInterested ? 'active' : ''}`}
+            onClick={() => setIsInterested(!isInterested)}
+            title="اهتمام"
+          >
+            <svg viewBox="0 0 24 24" fill={isInterested ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+            </svg>
+          </button>
+          <button 
+            className="card-action-btn report"
+            title="بلاغ"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/>
+              <line x1="4" y1="22" x2="4" y2="15"/>
+            </svg>
+          </button>
+        </div>
       </div>
       
       <div className="property-content">
         <h3 className="property-title">{property.title}</h3>
         <div className="property-price">
-          {property.price} ريال سعودي
+          {property.price} <span className="currency-symbol">﷼</span>
         </div>
         <div className="property-location">
           <PropertyIcons.Location />
@@ -1085,24 +1123,21 @@ const PropertyCard = ({ property }) => {
         </div>
         
         <div className="property-details">
-          <div className="property-category">
-            {PROPERTY_CATEGORIES[property.category]} - {PROPERTY_TYPES[property.type]}
-          </div>
           <div className="property-icons">
             <div className="property-icon">
               <PropertyIcons.Area />
-              {property.area} م²
+              {toArabicNumbers(property.area)} م²
             </div>
             {property.bedrooms && (
               <div className="property-icon">
                 <PropertyIcons.Bed />
-                {property.bedrooms}
+                {toArabicNumbers(property.bedrooms)}
               </div>
             )}
             {property.bathrooms && (
               <div className="property-icon">
                 <PropertyIcons.Bath />
-                {property.bathrooms}
+                {toArabicNumbers(property.bathrooms)}
               </div>
             )}
           </div>
@@ -1111,11 +1146,11 @@ const PropertyCard = ({ property }) => {
         <div className="property-stats">
           <span className="publish-date">
             <PropertyIcons.Date />
-            {new Date(property.publishDate).toLocaleDateString('ar-SA')}
+            {formatArabicDate(property.publishDate)}
           </span>
           <span className="views">
             <PropertyIcons.Views />
-            {property.views} مشاهدة
+            {toArabicNumbers(property.views)} مشاهدة
           </span>
         </div>
         
@@ -1123,15 +1158,19 @@ const PropertyCard = ({ property }) => {
           <img src={property.agent.image} alt={property.agent.name} className="agent-avatar" />
           <div className="agent-details">
             <div className="agent-name">{property.agent.name}</div>
-            <div className="agent-contact">
-              <button className="contact-btn">
-                <PropertyIcons.Phone />
-                اتصال
-              </button>
-              <button className="chat-btn">
-                <PropertyIcons.Chat />
-                محادثة
-              </button>
+            <div className="agent-contact-buttons">
+              <a href={`https://wa.me/${property.agent.phone.replace(/[^0-9]/g, '')}`} className="contact-whatsapp-btn" target="_blank" rel="noopener noreferrer">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.465 3.516"/>
+                </svg>
+                واتساب
+              </a>
+              <a href={`tel:${property.agent.phone}`} className="contact-call-btn">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                </svg>
+                مكالمة
+              </a>
             </div>
           </div>
         </div>
