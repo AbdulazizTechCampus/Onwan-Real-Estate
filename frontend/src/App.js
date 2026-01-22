@@ -1148,6 +1148,11 @@ const PropertyCard = ({ property }) => {
       <div className="property-image">
         <img src={property.image} alt={property.title} />
         
+        {/* Watermark Logo */}
+        <div className="property-watermark">
+          <img src="https://customer-assets.emergentagent.com/job_realty-cards/artifacts/w1hf3c8g_Logo%201020%20copy.png" alt="عنوان" />
+        </div>
+        
         {/* Status & Featured Badges */}
         <div className="property-badges-top">
           <div className={`property-status-badge ${property.status === 'للبيع' ? 'for-sale' : 'for-rent'}`}>
