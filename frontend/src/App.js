@@ -600,6 +600,7 @@ const SearchBar = ({ onSearch }) => {
     type: 'all',
     region: '',
     city: '',
+    district: '',
     category: '',
     propertyType: '',
     minPrice: '',
@@ -613,6 +614,7 @@ const SearchBar = ({ onSearch }) => {
   
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [availableCities, setAvailableCities] = useState([]);
+  const [availableDistricts, setAvailableDistricts] = useState([]);
   const [isListening, setIsListening] = useState(false);
   const [voiceSupported, setVoiceSupported] = useState(false);
 
@@ -627,7 +629,12 @@ const SearchBar = ({ onSearch }) => {
     if (name === 'region') {
       const cities = value ? SAUDI_REGIONS[value]?.cities || [] : [];
       setAvailableCities(cities);
-      setSearchData(prev => ({ ...prev, [name]: value, city: '' })); // Reset city when region changes
+      setAvailableDistricts([]);
+      setSearchData(prev => ({ ...prev, [name]: value, city: '', district: '' }));
+    } else if (name === 'city') {
+      const districts = value ? CITY_DISTRICTS[value] || [] : [];
+      setAvailableDistricts(districts);
+      setSearchData(prev => ({ ...prev, [name]: value, district: '' }));
     } else {
       setSearchData(prev => ({ ...prev, [name]: value }));
     }
