@@ -1354,18 +1354,34 @@ const AgentCard = ({ agent }) => {
 const LogoSlider = ({ items, title, type = 'company' }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const sliderRef = React.useRef(null);
+  const [isPaused, setIsPaused] = useState(false);
+
+  // Auto-scroll effect
+  useEffect(() => {
+    if (isPaused) return;
+    
+    const interval = setInterval(() => {
+      setSelectedIndex(prev => (prev + 1) % items.length);
+    }, 3000); // تغيير كل 3 ثواني
+
+    return () => clearInterval(interval);
+  }, [items.length, isPaused]);
 
   const scroll = (direction) => {
     const newIndex = direction === 'right' 
-      ? Math.max(0, selectedIndex - 1)
-      : Math.min(items.length - 1, selectedIndex + 1);
+      ? (selectedIndex - 1 + items.length) % items.length
+      : (selectedIndex + 1) % items.length;
     setSelectedIndex(newIndex);
   };
 
   const selectedItem = items[selectedIndex];
 
   return (
-    <div className="logo-slider-section">
+    <div 
+      className={`logo-slider-section ${type === 'agent' ? 'broker-theme' : ''}`}
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+    >
       <h2 className="logo-slider-title">{title}</h2>
       
       <div className="logo-slider-container">
@@ -1409,6 +1425,17 @@ const LogoSlider = ({ items, title, type = 'company' }) => {
             <path d="M15 18l-6-6 6-6"/>
           </svg>
         </button>
+      </div>
+      
+      {/* Progress Dots */}
+      <div className="slider-dots">
+        {items.map((_, index) => (
+          <button
+            key={index}
+            className={`slider-dot ${index === selectedIndex ? 'active' : ''}`}
+            onClick={() => setSelectedIndex(index)}
+          />
+        ))}
       </div>
       
       {/* Selected Item Details */}
