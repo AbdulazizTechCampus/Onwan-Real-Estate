@@ -2310,7 +2310,7 @@ body {
   align-items: center;
   justify-content: center;
   gap: 20px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 .logo-slider-arrow {
@@ -2326,6 +2326,7 @@ body {
   transition: all 0.3s ease;
   color: #16a34a;
   flex-shrink: 0;
+  z-index: 10;
 }
 
 .logo-slider-arrow:hover {
@@ -2344,6 +2345,51 @@ body {
 
 .logo-slider-arrow.left {
   border-radius: 0 8px 8px 0;
+}
+
+/* Viewport for infinite scroll */
+.logo-slider-viewport {
+  width: 750px;
+  overflow: hidden;
+  position: relative;
+}
+
+.logo-slider-viewport::before,
+.logo-slider-viewport::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100px;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.logo-slider-viewport::before {
+  right: 0;
+  background: linear-gradient(to left, white 0%, transparent 100%);
+}
+
+.logo-slider-viewport::after {
+  left: 0;
+  background: linear-gradient(to right, white 0%, transparent 100%);
+}
+
+.broker-theme .logo-slider-viewport::before {
+  background: linear-gradient(to left, #1a5f7a 0%, transparent 100%);
+}
+
+.broker-theme .logo-slider-viewport::after {
+  background: linear-gradient(to right, #1a5f7a 0%, transparent 100%);
+}
+
+.logo-slider-track-infinite {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+  padding: 20px 0;
+  transition: transform 0.5s ease-in-out;
+  margin-right: calc(50% - 60px);
 }
 
 .logo-slider-track {
