@@ -2462,6 +2462,34 @@ body {
   font-weight: 600;
 }
 
+/* Slider Dots */
+.slider-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin: 20px 0;
+}
+
+.slider-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #d1d5db;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.slider-dot:hover {
+  background: #9ca3af;
+}
+
+.slider-dot.active {
+  background: #16a34a;
+  transform: scale(1.2);
+}
+
 /* Old Agent Card Styles - Keep for compatibility */
 .agent-card {
   background: white;
