@@ -716,12 +716,6 @@ const SearchBar = ({ onSearch }) => {
         <div className="search-bar">
           <div className="search-tabs">
             <button 
-              className={`search-tab ${searchData.type === 'all' ? 'active' : ''}`}
-              onClick={() => setSearchData(prev => ({ ...prev, type: 'all' }))}
-            >
-              الكل
-            </button>
-            <button 
               className={`search-tab ${searchData.type === 'sale' ? 'active' : ''}`}
               onClick={() => setSearchData(prev => ({ ...prev, type: 'sale' }))}
             >

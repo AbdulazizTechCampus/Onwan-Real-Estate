@@ -1181,31 +1181,36 @@ body {
 
 .search-tabs {
   display: flex;
-  gap: 15px;
+  gap: 8px;
   margin-bottom: 25px;
   justify-content: center;
   flex-wrap: wrap;
 }
 
 .search-tab {
-  background: rgba(255, 255, 255, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   color: white;
-  padding: 10px 20px;
-  border-radius: 25px;
+  padding: 12px 28px;
+  border-radius: 30px;
   cursor: pointer;
   transition: all 0.3s ease;
   font-weight: 500;
+  font-size: 15px;
+  min-width: 100px;
 }
 
 .search-tab:hover {
-  background: rgba(255, 255, 255, 0.3);
-  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .search-tab.active {
   background: white;
   color: var(--primary-teal);
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
 }
 
 .search-inputs {
