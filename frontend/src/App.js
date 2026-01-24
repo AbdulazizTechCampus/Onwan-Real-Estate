@@ -1357,7 +1357,7 @@ const LogoSlider = ({ items, title, type = 'company' }) => {
 
   // Auto-scroll effect - حركة مستمرة
   useEffect(() => {
-    if (isPaused) return;
+    if (isPaused || !items.length) return;
     
     const interval = setInterval(() => {
       setCurrentIndex(prev => (prev + 1) % items.length);
