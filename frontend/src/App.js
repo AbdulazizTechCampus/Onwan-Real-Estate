@@ -1961,14 +1961,25 @@ function App() {
           </div>
         </section>
         
-        {/* Agents Section - Carousel */}
-        <section className="agents-section">
+        {/* Featured Companies Section - Logo Slider */}
+        <section className="logo-slider-wrapper">
           <div className="container">
-            <Carousel title="الوسطاء المميزون" subtitle="تواصل مع أفضل الوسطاء العقاريين">
-              {SAMPLE_AGENTS.map(agent => (
-                <AgentCard key={agent.id} agent={agent} />
-              ))}
-            </Carousel>
+            <LogoSlider 
+              items={SAMPLE_COMPANIES} 
+              title="الشركات العقارية المميزة" 
+              type="company"
+            />
+          </div>
+        </section>
+        
+        {/* Featured Brokers Section - Logo Slider */}
+        <section className="logo-slider-wrapper brokers-slider">
+          <div className="container">
+            <LogoSlider 
+              items={SAMPLE_AGENTS} 
+              title="الوسطاء المميزون" 
+              type="agent"
+            />
           </div>
         </section>
       </main>
