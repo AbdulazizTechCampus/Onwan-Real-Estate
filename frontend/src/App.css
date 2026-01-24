@@ -2251,9 +2251,10 @@ body {
   color: #0d4a5f;
 }
 
-.logo-slider-section.broker-theme .logo-slider-item.active .logo-box {
+.logo-slider-section.broker-theme .logo-slider-item.active .logo-box,
+.logo-slider-section.broker-theme .logo-slider-item.center .logo-box {
   border-color: #4fd1c5;
-  box-shadow: 0 8px 25px rgba(79, 209, 197, 0.3);
+  box-shadow: 0 8px 25px rgba(79, 209, 197, 0.4);
 }
 
 .logo-slider-section.broker-theme .logo-slider-details {
