@@ -597,7 +597,7 @@ const Header = ({ onLoginClick, currentUser, onLogout, onOpenMap }) => {
 // Search Bar Component
 const SearchBar = ({ onSearch }) => {
   const [searchData, setSearchData] = useState({
-    type: 'all',
+    type: 'sale',
     region: '',
     city: '',
     district: '',
