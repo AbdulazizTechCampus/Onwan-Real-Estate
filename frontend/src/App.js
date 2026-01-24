@@ -1354,55 +1354,45 @@ const AgentCard = ({ agent }) => {
 const LogoSlider = ({ items, title, type = 'company' }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-  const trackRef = React.useRef(null);
-
-  // إنشاء مصفوفة موسعة للحركة المستمرة (تكرار العناصر)
-  const extendedItems = [...items, ...items, ...items];
-  const centerOffset = items.length; // نبدأ من المنتصف
 
   // Auto-scroll effect - حركة مستمرة
   useEffect(() => {
     if (isPaused) return;
     
     const interval = setInterval(() => {
-      setCurrentIndex(prev => prev + 1);
+      setCurrentIndex(prev => (prev + 1) % items.length);
     }, 2500);
 
     return () => clearInterval(interval);
-  }, [isPaused]);
-
-  // إعادة التعيين عند الوصول للنهاية (للحركة اللانهائية)
-  useEffect(() => {
-    if (currentIndex >= items.length * 2) {
-      setTimeout(() => {
-        if (trackRef.current) {
-          trackRef.current.style.transition = 'none';
-          setCurrentIndex(currentIndex - items.length);
-          setTimeout(() => {
-            if (trackRef.current) {
-              trackRef.current.style.transition = 'transform 0.5s ease-in-out';
-            }
-          }, 50);
-        }
-      }, 500);
-    }
-  }, [currentIndex, items.length]);
+  }, [isPaused, items.length]);
 
   const scroll = (direction) => {
     if (direction === 'right') {
-      setCurrentIndex(prev => prev - 1 < 0 ? items.length - 1 : prev - 1);
+      setCurrentIndex(prev => (prev - 1 + items.length) % items.length);
     } else {
-      setCurrentIndex(prev => prev + 1);
+      setCurrentIndex(prev => (prev + 1) % items.length);
     }
   };
 
-  // العنصر المركزي (المُركز عليه)
-  const actualIndex = ((currentIndex % items.length) + items.length) % items.length;
-  const selectedItem = items[actualIndex];
+  // ترتيب العناصر بحيث يكون العنصر الحالي في المنتصف
+  const getVisibleItems = () => {
+    const result = [];
+    const totalVisible = 5; // عدد العناصر المرئية
+    const halfVisible = Math.floor(totalVisible / 2);
+    
+    for (let i = -halfVisible; i <= halfVisible; i++) {
+      const index = (currentIndex + i + items.length) % items.length;
+      result.push({
+        item: items[index],
+        position: i,
+        isCenter: i === 0
+      });
+    }
+    return result;
+  };
 
-  // حساب الإزاحة للتركيز على المنتصف
-  const itemWidth = 150; // عرض العنصر + الفجوة
-  const translateX = -(currentIndex * itemWidth);
+  const visibleItems = getVisibleItems();
+  const selectedItem = items[currentIndex];
 
   return (
     <div 
@@ -1420,44 +1410,42 @@ const LogoSlider = ({ items, title, type = 'company' }) => {
         </button>
         
         <div className="logo-slider-viewport">
-          <div 
-            className="logo-slider-track-infinite" 
-            ref={trackRef}
-            style={{ transform: `translateX(${translateX}px)` }}
-          >
-            {extendedItems.map((item, index) => {
-              const isCenter = index === currentIndex + Math.floor(items.length / 2);
-              return (
-                <div 
-                  key={`${item.id}-${index}`} 
-                  className={`logo-slider-item ${isCenter ? 'active center' : ''}`}
-                  onClick={() => {
-                    const clickedActualIndex = index % items.length;
-                    const diff = clickedActualIndex - actualIndex;
-                    setCurrentIndex(prev => prev + diff);
-                  }}
-                >
-                  <div className="logo-box">
-                    {item.logo ? (
-                      <img src={item.logo} alt={item.name} />
-                    ) : (
-                      <div className="logo-placeholder">
-                        <svg viewBox="0 0 100 100" fill="currentColor">
-                          <rect x="30" y="20" width="8" height="60" />
-                          <rect x="42" y="30" width="8" height="50" />
-                          <rect x="54" y="40" width="8" height="40" />
-                          <rect x="66" y="25" width="8" height="55" />
-                        </svg>
-                        <span className="company-initial">{item.name.charAt(0)}</span>
-                      </div>
-                    )}
-                  </div>
-                  {type === 'agent' && (
-                    <span className="item-name-small">{item.name.split(' ')[0]}</span>
+          <div className="logo-slider-track-centered">
+            {visibleItems.map(({ item, position, isCenter }, idx) => (
+              <div 
+                key={`${item.id}-${idx}`} 
+                className={`logo-slider-item ${isCenter ? 'center' : ''}`}
+                style={{
+                  transform: `scale(${isCenter ? 1.15 : 0.85 - Math.abs(position) * 0.05})`,
+                  opacity: isCenter ? 1 : 0.6 - Math.abs(position) * 0.1,
+                  zIndex: isCenter ? 10 : 5 - Math.abs(position)
+                }}
+                onClick={() => {
+                  if (position !== 0) {
+                    setCurrentIndex((currentIndex + position + items.length) % items.length);
+                  }
+                }}
+              >
+                <div className="logo-box">
+                  {item.logo ? (
+                    <img src={item.logo} alt={item.name} />
+                  ) : (
+                    <div className="logo-placeholder">
+                      <svg viewBox="0 0 100 100" fill="currentColor">
+                        <rect x="30" y="20" width="8" height="60" />
+                        <rect x="42" y="30" width="8" height="50" />
+                        <rect x="54" y="40" width="8" height="40" />
+                        <rect x="66" y="25" width="8" height="55" />
+                      </svg>
+                      <span className="company-initial">{item.name.charAt(0)}</span>
+                    </div>
                   )}
                 </div>
-              );
-            })}
+                {type === 'agent' && (
+                  <span className="item-name-small">{item.name.split(' ')[0]}</span>
+                )}
+              </div>
+            ))}
           </div>
         </div>
         
@@ -1473,11 +1461,8 @@ const LogoSlider = ({ items, title, type = 'company' }) => {
         {items.map((_, index) => (
           <button
             key={index}
-            className={`slider-dot ${index === actualIndex ? 'active' : ''}`}
-            onClick={() => {
-              const diff = index - actualIndex;
-              setCurrentIndex(prev => prev + diff);
-            }}
+            className={`slider-dot ${index === currentIndex ? 'active' : ''}`}
+            onClick={() => setCurrentIndex(index)}
           />
         ))}
       </div>
