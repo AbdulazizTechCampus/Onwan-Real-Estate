@@ -1352,29 +1352,57 @@ const AgentCard = ({ agent }) => {
 
 // Logo Slider Component - للوسطاء والشركات العقارية
 const LogoSlider = ({ items, title, type = 'company' }) => {
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  const sliderRef = React.useRef(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const trackRef = React.useRef(null);
 
-  // Auto-scroll effect
+  // إنشاء مصفوفة موسعة للحركة المستمرة (تكرار العناصر)
+  const extendedItems = [...items, ...items, ...items];
+  const centerOffset = items.length; // نبدأ من المنتصف
+
+  // Auto-scroll effect - حركة مستمرة
   useEffect(() => {
     if (isPaused) return;
     
     const interval = setInterval(() => {
-      setSelectedIndex(prev => (prev + 1) % items.length);
-    }, 3000); // تغيير كل 3 ثواني
+      setCurrentIndex(prev => prev + 1);
+    }, 2500);
 
     return () => clearInterval(interval);
-  }, [items.length, isPaused]);
+  }, [isPaused]);
+
+  // إعادة التعيين عند الوصول للنهاية (للحركة اللانهائية)
+  useEffect(() => {
+    if (currentIndex >= items.length * 2) {
+      setTimeout(() => {
+        if (trackRef.current) {
+          trackRef.current.style.transition = 'none';
+          setCurrentIndex(currentIndex - items.length);
+          setTimeout(() => {
+            if (trackRef.current) {
+              trackRef.current.style.transition = 'transform 0.5s ease-in-out';
+            }
+          }, 50);
+        }
+      }, 500);
+    }
+  }, [currentIndex, items.length]);
 
   const scroll = (direction) => {
-    const newIndex = direction === 'right' 
-      ? (selectedIndex - 1 + items.length) % items.length
-      : (selectedIndex + 1) % items.length;
-    setSelectedIndex(newIndex);
+    if (direction === 'right') {
+      setCurrentIndex(prev => prev - 1 < 0 ? items.length - 1 : prev - 1);
+    } else {
+      setCurrentIndex(prev => prev + 1);
+    }
   };
 
-  const selectedItem = items[selectedIndex];
+  // العنصر المركزي (المُركز عليه)
+  const actualIndex = ((currentIndex % items.length) + items.length) % items.length;
+  const selectedItem = items[actualIndex];
+
+  // حساب الإزاحة للتركيز على المنتصف
+  const itemWidth = 150; // عرض العنصر + الفجوة
+  const translateX = -(currentIndex * itemWidth);
 
   return (
     <div 
@@ -1391,33 +1419,46 @@ const LogoSlider = ({ items, title, type = 'company' }) => {
           </svg>
         </button>
         
-        <div className="logo-slider-track" ref={sliderRef}>
-          {items.map((item, index) => (
-            <div 
-              key={item.id} 
-              className={`logo-slider-item ${index === selectedIndex ? 'active' : ''}`}
-              onClick={() => setSelectedIndex(index)}
-            >
-              <div className="logo-box">
-                {item.logo ? (
-                  <img src={item.logo} alt={item.name} />
-                ) : (
-                  <div className="logo-placeholder">
-                    <svg viewBox="0 0 100 100" fill="currentColor">
-                      <rect x="30" y="20" width="8" height="60" />
-                      <rect x="42" y="30" width="8" height="50" />
-                      <rect x="54" y="40" width="8" height="40" />
-                      <rect x="66" y="25" width="8" height="55" />
-                    </svg>
-                    <span className="company-initial">{item.name.charAt(0)}</span>
+        <div className="logo-slider-viewport">
+          <div 
+            className="logo-slider-track-infinite" 
+            ref={trackRef}
+            style={{ transform: `translateX(${translateX}px)` }}
+          >
+            {extendedItems.map((item, index) => {
+              const isCenter = index === currentIndex + Math.floor(items.length / 2);
+              return (
+                <div 
+                  key={`${item.id}-${index}`} 
+                  className={`logo-slider-item ${isCenter ? 'active center' : ''}`}
+                  onClick={() => {
+                    const clickedActualIndex = index % items.length;
+                    const diff = clickedActualIndex - actualIndex;
+                    setCurrentIndex(prev => prev + diff);
+                  }}
+                >
+                  <div className="logo-box">
+                    {item.logo ? (
+                      <img src={item.logo} alt={item.name} />
+                    ) : (
+                      <div className="logo-placeholder">
+                        <svg viewBox="0 0 100 100" fill="currentColor">
+                          <rect x="30" y="20" width="8" height="60" />
+                          <rect x="42" y="30" width="8" height="50" />
+                          <rect x="54" y="40" width="8" height="40" />
+                          <rect x="66" y="25" width="8" height="55" />
+                        </svg>
+                        <span className="company-initial">{item.name.charAt(0)}</span>
+                      </div>
+                    )}
                   </div>
-                )}
-              </div>
-              {type === 'agent' && (
-                <span className="item-name-small">{item.name.split(' ')[0]}</span>
-              )}
-            </div>
-          ))}
+                  {type === 'agent' && (
+                    <span className="item-name-small">{item.name.split(' ')[0]}</span>
+                  )}
+                </div>
+              );
+            })}
+          </div>
         </div>
         
         <button className="logo-slider-arrow left" onClick={() => scroll('left')}>
@@ -1432,8 +1473,11 @@ const LogoSlider = ({ items, title, type = 'company' }) => {
         {items.map((_, index) => (
           <button
             key={index}
-            className={`slider-dot ${index === selectedIndex ? 'active' : ''}`}
-            onClick={() => setSelectedIndex(index)}
+            className={`slider-dot ${index === actualIndex ? 'active' : ''}`}
+            onClick={() => {
+              const diff = index - actualIndex;
+              setCurrentIndex(prev => prev + diff);
+            }}
           />
         ))}
       </div>
