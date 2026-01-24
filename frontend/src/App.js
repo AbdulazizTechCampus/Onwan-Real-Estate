@@ -314,6 +314,72 @@ const SAMPLE_AGENTS = [
     requests: 25,
     image: 'https://api.dicebear.com/7.x/avataaars/svg?seed=agent3',
     rating: 4.7
+  },
+  {
+    id: 4,
+    name: 'سارة عبدالله المنصور',
+    license: 'FAL-45678',
+    region: 'مكة المكرمة',
+    followers: 1680,
+    properties: 54,
+    requests: 18,
+    image: 'https://api.dicebear.com/7.x/avataaars/svg?seed=agent4',
+    rating: 4.9
+  },
+  {
+    id: 5,
+    name: 'محمد علي الشمري',
+    license: 'FAL-56789',
+    region: 'الخبر',
+    followers: 920,
+    properties: 38,
+    requests: 15,
+    image: 'https://api.dicebear.com/7.x/avataaars/svg?seed=agent5',
+    rating: 4.6
+  }
+];
+
+// بيانات الشركات العقارية المميزة
+const SAMPLE_COMPANIES = [
+  {
+    id: 1,
+    name: 'المتعب العقارية',
+    logo: 'https://customer-assets.emergentagent.com/job_onwan-homes/artifacts/6whyaq4w_image.png',
+    propertiesForSale: 722,
+    propertiesForRent: 3,
+    region: 'الرياض'
+  },
+  {
+    id: 2,
+    name: 'شركة نجمة التميز للعقارات',
+    logo: null,
+    propertiesForSale: 485,
+    propertiesForRent: 12,
+    region: 'جدة'
+  },
+  {
+    id: 3,
+    name: 'مجموعة الفيصل العقارية',
+    logo: null,
+    propertiesForSale: 356,
+    propertiesForRent: 28,
+    region: 'الدمام'
+  },
+  {
+    id: 4,
+    name: 'دار الخليج للتطوير',
+    logo: null,
+    propertiesForSale: 198,
+    propertiesForRent: 45,
+    region: 'الرياض'
+  },
+  {
+    id: 5,
+    name: 'شركة الوطن العقارية',
+    logo: null,
+    propertiesForSale: 267,
+    propertiesForRent: 8,
+    region: 'مكة المكرمة'
   }
 ];
 
