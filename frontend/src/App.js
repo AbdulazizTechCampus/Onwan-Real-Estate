@@ -1441,9 +1441,6 @@ const LogoSlider = ({ items, title, type = 'company' }) => {
                     </div>
                   )}
                 </div>
-                {type === 'agent' && (
-                  <span className="item-name-small">{item.name.split(' ')[0]}</span>
-                )}
               </div>
             ))}
           </div>
