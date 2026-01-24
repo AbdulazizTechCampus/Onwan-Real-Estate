@@ -1350,6 +1350,91 @@ const AgentCard = ({ agent }) => {
   );
 };
 
+// Logo Slider Component - للوسطاء والشركات العقارية
+const LogoSlider = ({ items, title, type = 'company' }) => {
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const sliderRef = React.useRef(null);
+
+  const scroll = (direction) => {
+    const newIndex = direction === 'right' 
+      ? Math.max(0, selectedIndex - 1)
+      : Math.min(items.length - 1, selectedIndex + 1);
+    setSelectedIndex(newIndex);
+  };
+
+  const selectedItem = items[selectedIndex];
+
+  return (
+    <div className="logo-slider-section">
+      <h2 className="logo-slider-title">{title}</h2>
+      
+      <div className="logo-slider-container">
+        <button className="logo-slider-arrow right" onClick={() => scroll('right')}>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+            <path d="M9 18l6-6-6-6"/>
+          </svg>
+        </button>
+        
+        <div className="logo-slider-track" ref={sliderRef}>
+          {items.map((item, index) => (
+            <div 
+              key={item.id} 
+              className={`logo-slider-item ${index === selectedIndex ? 'active' : ''}`}
+              onClick={() => setSelectedIndex(index)}
+            >
+              <div className="logo-box">
+                {item.logo ? (
+                  <img src={item.logo} alt={item.name} />
+                ) : (
+                  <div className="logo-placeholder">
+                    <svg viewBox="0 0 100 100" fill="currentColor">
+                      <rect x="30" y="20" width="8" height="60" />
+                      <rect x="42" y="30" width="8" height="50" />
+                      <rect x="54" y="40" width="8" height="40" />
+                      <rect x="66" y="25" width="8" height="55" />
+                    </svg>
+                    <span className="company-initial">{item.name.charAt(0)}</span>
+                  </div>
+                )}
+              </div>
+              {type === 'agent' && (
+                <span className="item-name-small">{item.name.split(' ')[0]}</span>
+              )}
+            </div>
+          ))}
+        </div>
+        
+        <button className="logo-slider-arrow left" onClick={() => scroll('left')}>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+            <path d="M15 18l-6-6 6-6"/>
+          </svg>
+        </button>
+      </div>
+      
+      {/* Selected Item Details */}
+      <div className="logo-slider-details">
+        <h3 className="selected-item-name">{selectedItem?.name}</h3>
+        {type === 'company' && (
+          <div className="selected-item-stats">
+            <span>{selectedItem?.propertiesForSale} عقار للبيع</span>
+            <span className="stats-divider">|</span>
+            <span>{selectedItem?.propertiesForRent} عقار للإيجار</span>
+          </div>
+        )}
+        {type === 'agent' && (
+          <div className="selected-item-stats">
+            <span>{selectedItem?.properties} عقار</span>
+            <span className="stats-divider">|</span>
+            <span>{selectedItem?.followers} متابع</span>
+            <span className="stats-divider">|</span>
+            <span className="rating-display">★ {selectedItem?.rating}</span>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
 // Login Modal Component (unchanged from previous version)
 const LoginModal = ({ isOpen, onClose, onSuccess }) => {
   const [step, setStep] = useState('phone');
