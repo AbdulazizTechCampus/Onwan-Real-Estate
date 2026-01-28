@@ -511,7 +511,7 @@ const REGIONS_DATA = [
     name: 'الباحة',
     count: 180,
     color: '#4f46e5',
-    image: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=400&h=300&fit=crop'
+    image: 'https://customer-assets.emergentagent.com/job_onwan-homes/artifacts/ki4e89fv_image.png'
   },
   {
     id: 'jawf',
