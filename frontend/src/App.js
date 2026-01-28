@@ -483,7 +483,7 @@ const REGIONS_DATA = [
     name: 'حائل',
     count: 280,
     color: '#9333ea',
-    image: 'https://images.unsplash.com/photo-1547234935-80c7145ec969?w=400&h=300&fit=crop'
+    image: 'https://customer-assets.emergentagent.com/job_onwan-homes/artifacts/f05xlh3f_image.png'
   },
   {
     id: 'northern',
