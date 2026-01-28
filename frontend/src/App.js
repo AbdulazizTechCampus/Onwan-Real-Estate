@@ -434,7 +434,7 @@ const REGIONS_DATA = [
     name: 'الرياض',
     count: 2450,
     color: '#059669',
-    image: 'https://images.unsplash.com/photo-1586724237569-f3d0c1dee8c6?w=400&h=300&fit=crop'
+    image: 'https://customer-assets.emergentagent.com/job_onwan-homes/artifacts/gscjtmpa_image.png'
   },
   {
     id: 'makkah',
