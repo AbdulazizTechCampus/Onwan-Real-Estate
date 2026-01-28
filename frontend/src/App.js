@@ -497,7 +497,7 @@ const REGIONS_DATA = [
     name: 'جازان',
     count: 340,
     color: '#ea580c',
-    image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=300&fit=crop'
+    image: 'https://customer-assets.emergentagent.com/job_onwan-homes/artifacts/uiwe7h3d_image.png'
   },
   {
     id: 'najran',
