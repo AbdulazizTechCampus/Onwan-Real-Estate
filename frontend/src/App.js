@@ -1577,7 +1577,7 @@ const LogoSlider = ({ items, title, type = 'company' }) => {
 
   return (
     <div 
-      className={`logo-slider-section ${type === 'agent' ? 'broker-theme' : ''}`}
+      className={`logo-slider-section ${type === 'agent' ? 'broker-theme' : ''} ${type === 'photographer' ? 'photographer-theme' : ''}`}
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
@@ -1608,7 +1608,15 @@ const LogoSlider = ({ items, title, type = 'company' }) => {
                 }}
               >
                 <div className="logo-box">
-                  {item.logo ? (
+                  {type === 'photographer' ? (
+                    <div className="logo-placeholder photographer-icon">
+                      <svg viewBox="0 0 24 24" fill="currentColor">
+                        <circle cx="12" cy="12" r="3.2"/>
+                        <path d="M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/>
+                      </svg>
+                      <span className="company-initial">{item.name.charAt(0)}</span>
+                    </div>
+                  ) : item.logo ? (
                     <img src={item.logo} alt={item.name} />
                   ) : (
                     <div className="logo-placeholder">
