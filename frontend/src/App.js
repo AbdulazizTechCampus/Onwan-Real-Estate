@@ -518,7 +518,7 @@ const REGIONS_DATA = [
     name: 'الجوف',
     count: 145,
     color: '#0369a1',
-    image: 'https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=400&h=300&fit=crop'
+    image: 'https://customer-assets.emergentagent.com/job_onwan-homes/artifacts/u2fic6lw_image.png'
   }
 ];
 
