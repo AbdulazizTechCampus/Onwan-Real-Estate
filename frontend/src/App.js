@@ -462,7 +462,7 @@ const REGIONS_DATA = [
     name: 'القصيم',
     count: 620,
     color: '#ca8a04',
-    image: 'https://images.unsplash.com/photo-1518684079-3c830dcef090?w=400&h=300&fit=crop'
+    image: 'https://customer-assets.emergentagent.com/job_onwan-homes/artifacts/fyiox5v4_image.png'
   },
   {
     id: 'asir',
