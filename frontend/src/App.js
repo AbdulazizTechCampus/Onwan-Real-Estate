@@ -542,7 +542,7 @@ const Header = ({ onLoginClick, currentUser, onLogout, onOpenMap }) => {
             </div>
           </div>
 
-          {/* الدعم Dropdown */}}
+          {/* الدعم Dropdown */}
           <div className="nav-dropdown" onClick={(e) => { e.stopPropagation(); toggleDropdown('support'); }}>
             <button className="nav-dropdown-btn" data-testid="support-dropdown">
               الدعم
