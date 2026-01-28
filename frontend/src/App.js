@@ -383,6 +383,145 @@ const SAMPLE_COMPANIES = [
   }
 ];
 
+// بيانات المصورين المميزين
+const SAMPLE_PHOTOGRAPHERS = [
+  {
+    id: 1,
+    name: 'عبدالله سعود الحربي',
+    region: 'الرياض',
+    followers: 2340,
+    properties: 156,
+    rating: 4.9
+  },
+  {
+    id: 2,
+    name: 'نورة محمد القحطاني',
+    region: 'جدة',
+    followers: 1890,
+    properties: 124,
+    rating: 4.8
+  },
+  {
+    id: 3,
+    name: 'فهد عبدالرحمن العتيبي',
+    region: 'الدمام',
+    followers: 1560,
+    properties: 98,
+    rating: 4.7
+  },
+  {
+    id: 4,
+    name: 'سارة خالد المالكي',
+    region: 'مكة المكرمة',
+    followers: 2100,
+    properties: 145,
+    rating: 4.9
+  },
+  {
+    id: 5,
+    name: 'أحمد علي الشهري',
+    region: 'الطائف',
+    followers: 1200,
+    properties: 87,
+    rating: 4.6
+  }
+];
+
+// بيانات المناطق الـ 13 مع الصور والألوان
+const REGIONS_DATA = [
+  {
+    id: 'riyadh',
+    name: 'الرياض',
+    count: 2450,
+    color: '#059669',
+    image: 'https://images.unsplash.com/photo-1586724237569-f3d0c1dee8c6?w=400&h=300&fit=crop'
+  },
+  {
+    id: 'makkah',
+    name: 'مكة المكرمة',
+    count: 1890,
+    color: '#7c3aed',
+    image: 'https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?w=400&h=300&fit=crop'
+  },
+  {
+    id: 'madinah',
+    name: 'المدينة المنورة',
+    count: 875,
+    color: '#0891b2',
+    image: 'https://images.unsplash.com/photo-1542816417-0983c9c9ad53?w=400&h=300&fit=crop'
+  },
+  {
+    id: 'eastern',
+    name: 'المنطقة الشرقية',
+    count: 1560,
+    color: '#dc2626',
+    image: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=400&h=300&fit=crop'
+  },
+  {
+    id: 'qassim',
+    name: 'القصيم',
+    count: 620,
+    color: '#ca8a04',
+    image: 'https://images.unsplash.com/photo-1518684079-3c830dcef090?w=400&h=300&fit=crop'
+  },
+  {
+    id: 'asir',
+    name: 'عسير',
+    count: 480,
+    color: '#16a34a',
+    image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop'
+  },
+  {
+    id: 'tabuk',
+    name: 'تبوك',
+    count: 320,
+    color: '#2563eb',
+    image: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&h=300&fit=crop'
+  },
+  {
+    id: 'hail',
+    name: 'حائل',
+    count: 280,
+    color: '#9333ea',
+    image: 'https://images.unsplash.com/photo-1547234935-80c7145ec969?w=400&h=300&fit=crop'
+  },
+  {
+    id: 'northern',
+    name: 'الحدود الشمالية',
+    count: 150,
+    color: '#0d9488',
+    image: 'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=400&h=300&fit=crop'
+  },
+  {
+    id: 'jazan',
+    name: 'جازان',
+    count: 340,
+    color: '#ea580c',
+    image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=300&fit=crop'
+  },
+  {
+    id: 'najran',
+    name: 'نجران',
+    count: 210,
+    color: '#be123c',
+    image: 'https://images.unsplash.com/photo-1473580044384-7ba9967e16a0?w=400&h=300&fit=crop'
+  },
+  {
+    id: 'bahah',
+    name: 'الباحة',
+    count: 180,
+    color: '#4f46e5',
+    image: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=400&h=300&fit=crop'
+  },
+  {
+    id: 'jawf',
+    name: 'الجوف',
+    count: 145,
+    color: '#0369a1',
+    image: 'https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=400&h=300&fit=crop'
+  }
+];
+
 // Header Component - Modern Design
 const Header = ({ onLoginClick, currentUser, onLogout, onOpenMap }) => {
   const [activeDropdown, setActiveDropdown] = useState(null);
