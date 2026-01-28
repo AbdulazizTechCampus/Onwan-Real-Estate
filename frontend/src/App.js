@@ -469,7 +469,7 @@ const REGIONS_DATA = [
     name: 'عسير',
     count: 480,
     color: '#16a34a',
-    image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop'
+    image: 'https://customer-assets.emergentagent.com/job_onwan-homes/artifacts/opxd5wfl_image.png'
   },
   {
     id: 'tabuk',
