@@ -490,7 +490,7 @@ const REGIONS_DATA = [
     name: 'الحدود الشمالية',
     count: 150,
     color: '#0d9488',
-    image: 'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=400&h=300&fit=crop'
+    image: 'https://customer-assets.emergentagent.com/job_onwan-homes/artifacts/ga4v9xq2_image.png'
   },
   {
     id: 'jazan',
