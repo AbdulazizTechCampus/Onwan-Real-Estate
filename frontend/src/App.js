@@ -656,6 +656,11 @@ const Header = ({ onLoginClick, currentUser, onLogout, onOpenMap }) => {
           <a href="#" className="mobile-menu-link">العقود</a>
         </div>
         <div className="mobile-menu-section">
+          <div className="mobile-menu-title">التصوير</div>
+          <a href="#" className="mobile-menu-link">البحث عن مصور</a>
+          <a href="#" className="mobile-menu-link">طلب مصور</a>
+        </div>
+        <div className="mobile-menu-section">
           <div className="mobile-menu-title">الدعم</div>
           <div className="mobile-support-info">
             <div className="mobile-support-phone">0555964559</div>
