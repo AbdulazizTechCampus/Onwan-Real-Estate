@@ -476,7 +476,7 @@ const REGIONS_DATA = [
     name: 'تبوك',
     count: 320,
     color: '#2563eb',
-    image: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&h=300&fit=crop'
+    image: 'https://customer-assets.emergentagent.com/job_onwan-homes/artifacts/ny6kzsl7_image.png'
   },
   {
     id: 'hail',
