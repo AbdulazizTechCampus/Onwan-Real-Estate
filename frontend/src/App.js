@@ -2136,121 +2136,10 @@ function App() {
           </div>
         </section>
         
-        {/* Properties by Region - New Design */}
-        <section className="regions-section-new">
+        {/* Properties by Region - Carousel */}
+        <section className="regions-carousel-wrapper">
           <div className="container">
-            <div className="section-header-center">
-              <h2 className="section-title-center">العقارات حسب المنطقة</h2>
-              <p className="section-subtitle-center">اكتشف العقارات المتاحة في مختلف مناطق المملكة</p>
-            </div>
-            
-            <div className="regions-grid">
-              {/* الرياض */}
-              <a href="#riyadh" className="region-card riyadh">
-                <div className="region-illustration">
-                  <svg viewBox="0 0 100 80" fill="currentColor" opacity="0.3">
-                    <rect x="10" y="40" width="15" height="40" rx="2"/>
-                    <rect x="30" y="20" width="20" height="60" rx="2"/>
-                    <rect x="55" y="30" width="12" height="50" rx="2"/>
-                    <rect x="72" y="45" width="18" height="35" rx="2"/>
-                    <polygon points="40,5 55,20 25,20"/>
-                  </svg>
-                </div>
-                <div className="region-content">
-                  <h3>الرياض</h3>
-                  <button className="region-show-all">عرض الكل</button>
-                </div>
-                <div className="region-count">2,450 إعلان</div>
-              </a>
-
-              {/* جدة */}
-              <a href="#jeddah" className="region-card jeddah">
-                <div className="region-illustration">
-                  <svg viewBox="0 0 100 80" fill="currentColor" opacity="0.3">
-                    <rect x="15" y="35" width="18" height="45" rx="2"/>
-                    <rect x="38" y="15" width="24" height="65" rx="2"/>
-                    <rect x="67" y="40" width="18" height="40" rx="2"/>
-                    <circle cx="50" cy="8" r="5"/>
-                  </svg>
-                </div>
-                <div className="region-content">
-                  <h3>جدة</h3>
-                  <button className="region-show-all">عرض الكل</button>
-                </div>
-                <div className="region-count">1,890 إعلان</div>
-              </a>
-
-              {/* مكة */}
-              <a href="#makkah" className="region-card makkah">
-                <div className="region-illustration">
-                  <svg viewBox="0 0 100 80" fill="currentColor" opacity="0.3">
-                    <rect x="35" y="25" width="30" height="55" rx="3"/>
-                    <rect x="20" y="50" width="15" height="30" rx="2"/>
-                    <rect x="65" y="50" width="15" height="30" rx="2"/>
-                    <polygon points="50,5 70,25 30,25"/>
-                    <circle cx="50" cy="15" r="3"/>
-                  </svg>
-                </div>
-                <div className="region-content">
-                  <h3>مكة المكرمة</h3>
-                  <button className="region-show-all">عرض الكل</button>
-                </div>
-                <div className="region-count">1,230 إعلان</div>
-              </a>
-
-              {/* المدينة */}
-              <a href="#madinah" className="region-card madinah">
-                <div className="region-illustration">
-                  <svg viewBox="0 0 100 80" fill="currentColor" opacity="0.3">
-                    <rect x="25" y="30" width="25" height="50" rx="2"/>
-                    <rect x="55" y="35" width="20" height="45" rx="2"/>
-                    <polygon points="37,10 55,30 20,30"/>
-                    <circle cx="37" cy="18" r="4"/>
-                    <rect x="10" y="55" width="12" height="25" rx="2"/>
-                  </svg>
-                </div>
-                <div className="region-content">
-                  <h3>المدينة المنورة</h3>
-                  <button className="region-show-all">عرض الكل</button>
-                </div>
-                <div className="region-count">875 إعلان</div>
-              </a>
-
-              {/* الشرقية */}
-              <a href="#eastern" className="region-card eastern">
-                <div className="region-illustration">
-                  <svg viewBox="0 0 100 80" fill="currentColor" opacity="0.3">
-                    <rect x="10" y="45" width="20" height="35" rx="2"/>
-                    <rect x="35" y="25" width="25" height="55" rx="2"/>
-                    <rect x="65" y="40" width="25" height="40" rx="2"/>
-                    <ellipse cx="80" cy="30" rx="15" ry="8"/>
-                  </svg>
-                </div>
-                <div className="region-content">
-                  <h3>المنطقة الشرقية</h3>
-                  <button className="region-show-all">عرض الكل</button>
-                </div>
-                <div className="region-count">1,560 إعلان</div>
-              </a>
-
-              {/* عرض جميع المناطق */}
-              <a href="#all-regions" className="region-card all-regions">
-                <div className="region-illustration">
-                  <svg viewBox="0 0 100 80" fill="currentColor" opacity="0.3">
-                    <circle cx="30" cy="30" r="15"/>
-                    <circle cx="70" cy="30" r="12"/>
-                    <circle cx="50" cy="55" r="18"/>
-                    <circle cx="20" cy="60" r="10"/>
-                    <circle cx="80" cy="55" r="8"/>
-                  </svg>
-                </div>
-                <div className="region-content">
-                  <h3>جميع المناطق</h3>
-                  <button className="region-show-all">عرض الكل</button>
-                </div>
-                <div className="region-count">8,500+ إعلان</div>
-              </a>
-            </div>
+            <RegionsCarousel />
           </div>
         </section>
         
@@ -2272,6 +2161,17 @@ function App() {
               items={SAMPLE_AGENTS} 
               title="الوسطاء المميزون" 
               type="agent"
+            />
+          </div>
+        </section>
+        
+        {/* Featured Photographers Section - Logo Slider */}
+        <section className="logo-slider-wrapper photographers-slider">
+          <div className="container">
+            <LogoSlider 
+              items={SAMPLE_PHOTOGRAPHERS} 
+              title="المصورون المميزون" 
+              type="photographer"
             />
           </div>
         </section>
