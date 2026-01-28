@@ -505,7 +505,44 @@ const Header = ({ onLoginClick, currentUser, onLogout, onOpenMap }) => {
             </div>
           </div>
 
-          {/* الدعم Dropdown */}
+          {/* التصوير Dropdown */}
+          <div className="nav-dropdown" onClick={(e) => { e.stopPropagation(); toggleDropdown('photography'); }}>
+            <button className="nav-dropdown-btn" data-testid="photography-dropdown">
+              التصوير
+              <svg className="dropdown-chevron" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M7 10l5 5 5-5z"/>
+              </svg>
+            </button>
+            <div className={`dropdown-panel ${activeDropdown === 'photography' ? 'show' : ''}`}>
+              <div className="dropdown-panel-content">
+                <a href="#search-photographer" className="dropdown-link" data-testid="search-photographer-link">
+                  <div className="dropdown-link-icon photographer">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                      <circle cx="12" cy="12" r="3.2"/>
+                      <path d="M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/>
+                    </svg>
+                  </div>
+                  <div className="dropdown-link-text">
+                    <span className="dropdown-link-title">البحث عن مصور</span>
+                    <span className="dropdown-link-desc">ابحث عن مصور عقاري محترف</span>
+                  </div>
+                </a>
+                <a href="#request-photographer" className="dropdown-link" data-testid="request-photographer-link">
+                  <div className="dropdown-link-icon request-photo">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M19 7v2.99s-1.99.01-2 0V7h-3s.01-1.99 0-2h3V2h2v3h3v2h-3zm-3 4V8h-3V5H5c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-8h-3zM5 19l3-4 2 3 3-4 4 5H5z"/>
+                    </svg>
+                  </div>
+                  <div className="dropdown-link-text">
+                    <span className="dropdown-link-title">طلب مصور</span>
+                    <span className="dropdown-link-desc">اطلب خدمة تصوير لعقارك</span>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {/* الدعم Dropdown */}}
           <div className="nav-dropdown" onClick={(e) => { e.stopPropagation(); toggleDropdown('support'); }}>
             <button className="nav-dropdown-btn" data-testid="support-dropdown">
               الدعم
