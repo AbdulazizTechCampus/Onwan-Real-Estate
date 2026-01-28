@@ -504,7 +504,7 @@ const REGIONS_DATA = [
     name: 'نجران',
     count: 210,
     color: '#be123c',
-    image: 'https://images.unsplash.com/photo-1473580044384-7ba9967e16a0?w=400&h=300&fit=crop'
+    image: 'https://customer-assets.emergentagent.com/job_onwan-homes/artifacts/ocyw088g_image.png'
   },
   {
     id: 'bahah',
