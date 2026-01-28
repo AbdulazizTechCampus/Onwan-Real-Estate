@@ -1669,6 +1669,65 @@ const LogoSlider = ({ items, title, type = 'company' }) => {
   );
 };
 
+// Regions Carousel Component - كاروسيل المناطق
+const RegionsCarousel = () => {
+  const scrollRef = React.useRef(null);
+
+  const scroll = (direction) => {
+    if (scrollRef.current) {
+      const scrollAmount = 320;
+      scrollRef.current.scrollBy({
+        left: direction === 'left' ? scrollAmount : -scrollAmount,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  return (
+    <div className="regions-carousel-section">
+      <div className="regions-carousel-header">
+        <div className="regions-carousel-title-area">
+          <h2 className="regions-carousel-title">العقارات حسب المنطقة</h2>
+          <p className="regions-carousel-subtitle">اكتشف العقارات المتاحة في مناطق المملكة الـ 13</p>
+        </div>
+        <div className="regions-carousel-nav">
+          <button className="regions-nav-arrow" onClick={() => scroll('left')}>
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+            </svg>
+          </button>
+          <button className="regions-nav-arrow" onClick={() => scroll('right')}>
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+      
+      <div className="regions-carousel-container" ref={scrollRef}>
+        {REGIONS_DATA.map((region) => (
+          <a 
+            key={region.id} 
+            href={`#${region.id}`} 
+            className="region-carousel-card"
+            style={{ '--region-color': region.color }}
+          >
+            <div className="region-card-image">
+              <img src={region.image} alt={region.name} />
+              <div className="region-card-overlay" style={{ background: `linear-gradient(135deg, ${region.color}dd 0%, ${region.color}99 100%)` }}></div>
+            </div>
+            <div className="region-card-content">
+              <h3 className="region-card-name">{region.name}</h3>
+              <div className="region-card-count">{region.count.toLocaleString()} عقار</div>
+              <button className="region-card-btn">استكشف</button>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  );
+};
+
 // Login Modal Component (unchanged from previous version)
 const LoginModal = ({ isOpen, onClose, onSuccess }) => {
   const [step, setStep] = useState('phone');
