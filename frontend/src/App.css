@@ -1800,12 +1800,25 @@ body {
   position: absolute;
   bottom: 15px;
   right: 15px;
-  background: #f59e0b;
-  color: white;
-  padding: 4px 10px;
-  border-radius: 12px;
-  font-size: 0.75rem;
-  font-weight: 500;
+  background: linear-gradient(135deg, #ffd700 0%, #ffb800 50%, #ff9500 100%);
+  color: #1a1a1a;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  box-shadow: 0 4px 15px rgba(255, 180, 0, 0.5), 0 0 20px rgba(255, 215, 0, 0.3);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 4px 15px rgba(255, 180, 0, 0.5), 0 0 20px rgba(255, 215, 0, 0.3);
+  }
+  50% {
+    box-shadow: 0 4px 20px rgba(255, 180, 0, 0.7), 0 0 30px rgba(255, 215, 0, 0.5);
+  }
 }
 
 .property-content {
