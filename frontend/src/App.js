@@ -448,7 +448,7 @@ const REGIONS_DATA = [
     name: 'المدينة المنورة',
     count: 875,
     color: '#0891b2',
-    image: 'https://images.unsplash.com/photo-1542816417-0983c9c9ad53?w=400&h=300&fit=crop'
+    image: 'https://customer-assets.emergentagent.com/job_onwan-homes/artifacts/60iwzi58_image.png'
   },
   {
     id: 'eastern',
