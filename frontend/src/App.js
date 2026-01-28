@@ -1672,6 +1672,15 @@ const LogoSlider = ({ items, title, type = 'company' }) => {
             <span className="rating-display">★ {selectedItem?.rating}</span>
           </div>
         )}
+        {type === 'photographer' && (
+          <div className="selected-item-stats">
+            <span>{selectedItem?.properties} صورة</span>
+            <span className="stats-divider">|</span>
+            <span>{selectedItem?.followers} متابع</span>
+            <span className="stats-divider">|</span>
+            <span className="rating-display">★ {selectedItem?.rating}</span>
+          </div>
+        )}
       </div>
     </div>
   );
