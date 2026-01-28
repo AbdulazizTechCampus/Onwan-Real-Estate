@@ -441,7 +441,7 @@ const REGIONS_DATA = [
     name: 'مكة المكرمة',
     count: 1890,
     color: '#7c3aed',
-    image: 'https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?w=400&h=300&fit=crop'
+    image: 'https://customer-assets.emergentagent.com/job_onwan-homes/artifacts/4yy6dj8q_image.png'
   },
   {
     id: 'madinah',
