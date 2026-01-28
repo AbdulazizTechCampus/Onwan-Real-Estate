@@ -455,7 +455,7 @@ const REGIONS_DATA = [
     name: 'المنطقة الشرقية',
     count: 1560,
     color: '#dc2626',
-    image: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=400&h=300&fit=crop'
+    image: 'https://customer-assets.emergentagent.com/job_onwan-homes/artifacts/evsc4fn2_image.png'
   },
   {
     id: 'qassim',
