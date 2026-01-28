@@ -1391,7 +1391,7 @@ const PropertyCard = ({ property }) => {
         
         {/* Watermark Logo */}
         <div className="property-watermark">
-          <img src="https://customer-assets.emergentagent.com/job_realty-cards/artifacts/w1hf3c8g_Logo%201020%20copy.png" alt="عنوان" />
+          <img src="https://customer-assets.emergentagent.com/job_onwan-homes/artifacts/a7d7dgbd_Logo%202030%20.png" alt="عنوان" />
         </div>
         
         {/* Status & Featured Badges */}
