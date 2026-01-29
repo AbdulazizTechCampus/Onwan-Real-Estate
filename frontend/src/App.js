@@ -2340,7 +2340,7 @@ function App() {
               <span className="footer-divider">|</span>
               <a href="#terms">السياسات والأحكام</a>
               <span className="footer-divider">|</span>
-              <a href="#support">الدعم</a>
+              <a href="#support">الدعم والتواصل</a>
             </div>
             
             {/* Language Switcher */}
