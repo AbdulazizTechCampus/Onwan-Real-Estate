@@ -2600,18 +2600,18 @@ body {
 }
 
 .logo-slider-section.photographer-theme .logo-slider-arrow {
-  border-color: #ffffff;
-  color: #ffffff;
+  border-color: #1a5a6e;
+  color: #1a5a6e;
 }
 
 .logo-slider-section.photographer-theme .logo-slider-arrow:hover {
-  background: #ffffff;
-  color: #29B6D2;
+  background: #1a5a6e;
+  color: #ffffff;
 }
 
 .logo-slider-section.photographer-theme .logo-slider-item.center .logo-box {
-  border-color: #ffffff;
-  box-shadow: 0 8px 25px rgba(255, 255, 255, 0.4);
+  border-color: #1a5a6e;
+  box-shadow: 0 8px 25px rgba(26, 90, 110, 0.4);
 }
 
 .logo-slider-section.photographer-theme .logo-slider-details {
