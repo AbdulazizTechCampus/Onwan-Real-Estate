@@ -850,7 +850,8 @@ const Header = ({ onLoginClick, currentUser, onLogout, onOpenMap }) => {
 // Search Bar Component
 const SearchBar = ({ onSearch }) => {
   const [searchData, setSearchData] = useState({
-    type: 'sale',
+    mainCategory: 'offers', // العروض - الطلبات - المشاريع
+    subCategory: 'all', // الكل - للبيع - للإيجار
     region: '',
     city: '',
     district: '',
