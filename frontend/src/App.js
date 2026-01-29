@@ -1556,7 +1556,7 @@ const PropertyCard = ({ property }) => {
         <div className="agent-info">
           <img src={property.agent.image} alt={property.agent.name} className="agent-avatar" />
           <div className="agent-details">
-            <div className="agent-name">{property.agent.name}</div>
+            <div className="property-card-agent-name">{property.agent.name}</div>
             <div className="agent-contact-buttons">
               <a href={`https://wa.me/${property.agent.phone.replace(/[^0-9]/g, '')}`} className="contact-whatsapp-btn" target="_blank" rel="noopener noreferrer">
                 <svg viewBox="0 0 24 24" fill="currentColor">
