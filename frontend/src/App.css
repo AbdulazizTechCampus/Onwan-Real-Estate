@@ -3891,6 +3891,67 @@ body {
     margin: 20px auto;
     padding: 20px;
   }
+  
+  /* Mobile Select Picker Navigation Enhancement */
+  select {
+    -webkit-appearance: none;
+    appearance: none;
+  }
+}
+
+/* iOS/Android Select Picker Button Styles */
+@supports (-webkit-touch-callout: none) {
+  /* iOS specific styles */
+  select::-webkit-picker-done-button,
+  select::-webkit-picker-cancel-button {
+    background: var(--primary-teal) !important;
+    color: white !important;
+    font-weight: bold !important;
+    padding: 12px 24px !important;
+    border-radius: 8px !important;
+  }
+}
+
+/* Global Mobile Select Enhancement */
+@media (max-width: 768px) {
+  .search-field select,
+  .search-inputs-modern select {
+    font-size: 16px !important; /* Prevents zoom on iOS */
+    background-color: white;
+    border: 2px solid var(--primary-teal);
+    border-radius: 12px;
+    padding: 14px 16px;
+    font-weight: 500;
+    color: #333;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .search-field select:focus,
+  .search-inputs-modern select:focus {
+    outline: none;
+    border-color: var(--primary-dark);
+    box-shadow: 0 4px 12px rgba(0, 128, 128, 0.2);
+  }
+  
+  /* Custom Select Arrow */
+  .search-field,
+  .search-inputs-modern > div:has(select) {
+    position: relative;
+  }
+  
+  .search-field::after {
+    content: '';
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 8px solid var(--primary-teal);
+    pointer-events: none;
+  }
 }
 
 @media (max-width: 480px) {
