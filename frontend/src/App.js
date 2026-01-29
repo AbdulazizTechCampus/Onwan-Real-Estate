@@ -1163,17 +1163,15 @@ const PropertyIcons = {
   ),
   Bath: () => (
     <svg viewBox="0 0 24 24" className="property-icon-svg">
-      <path d="M4 12h16v0a4 4 0 01-4 4H8a4 4 0 01-4-4v0z" stroke="#6b7280" strokeWidth="1.5" fill="none"/>
-      <path d="M6 12V5a2 2 0 012-2h1" stroke="#6b7280" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
-      <path d="M6 16v2M18 16v2" stroke="#6b7280" strokeWidth="1.5" strokeLinecap="round"/>
-      <circle cx="10" cy="5" r="1" fill="#6b7280"/>
+      <path d="M20 12H4v-2c0-1.1.9-2 2-2h1V6c0-1.65 1.35-3 3-3s3 1.35 3 3v2h1c1.1 0 2 .9 2 2v2h4z" fill="#6b7280"/>
+      <path d="M4 12v5c0 1.65 1.35 3 3 3h10c1.65 0 3-1.35 3-3v-5H4z" stroke="#6b7280" strokeWidth="1.5" fill="none"/>
+      <path d="M6 20v2M18 20v2" stroke="#6b7280" strokeWidth="1.5" strokeLinecap="round"/>
     </svg>
   ),
   Age: () => (
     <svg viewBox="0 0 24 24" className="property-icon-svg">
-      <path d="M12 3L4 9v12h16V9l-8-6z" stroke="#6b7280" strokeWidth="1.5" fill="none"/>
-      <rect x="9" y="13" width="6" height="8" stroke="#6b7280" strokeWidth="1" fill="none"/>
-      <text x="12" y="11" textAnchor="middle" fill="#6b7280" fontSize="6" fontWeight="bold">سنة</text>
+      <path d="M12 3L4 9v12h5v-5c0-.55.45-1 1-1h4c.55 0 1 .45 1 1v5h5V9l-8-6z" stroke="#6b7280" strokeWidth="1.5" fill="none"/>
+      <path d="M12 3v3" stroke="#6b7280" strokeWidth="1.5" strokeLinecap="round"/>
     </svg>
   ),
   Location: () => (
