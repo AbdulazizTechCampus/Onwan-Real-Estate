@@ -4199,6 +4199,23 @@ body {
     box-shadow: 0 4px 12px rgba(0, 128, 128, 0.2);
   }
   
+  /* Unified Property Icons on Mobile */
+  .property-icon svg,
+  .property-icon-svg,
+  .property-icon-img {
+    width: 16px !important;
+    height: 16px !important;
+  }
+  
+  .property-icons {
+    gap: 10px;
+  }
+  
+  .property-icon {
+    gap: 4px;
+    font-size: 0.85rem;
+  }
+  
   /* Custom Select Arrow */
   .search-field,
   .search-inputs-modern > div:has(select) {
