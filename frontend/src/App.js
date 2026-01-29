@@ -1155,23 +1155,28 @@ const PropertyIcons = {
   ),
   Bed: () => (
     <svg viewBox="0 0 24 24" className="property-icon-svg">
-      <rect x="2" y="11" width="20" height="7" rx="1" stroke="#6b7280" strokeWidth="1.5" fill="none"/>
-      <rect x="4" y="7" width="3.5" height="4" rx="0.5" fill="#6b7280"/>
-      <rect x="16.5" y="7" width="3.5" height="4" rx="0.5" fill="#6b7280"/>
-      <path d="M2 14h20M2 18v2M22 18v2" stroke="#6b7280" strokeWidth="1.5" strokeLinecap="round"/>
+      <path d="M3 18v-5c0-1.1.9-2 2-2h14c1.1 0 2 .9 2 2v5" stroke="#6b7280" strokeWidth="1.5" fill="none"/>
+      <path d="M3 18v2M21 18v2" stroke="#6b7280" strokeWidth="1.5" strokeLinecap="round"/>
+      <rect x="5" y="8" width="4" height="3" rx="1" fill="#6b7280"/>
+      <rect x="15" y="8" width="4" height="3" rx="1" fill="#6b7280"/>
+      <path d="M3 13h18" stroke="#6b7280" strokeWidth="1.5"/>
     </svg>
   ),
   Bath: () => (
     <svg viewBox="0 0 24 24" className="property-icon-svg">
-      <path d="M20 12H4v-2c0-1.1.9-2 2-2h1V6c0-1.65 1.35-3 3-3s3 1.35 3 3v2h1c1.1 0 2 .9 2 2v2h4z" fill="#6b7280"/>
-      <path d="M4 12v5c0 1.65 1.35 3 3 3h10c1.65 0 3-1.35 3-3v-5H4z" stroke="#6b7280" strokeWidth="1.5" fill="none"/>
-      <path d="M6 20v2M18 20v2" stroke="#6b7280" strokeWidth="1.5" strokeLinecap="round"/>
+      <path d="M4 12h16" stroke="#6b7280" strokeWidth="2" strokeLinecap="round"/>
+      <path d="M4 12v5c0 1.5 1.5 3 4 3h8c2.5 0 4-1.5 4-3v-5" stroke="#6b7280" strokeWidth="1.5" fill="none"/>
+      <path d="M6 12V7c0-1.5 1-2.5 2.5-2.5c1 0 1.8.5 2.2 1.2" stroke="#6b7280" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
+      <circle cx="11" cy="6" r="1" fill="#6b7280"/>
+      <path d="M7 20v2M17 20v2" stroke="#6b7280" strokeWidth="1.5" strokeLinecap="round"/>
     </svg>
   ),
   Age: () => (
     <svg viewBox="0 0 24 24" className="property-icon-svg">
-      <path d="M12 3L4 9v12h5v-5c0-.55.45-1 1-1h4c.55 0 1 .45 1 1v5h5V9l-8-6z" stroke="#6b7280" strokeWidth="1.5" fill="none"/>
-      <path d="M12 3v3" stroke="#6b7280" strokeWidth="1.5" strokeLinecap="round"/>
+      <path d="M4 21V10l8-6 8 6v11" stroke="#6b7280" strokeWidth="1.5" fill="none" strokeLinejoin="round"/>
+      <path d="M4 21h16" stroke="#6b7280" strokeWidth="1.5"/>
+      <rect x="9" y="14" width="6" height="7" stroke="#6b7280" strokeWidth="1" fill="none"/>
+      <path d="M12 4v-2" stroke="#6b7280" strokeWidth="1.5" strokeLinecap="round"/>
     </svg>
   ),
   Location: () => (
