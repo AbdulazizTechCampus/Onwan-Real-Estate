@@ -4207,9 +4207,14 @@ body {
   /* Unified Property Icons on Mobile */
   .property-icon svg,
   .property-icon-svg,
+  .property-icon img,
   .property-icon-img {
     width: 16px !important;
     height: 16px !important;
+    min-width: 16px;
+    min-height: 16px;
+    max-width: 16px;
+    max-height: 16px;
   }
   
   .property-icons {
