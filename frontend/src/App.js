@@ -2277,34 +2277,68 @@ function App() {
           <section className="user-welcome-section">
             <div className="container">
               <div className="user-welcome-card">
-                <h2>مرحباً بك، {currentUser.full_name_arabic || currentUser.phone_number}</h2>
-                <p>نوع الحساب: {USER_TYPES[currentUser.user_type]}</p>
+                <div className="welcome-header">
+                  <div className="welcome-avatar">
+                    {currentUser.full_name_arabic ? currentUser.full_name_arabic.charAt(0) : '👤'}
+                  </div>
+                  <div className="welcome-info">
+                    <h2>مرحباً بك{currentUser.full_name_arabic ? `، ${currentUser.full_name_arabic}` : ''}</h2>
+                    <p>{currentUser.phone_number}</p>
+                  </div>
+                </div>
                 
-                <div className="verification-badges">
-                  {currentUser.is_phone_verified && (
-                    <div className="verification-badge verified">
-                      ✅ تم التحقق من رقم الهاتف
-                    </div>
-                  )}
+                <div className="verification-status">
+                  <div className="status-item verified">
+                    <span className="status-icon">✅</span>
+                    <span>رقم الهاتف مُوثق</span>
+                  </div>
                   
-                  {currentUser.is_nafath_verified && (
-                    <div className="verification-badge verified">
-                      ✅ تم التحقق من الهوية عبر النفاذ الوطني
+                  {currentUser.is_nafath_verified ? (
+                    <div className="status-item verified">
+                      <span className="status-icon">✅</span>
+                      <span>الهوية مُوثقة عبر نفاذ</span>
+                    </div>
+                  ) : (
+                    <div className="status-item pending">
+                      <span className="status-icon">🔓</span>
+                      <span>الهوية غير مُوثقة</span>
                     </div>
                   )}
+                </div>
+                
+                {/* Quick Actions */}
+                <div className="quick-actions">
+                  <button 
+                    className="quick-action-btn"
+                    onClick={handleAddProperty}
+                  >
+                    <span className="action-icon">🏠</span>
+                    <span>إضافة عقار</span>
+                    {!currentUser.is_nafath_verified && <span className="requires-nafath">نفاذ</span>}
+                  </button>
                   
-                  {!currentUser.is_nafath_verified && 
-                   ['property_owner', 'broker_individual', 'broker_company'].includes(currentUser.user_type) && (
-                    <div className="verification-badge pending">
-                      ⚠️ يتطلب التحقق من الهوية عبر النفاذ الوطني
-                      <button 
-                        onClick={() => setShowLoginModal(true)} 
-                        className="verify-btn"
-                      >
-                        التحقق الآن
-                      </button>
-                    </div>
-                  )}
+                  <button 
+                    className="quick-action-btn"
+                    onClick={handleMediationContract}
+                  >
+                    <span className="action-icon">📋</span>
+                    <span>عقد وساطة</span>
+                    {!currentUser.is_nafath_verified && <span className="requires-nafath">نفاذ</span>}
+                  </button>
+                  
+                  <button 
+                    className="quick-action-btn"
+                    onClick={handleMarketingContract}
+                  >
+                    <span className="action-icon">📢</span>
+                    <span>عقد تسويق</span>
+                    {!currentUser.is_nafath_verified && <span className="requires-nafath">نفاذ</span>}
+                  </button>
+                  
+                  <button className="quick-action-btn">
+                    <span className="action-icon">❤️</span>
+                    <span>المفضلة</span>
+                  </button>
                 </div>
               </div>
             </div>
