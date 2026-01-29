@@ -418,28 +418,35 @@ body {
   
   /* Modern Search Bar Mobile */
   .main-tabs {
-    flex-wrap: wrap;
-    gap: 10px;
+    flex-wrap: nowrap;
+    gap: 5px;
+    overflow-x: auto;
+    justify-content: flex-start;
+    width: 100%;
   }
   
   .main-tab {
-    padding: 10px 20px;
-    font-size: 14px;
+    padding: 10px 16px;
+    font-size: 13px;
+    white-space: nowrap;
+    flex-shrink: 0;
   }
   
   .main-tab .tab-icon {
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
   }
   
   .sub-tabs {
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     justify-content: center;
+    width: auto;
   }
   
   .sub-tab {
-    padding: 8px 18px;
+    padding: 8px 20px;
     font-size: 13px;
+    white-space: nowrap;
   }
   
   .search-inputs-modern {
