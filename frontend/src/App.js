@@ -1188,10 +1188,10 @@ const PropertyIcons = {
     </svg>
   ),
   Bed: () => (
-    <img src="https://customer-assets.emergentagent.com/job_onwan-homes/artifacts/vf3xk8vc_image.png" alt="غرف" className="property-icon-img" />
+    <img src="https://customer-assets.emergentagent.com/job_realty-revamp-2/artifacts/3ml43wgk_%D8%A3%D9%8A%D9%82%D9%88%D9%86%D8%A9%20%D8%A7%D9%84%D8%B3%D8%B1%D9%8A%D8%B1%20%D8%A7%D9%84%D8%B4%D9%81%D8%A7%D9%81%D8%A9.png" alt="غرف" className="property-icon-img" />
   ),
   Bath: () => (
-    <img src="https://customer-assets.emergentagent.com/job_onwan-homes/artifacts/z0gb42g6_image.png" alt="حمامات" className="property-icon-img" />
+    <img src="https://customer-assets.emergentagent.com/job_realty-revamp-2/artifacts/ahx20r6u_%D8%A3%D9%8A%D9%82%D9%88%D9%86%D8%A9%20%D8%A7%D9%84%D8%AD%D9%88%D8%B6%20%D8%A7%D9%84%D8%B4%D9%81%D8%A7%D9%81%D8%A9.png" alt="حمامات" className="property-icon-img" />
   ),
   Age: () => (
     <svg viewBox="0 0 24 24" className="property-icon-svg">

@@ -2194,6 +2194,15 @@ body {
   flex-shrink: 0;
 }
 
+/* Property Icon Images (Bed, Bath) */
+.property-icon-img {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+
 /* Red location icon */
 .location-red {
   filter: drop-shadow(0 1px 3px rgba(239, 68, 68, 0.3));
