@@ -2216,10 +2216,10 @@ body {
 }
 
 .property-card-agent-name {
-  font-size: 0.7rem;
+  font-size: 0.82rem;
   font-weight: 500;
   color: #2d3748;
-  margin-bottom: 4px;
+  margin-bottom: 5px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
