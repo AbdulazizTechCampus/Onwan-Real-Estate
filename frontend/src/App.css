@@ -2554,11 +2554,11 @@ body {
 }
 
 .logo-slider-section.photographer-theme .logo-slider-viewport::before {
-  background: linear-gradient(to left, #9061d9 0%, transparent 100%);
+  background: linear-gradient(to left, #a78bfa 0%, transparent 100%);
 }
 
 .logo-slider-section.photographer-theme .logo-slider-viewport::after {
-  background: linear-gradient(to right, #9061d9 0%, transparent 100%);
+  background: linear-gradient(to right, #a78bfa 0%, transparent 100%);
 }
 
 .logo-placeholder.photographer-icon {
