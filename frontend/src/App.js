@@ -1189,20 +1189,22 @@ const PropertyIcons = {
   ),
   Bed: () => (
     <svg viewBox="0 0 24 24" className="property-icon-svg">
-      <path d="M3 18v-5c0-1.1.9-2 2-2h14c1.1 0 2 .9 2 2v5" stroke="#6b7280" strokeWidth="1.5" fill="none"/>
-      <path d="M3 18v2M21 18v2" stroke="#6b7280" strokeWidth="1.5" strokeLinecap="round"/>
-      <rect x="5" y="8" width="4" height="3" rx="1" fill="#6b7280"/>
-      <rect x="15" y="8" width="4" height="3" rx="1" fill="#6b7280"/>
-      <path d="M3 13h18" stroke="#6b7280" strokeWidth="1.5"/>
+      <path d="M2 18v-5c0-1 .5-2 2-2h16c1.5 0 2 1 2 2v5" stroke="#6b7280" strokeWidth="1.5" fill="none"/>
+      <path d="M2 13V9c0-1 .5-1.5 1.5-1.5h17c1 0 1.5.5 1.5 1.5v4" stroke="#6b7280" strokeWidth="1.5" fill="none"/>
+      <path d="M4 9c0-2 1-3 3-3h10c2 0 3 1 3 3" stroke="#6b7280" strokeWidth="1.5" fill="none"/>
+      <rect x="6" y="9" width="4" height="2" rx="0.5" fill="#6b7280"/>
+      <rect x="14" y="9" width="4" height="2" rx="0.5" fill="#6b7280"/>
+      <path d="M2 18v2M22 18v2" stroke="#6b7280" strokeWidth="1.5" strokeLinecap="round"/>
     </svg>
   ),
   Bath: () => (
     <svg viewBox="0 0 24 24" className="property-icon-svg">
-      <path d="M4 12h16" stroke="#6b7280" strokeWidth="2" strokeLinecap="round"/>
-      <path d="M4 12v5c0 1.5 1.5 3 4 3h8c2.5 0 4-1.5 4-3v-5" stroke="#6b7280" strokeWidth="1.5" fill="none"/>
-      <path d="M6 12V7c0-1.5 1-2.5 2.5-2.5c1 0 1.8.5 2.2 1.2" stroke="#6b7280" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
-      <circle cx="11" cy="6" r="1" fill="#6b7280"/>
-      <path d="M7 20v2M17 20v2" stroke="#6b7280" strokeWidth="1.5" strokeLinecap="round"/>
+      <path d="M4 12h16c0 5-3 7-8 7s-8-2-8-7z" stroke="#6b7280" strokeWidth="1.5" fill="none"/>
+      <path d="M6 12V7c0-2 1.5-3 3-3s2.5 1 2.5 2" stroke="#6b7280" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
+      <path d="M11 6h3v2h-1v4" stroke="#6b7280" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
+      <rect x="16" y="10" width="2" height="4" rx="0.5" fill="#6b7280"/>
+      <path d="M7 19v2M17 19v2" stroke="#6b7280" strokeWidth="1.5" strokeLinecap="round"/>
+      <ellipse cx="8" cy="4" rx="1" ry="0.5" fill="#6b7280"/>
     </svg>
   ),
   Age: () => (
