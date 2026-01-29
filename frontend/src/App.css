@@ -2839,11 +2839,11 @@ body {
 }
 
 .broker-theme .logo-slider-viewport::before {
-  background: linear-gradient(to left, #2d8a9e 0%, transparent 100%);
+  background: linear-gradient(to left, #5fb8c9 0%, transparent 100%);
 }
 
 .broker-theme .logo-slider-viewport::after {
-  background: linear-gradient(to right, #2d8a9e 0%, transparent 100%);
+  background: linear-gradient(to right, #5fb8c9 0%, transparent 100%);
 }
 
 .logo-slider-track-centered {
