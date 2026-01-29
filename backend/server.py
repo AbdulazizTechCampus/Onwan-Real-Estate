@@ -207,16 +207,68 @@ class OTPManager:
         else:
             return {'valid': False, 'reason': 'invalid_code'}
 
-# SMS Service (Mock for development)
+# SMS Service (Unifonic Integration with Dev Mode fallback)
 class SMSService:
-    @staticmethod
-    async def send_sms(phone_number: str, message: str) -> str:
-        # Mock SMS sending
-        logger.info(f"SMS sent to {phone_number}: {message}")
-        return f"mock_msg_id_{secrets.token_hex(8)}"
+    UNIFONIC_BASE_URL = "https://el.cloud.unifonic.com/rest"
     
     @staticmethod
-    async def send_otp_message(phone_number: str, otp_code: str, language: str = 'ar') -> str:
+    async def send_sms_unifonic(phone_number: str, message: str) -> Dict[str, Any]:
+        """Send SMS via Unifonic API"""
+        app_sid = os.environ.get('UNIFONIC_APP_SID')
+        sender_id = os.environ.get('UNIFONIC_SENDER_ID', 'Onwan')
+        
+        if not app_sid:
+            return {'success': False, 'error': 'Unifonic not configured'}
+        
+        # Format phone number for Saudi Arabia
+        formatted_phone = phone_number
+        if phone_number.startswith('05'):
+            formatted_phone = '966' + phone_number[1:]
+        elif phone_number.startswith('5'):
+            formatted_phone = '966' + phone_number
+        elif not phone_number.startswith('966') and not phone_number.startswith('+966'):
+            formatted_phone = '966' + phone_number
+        
+        formatted_phone = formatted_phone.replace('+', '')
+        
+        try:
+            import requests
+            response = requests.post(
+                f"{SMSService.UNIFONIC_BASE_URL}/SMS/messages",
+                data={
+                    'AppSid': app_sid,
+                    'SenderID': sender_id,
+                    'Body': message,
+                    'Recipient': formatted_phone
+                }
+            )
+            
+            result = response.json()
+            if response.status_code == 200 and result.get('success') == 'true':
+                return {'success': True, 'message_id': result.get('data', {}).get('MessageID')}
+            else:
+                logger.error(f"Unifonic error: {result}")
+                return {'success': False, 'error': result.get('message', 'Unknown error')}
+                
+        except Exception as e:
+            logger.error(f"Unifonic request failed: {e}")
+            return {'success': False, 'error': str(e)}
+    
+    @staticmethod
+    async def send_sms(phone_number: str, message: str) -> Dict[str, Any]:
+        """Send SMS - uses Unifonic if configured, otherwise mock"""
+        dev_mode = os.environ.get('DEV_MODE', 'true').lower() == 'true'
+        unifonic_configured = bool(os.environ.get('UNIFONIC_APP_SID'))
+        
+        if unifonic_configured and not dev_mode:
+            return await SMSService.send_sms_unifonic(phone_number, message)
+        else:
+            # Mock SMS for development
+            logger.info(f"[DEV MODE] SMS to {phone_number}: {message}")
+            return {'success': True, 'message_id': f"mock_{secrets.token_hex(8)}", 'dev_mode': True}
+    
+    @staticmethod
+    async def send_otp_message(phone_number: str, otp_code: str, language: str = 'ar') -> Dict[str, Any]:
         if language == 'ar':
             message = f"رمز التحقق الخاص بك في منصة عنوان هو: {otp_code}. صالح لمدة 5 دقائق."
         else:
