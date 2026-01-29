@@ -1157,15 +1157,17 @@ const PropertyIcons = {
   ),
   Bath: () => (
     <svg viewBox="0 0 24 24" className="property-icon-svg">
-      <ellipse cx="12" cy="15" rx="9" ry="5" stroke="#6b7280" strokeWidth="1.5" fill="none"/>
-      <path d="M12 5v5" stroke="#6b7280" strokeWidth="2" strokeLinecap="round"/>
-      <circle cx="7" cy="15" r="0.8" fill="#6b7280"/>
-      <circle cx="12" cy="16" r="0.8" fill="#6b7280"/>
-      <circle cx="17" cy="15" r="0.8" fill="#6b7280"/>
-      <circle cx="9" cy="13" r="0.5" fill="#6b7280"/>
-      <circle cx="15" cy="17" r="0.5" fill="#6b7280"/>
-      <circle cx="10" cy="17" r="0.4" fill="#6b7280"/>
-      <circle cx="14" cy="13" r="0.4" fill="#6b7280"/>
+      <path d="M4 12h16v0a4 4 0 01-4 4H8a4 4 0 01-4-4v0z" stroke="#6b7280" strokeWidth="1.5" fill="none"/>
+      <path d="M6 12V5a2 2 0 012-2h1" stroke="#6b7280" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
+      <path d="M6 16v2M18 16v2" stroke="#6b7280" strokeWidth="1.5" strokeLinecap="round"/>
+      <circle cx="10" cy="5" r="1" fill="#6b7280"/>
+    </svg>
+  ),
+  Age: () => (
+    <svg viewBox="0 0 24 24" className="property-icon-svg">
+      <path d="M12 3L4 9v12h16V9l-8-6z" stroke="#6b7280" strokeWidth="1.5" fill="none"/>
+      <rect x="9" y="13" width="6" height="8" stroke="#6b7280" strokeWidth="1" fill="none"/>
+      <text x="12" y="11" textAnchor="middle" fill="#6b7280" fontSize="6" fontWeight="bold">سنة</text>
     </svg>
   ),
   Location: () => (
