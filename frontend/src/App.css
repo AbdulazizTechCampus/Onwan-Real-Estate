@@ -2209,10 +2209,10 @@ body {
 }
 
 .agent-name {
-  font-size: 0.75rem;
+  font-size: 0.65rem;
   font-weight: 500;
   color: #2d3748;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 /* New Contact Buttons - Like Support Card */
