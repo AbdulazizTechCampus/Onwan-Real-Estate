@@ -2170,7 +2170,7 @@ body {
 /* Property Card Icons - Simple Gray Design */
 .property-icons {
   display: flex;
-  gap: 15px;
+  gap: 12px;
   flex-wrap: wrap;
   margin: 15px 0;
   align-items: center;
@@ -2179,7 +2179,7 @@ body {
 .property-icon {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   background: transparent;
   border: none;
   padding: 0;
@@ -2190,9 +2190,14 @@ body {
 
 .property-icon svg,
 .property-icon-svg,
+.property-icon img,
 .property-icon-img {
-  width: 18px;
-  height: 18px;
+  width: 18px !important;
+  height: 18px !important;
+  min-width: 18px;
+  min-height: 18px;
+  max-width: 18px;
+  max-height: 18px;
   flex-shrink: 0;
   object-fit: contain;
 }
