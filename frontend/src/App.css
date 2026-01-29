@@ -1233,50 +1233,52 @@ body {
 
 /* Main Tabs Container */
 .main-tabs-container {
-  background: rgba(255, 255, 255, 0.08);
-  padding: 20px 30px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 18px 30px;
+  display: flex;
+  justify-content: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .main-tabs {
   display: flex;
-  gap: 15px;
-  justify-content: center;
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 12px;
+  padding: 5px;
+  gap: 5px;
 }
 
 .main-tab {
   display: flex;
   align-items: center;
-  gap: 10px;
-  background: rgba(255, 255, 255, 0.1);
-  border: 2px solid rgba(255, 255, 255, 0.15);
-  color: rgba(255, 255, 255, 0.85);
-  padding: 14px 32px;
-  border-radius: 50px;
+  justify-content: center;
+  gap: 8px;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  padding: 10px 24px;
+  border-radius: 10px;
   cursor: pointer;
   transition: all 0.3s ease;
-  font-weight: 600;
-  font-size: 16px;
+  font-weight: 500;
+  font-size: 14px;
 }
 
 .main-tab .tab-icon {
-  width: 22px;
-  height: 22px;
+  width: 18px;
+  height: 18px;
   opacity: 0.8;
 }
 
 .main-tab:hover {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: rgba(255, 255, 255, 0.3);
-  transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  color: white;
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .main-tab.active {
-  background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+  background: white;
   color: var(--primary-teal);
-  border-color: white;
-  box-shadow: 0 8px 30px rgba(255, 255, 255, 0.25);
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .main-tab.active .tab-icon {
@@ -1285,7 +1287,7 @@ body {
 
 /* Sub Tabs Container */
 .sub-tabs-container {
-  padding: 18px 30px;
+  padding: 15px 30px;
   display: flex;
   justify-content: center;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
