@@ -269,6 +269,7 @@ const SAMPLE_PROPERTIES = [
     area: '800',
     bedrooms: 8,
     bathrooms: 6,
+    age: 4,
     type: 'villa',
     category: 'residential',
     image: 'https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Njl8MHwxfHNlYXJjaHwzfHxsdXh1cnklMjByZWFsJTIwZXN0YXRlfGVufDB8fHx8MTc1NTI2OTg1NHww&ixlib=rb-4.1.0&q=85',
