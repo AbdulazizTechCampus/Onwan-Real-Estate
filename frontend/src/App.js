@@ -1809,44 +1809,20 @@ const RegionsCarousel = () => {
   );
 };
 
-// Login Modal Component - Enhanced with OTP display for dev mode
+// Login Modal Component - Simplified (OTP only, Nafath when needed)
 const LoginModal = ({ isOpen, onClose, onSuccess }) => {
   const [step, setStep] = useState('phone');
   const [formData, setFormData] = useState({
     phone_number: '',
-    user_type: 'property_seeker',
-    otp_code: '',
-    national_id: ''
+    otp_code: ''
   });
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
-  const [userTypes, setUserTypes] = useState([]);
-  const [requiresNafath, setRequiresNafath] = useState(false);
   const [devOtpCode, setDevOtpCode] = useState(null);
-
-  useEffect(() => {
-    fetchUserTypes();
-  }, []);
-
-  const fetchUserTypes = async () => {
-    try {
-      const response = await axios.get(`${API}/user-types`);
-      // Filter out visitor type
-      const filteredTypes = response.data.user_types.filter(type => type.key !== 'visitor');
-      setUserTypes(filteredTypes);
-    } catch (error) {
-      console.error('Failed to fetch user types:', error);
-    }
-  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-    
-    if (name === 'user_type') {
-      const selectedType = userTypes.find(type => type.key === value);
-      setRequiresNafath(selectedType?.requires_nafath || false);
-    }
   };
 
   const sendOTP = async () => {
@@ -1857,13 +1833,11 @@ const LoginModal = ({ isOpen, onClose, onSuccess }) => {
     try {
       const response = await axios.post(`${API}/auth/send-otp`, {
         phone_number: formData.phone_number,
-        user_type: formData.user_type,
         language: 'ar'
       });
       
       if (response.data.success) {
         setMessage(response.data.message);
-        // Store dev OTP if available
         if (response.data.dev_mode && response.data.otp_code) {
           setDevOtpCode(response.data.otp_code);
         }
@@ -1883,21 +1857,14 @@ const LoginModal = ({ isOpen, onClose, onSuccess }) => {
     try {
       const response = await axios.post(`${API}/auth/verify-otp`, {
         phone_number: formData.phone_number,
-        otp_code: formData.otp_code,
-        user_type: formData.user_type
+        otp_code: formData.otp_code
       });
       
       if (response.data.success) {
         localStorage.setItem('access_token', response.data.access_token);
         localStorage.setItem('user_data', JSON.stringify(response.data.user));
-        
-        if (requiresNafath && !response.data.user.is_nafath_verified) {
-          setStep('nafath');
-          setMessage('يتطلب التحقق من الهوية عبر النفاذ الوطني');
-        } else {
-          onSuccess(response.data.user);
-          resetAndClose();
-        }
+        onSuccess(response.data.user);
+        resetAndClose();
       }
     } catch (error) {
       setMessage(error.response?.data?.detail || 'خطأ في التحقق من الرمز');
@@ -1906,54 +1873,12 @@ const LoginModal = ({ isOpen, onClose, onSuccess }) => {
     }
   };
 
-  const verifyNafath = async () => {
-    setLoading(true);
-    setMessage('');
-    
-    try {
-      const token = localStorage.getItem('access_token');
-      const response = await axios.post(`${API}/auth/nafath/verify`, {
-        national_id: formData.national_id,
-        phone_number: formData.phone_number
-      }, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      
-      if (response.data.success) {
-        setMessage(response.data.message);
-        const profileResponse = await axios.get(`${API}/auth/profile`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        
-        localStorage.setItem('user_data', JSON.stringify(profileResponse.data.user));
-        onSuccess(profileResponse.data.user);
-        resetAndClose();
-      }
-    } catch (error) {
-      setMessage(error.response?.data?.detail || 'خطأ في التحقق من النفاذ الوطني');
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const resetAndClose = () => {
     onClose();
     setStep('phone');
-    setFormData({ phone_number: '', user_type: 'property_seeker', otp_code: '', national_id: '' });
+    setFormData({ phone_number: '', otp_code: '' });
     setDevOtpCode(null);
     setMessage('');
-  };
-
-  const getUserTypeIcon = (type) => {
-    const icons = {
-      'property_seeker': '🏠',
-      'property_owner': '🔑',
-      'broker_individual': '👤',
-      'broker_company': '🏢',
-      'photographer': '📷',
-      'admin': '⚙️'
-    };
-    return icons[type] || '👤';
   };
 
   if (!isOpen) return null;
@@ -1965,55 +1890,29 @@ const LoginModal = ({ isOpen, onClose, onSuccess }) => {
         
         {/* Progress Steps */}
         <div className="auth-progress">
-          <div className={`progress-step ${step === 'phone' ? 'active' : step !== 'phone' ? 'completed' : ''}`}>
+          <div className={`progress-step ${step === 'phone' ? 'active' : 'completed'}`}>
             <div className="step-circle">1</div>
             <span>رقم الهاتف</span>
           </div>
-          <div className={`progress-line ${step !== 'phone' ? 'active' : ''}`}></div>
-          <div className={`progress-step ${step === 'otp' ? 'active' : step === 'nafath' ? 'completed' : ''}`}>
+          <div className={`progress-line ${step === 'otp' ? 'active' : ''}`}></div>
+          <div className={`progress-step ${step === 'otp' ? 'active' : ''}`}>
             <div className="step-circle">2</div>
             <span>رمز التحقق</span>
           </div>
-          {requiresNafath && (
-            <>
-              <div className={`progress-line ${step === 'nafath' ? 'active' : ''}`}></div>
-              <div className={`progress-step ${step === 'nafath' ? 'active' : ''}`}>
-                <div className="step-circle">3</div>
-                <span>النفاذ</span>
-              </div>
-            </>
-          )}
         </div>
 
         <div className="auth-modal-body">
           {step === 'phone' && (
             <div className="auth-step">
               <div className="auth-header">
+                <div className="auth-logo">
+                  <img src="https://customer-assets.emergentagent.com/job_onwan-homes/artifacts/obrzkr9d_Logo%2010201.png" alt="عنوان" className="auth-logo-img" />
+                </div>
                 <h2>مرحباً بك في عنوان</h2>
-                <p>سجل دخولك للوصول إلى جميع الخدمات</p>
+                <p>سجل دخولك برقم الهاتف للوصول إلى جميع الخدمات</p>
               </div>
               
               <div className="auth-form">
-                <div className="form-group">
-                  <label>نوع الحساب</label>
-                  <div className="user-type-grid">
-                    {userTypes.map(type => (
-                      <div 
-                        key={type.key}
-                        className={`user-type-card ${formData.user_type === type.key ? 'selected' : ''}`}
-                        onClick={() => {
-                          setFormData(prev => ({ ...prev, user_type: type.key }));
-                          setRequiresNafath(type.requires_nafath);
-                        }}
-                      >
-                        <span className="user-type-icon">{getUserTypeIcon(type.key)}</span>
-                        <span className="user-type-name">{type.name_arabic}</span>
-                        {type.requires_nafath && <span className="nafath-badge">نفاذ</span>}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                
                 <div className="form-group">
                   <label>رقم الهاتف</label>
                   <div className="phone-input-wrapper">
@@ -2031,15 +1930,6 @@ const LoginModal = ({ isOpen, onClose, onSuccess }) => {
                   </div>
                 </div>
                 
-                {requiresNafath && (
-                  <div className="nafath-notice">
-                    <svg viewBox="0 0 24 24" width="20" height="20" fill="#0B3954">
-                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
-                    </svg>
-                    <span>هذا النوع يتطلب التحقق عبر النفاذ الوطني</span>
-                  </div>
-                )}
-                
                 <button
                   onClick={sendOTP}
                   disabled={loading || !formData.phone_number || formData.phone_number.length < 9}
@@ -2052,6 +1942,10 @@ const LoginModal = ({ isOpen, onClose, onSuccess }) => {
                     </span>
                   ) : 'إرسال رمز التحقق'}
                 </button>
+                
+                <p className="auth-terms">
+                  بتسجيل الدخول، أنت توافق على <a href="#terms">شروط الاستخدام</a> و <a href="#privacy">سياسة الخصوصية</a>
+                </p>
               </div>
             </div>
           )}
@@ -2061,7 +1955,7 @@ const LoginModal = ({ isOpen, onClose, onSuccess }) => {
               <div className="auth-header">
                 <h2>أدخل رمز التحقق</h2>
                 <p>تم إرسال رمز مكون من 6 أرقام إلى</p>
-                <p className="phone-display">{formData.phone_number}</p>
+                <p className="phone-display">{formData.phone_number}+966</p>
               </div>
               
               {/* Dev Mode OTP Display */}
@@ -2114,59 +2008,142 @@ const LoginModal = ({ isOpen, onClose, onSuccess }) => {
             </div>
           )}
           
-          {step === 'nafath' && (
-            <div className="auth-step">
-              <div className="auth-header">
-                <div className="nafath-logo">
-                  <svg viewBox="0 0 100 100" width="60" height="60">
-                    <circle cx="50" cy="50" r="45" fill="#0B3954" />
-                    <text x="50" y="58" textAnchor="middle" fill="white" fontSize="20" fontWeight="bold">نفاذ</text>
-                  </svg>
-                </div>
-                <h2>التحقق من الهوية</h2>
-                <p>يرجى إدخال رقم الهوية الوطنية للتحقق عبر النفاذ الوطني</p>
-              </div>
-              
-              <div className="auth-form">
-                <div className="form-group">
-                  <label>رقم الهوية الوطنية</label>
-                  <input
-                    type="text"
-                    name="national_id"
-                    value={formData.national_id}
-                    onChange={handleInputChange}
-                    placeholder="1xxxxxxxxx"
-                    className="form-input"
-                    maxLength="10"
-                    dir="ltr"
-                  />
-                </div>
-                
-                <div className="nafath-info">
-                  <p>⚠️ هذا وضع اختبار - في الإنتاج سيتم التحقق عبر تطبيق نفاذ</p>
-                </div>
-                
-                <button
-                  onClick={verifyNafath}
-                  disabled={loading || formData.national_id.length !== 10}
-                  className="auth-submit-btn nafath-btn"
-                >
-                  {loading ? (
-                    <span className="btn-loading">
-                      <span className="spinner"></span>
-                      جاري التحقق...
-                    </span>
-                  ) : 'التحقق عبر النفاذ الوطني'}
-                </button>
-              </div>
-            </div>
-          )}
-          
           {message && (
             <div className={`auth-message ${message.includes('خطأ') ? 'error' : 'success'}`}>
               {message}
             </div>
           )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Nafath Verification Modal - Shows when protected service is accessed
+const NafathModal = ({ isOpen, onClose, onSuccess, serviceName }) => {
+  const [formData, setFormData] = useState({ national_id: '' });
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState('');
+
+  const handleInputChange = (e) => {
+    setFormData({ national_id: e.target.value });
+  };
+
+  const verifyNafath = async () => {
+    setLoading(true);
+    setMessage('');
+    
+    try {
+      const token = localStorage.getItem('access_token');
+      const userData = JSON.parse(localStorage.getItem('user_data') || '{}');
+      
+      const response = await axios.post(`${API}/auth/nafath/verify`, {
+        national_id: formData.national_id,
+        phone_number: userData.phone_number
+      }, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      
+      if (response.data.success) {
+        // Update local user data
+        const profileResponse = await axios.get(`${API}/auth/profile`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        localStorage.setItem('user_data', JSON.stringify(profileResponse.data.user));
+        
+        setMessage('تم التحقق بنجاح!');
+        setTimeout(() => {
+          onSuccess(profileResponse.data.user);
+          onClose();
+          setFormData({ national_id: '' });
+          setMessage('');
+        }, 1000);
+      }
+    } catch (error) {
+      setMessage(error.response?.data?.detail || 'خطأ في التحقق من النفاذ الوطني');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-content auth-modal nafath-modal" onClick={(e) => e.stopPropagation()}>
+        <button className="modal-close-btn" onClick={onClose}>×</button>
+        
+        <div className="auth-modal-body">
+          <div className="auth-step">
+            <div className="auth-header">
+              <div className="nafath-logo">
+                <svg viewBox="0 0 100 100" width="70" height="70">
+                  <circle cx="50" cy="50" r="45" fill="#0B3954" />
+                  <text x="50" y="58" textAnchor="middle" fill="white" fontSize="18" fontWeight="bold">نفاذ</text>
+                </svg>
+              </div>
+              <h2>التحقق من الهوية مطلوب</h2>
+              <p>لاستخدام خدمة <strong>{serviceName}</strong></p>
+              <p>يجب التحقق من هويتك عبر النفاذ الوطني</p>
+            </div>
+            
+            <div className="nafath-benefits">
+              <div className="benefit-item">
+                <span className="benefit-icon">🔒</span>
+                <span>حماية حسابك وبياناتك</span>
+              </div>
+              <div className="benefit-item">
+                <span className="benefit-icon">✅</span>
+                <span>التحقق مرة واحدة فقط</span>
+              </div>
+              <div className="benefit-item">
+                <span className="benefit-icon">⚡</span>
+                <span>الوصول لجميع الخدمات</span>
+              </div>
+            </div>
+            
+            <div className="auth-form">
+              <div className="form-group">
+                <label>رقم الهوية الوطنية</label>
+                <input
+                  type="text"
+                  value={formData.national_id}
+                  onChange={handleInputChange}
+                  placeholder="1xxxxxxxxx"
+                  className="form-input"
+                  maxLength="10"
+                  dir="ltr"
+                />
+              </div>
+              
+              <div className="nafath-info">
+                <p>⚠️ وضع اختبار - في الإنتاج سيتم التحقق عبر تطبيق نفاذ</p>
+              </div>
+              
+              <button
+                onClick={verifyNafath}
+                disabled={loading || formData.national_id.length !== 10}
+                className="auth-submit-btn nafath-btn"
+              >
+                {loading ? (
+                  <span className="btn-loading">
+                    <span className="spinner"></span>
+                    جاري التحقق...
+                  </span>
+                ) : 'التحقق عبر النفاذ الوطني'}
+              </button>
+              
+              <button onClick={onClose} className="auth-cancel-btn">
+                إلغاء
+              </button>
+            </div>
+            
+            {message && (
+              <div className={`auth-message ${message.includes('خطأ') ? 'error' : 'success'}`}>
+                {message}
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>
