@@ -2345,15 +2345,11 @@ function App() {
             
             {/* Policy Links */}
             <div className="footer-policy-links">
-              <a href="#invitation">الدعوة</a>
-              <span className="footer-divider">|</span>
               <a href="#about">من نحن</a>
               <span className="footer-divider">|</span>
-              <a href="#privacy">سياسة الخصوصية</a>
+              <a href="#terms">السياسات والأحكام</a>
               <span className="footer-divider">|</span>
-              <a href="#terms">شروط الاستخدام</a>
-              <span className="footer-divider">|</span>
-              <a href="#ad-terms">شروط الإعلان عبر الموقع</a>
+              <a href="#support">الدعم</a>
             </div>
             
             {/* Language Switcher */}
