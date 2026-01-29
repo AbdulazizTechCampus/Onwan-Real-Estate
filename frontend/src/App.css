@@ -4372,6 +4372,234 @@ body {
   }
 }
 
+/* Auth Logo */
+.auth-logo {
+  margin-bottom: 15px;
+}
+
+.auth-logo-img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+}
+
+/* Auth Terms */
+.auth-terms {
+  text-align: center;
+  font-size: 0.8rem;
+  color: #94a3b8;
+  margin-top: 15px;
+}
+
+.auth-terms a {
+  color: var(--primary-teal);
+  text-decoration: none;
+}
+
+.auth-terms a:hover {
+  text-decoration: underline;
+}
+
+/* Auth Cancel Button */
+.auth-cancel-btn {
+  width: 100%;
+  background: transparent;
+  color: #64748b;
+  border: 1px solid #e2e8f0;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: all 0.2s ease;
+}
+
+.auth-cancel-btn:hover {
+  background: #f1f5f9;
+}
+
+/* Nafath Modal */
+.nafath-modal {
+  max-width: 420px;
+}
+
+/* Nafath Benefits */
+.nafath-benefits {
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.benefit-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+}
+
+.benefit-item:not(:last-child) {
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.benefit-icon {
+  font-size: 1.2rem;
+}
+
+.benefit-item span:last-child {
+  color: #475569;
+  font-size: 0.9rem;
+}
+
+/* ========================================
+   USER WELCOME SECTION - Enhanced
+   ======================================== */
+
+.user-welcome-section {
+  padding: 25px 0;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+}
+
+.user-welcome-card {
+  background: white;
+  border-radius: 16px;
+  padding: 25px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.welcome-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.welcome-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary-teal) 0%, var(--primary-dark) 100%);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.welcome-info h2 {
+  font-size: 1.3rem;
+  color: #1e293b;
+  margin: 0;
+}
+
+.welcome-info p {
+  color: #64748b;
+  font-size: 0.95rem;
+  margin: 5px 0 0;
+  direction: ltr;
+  text-align: right;
+}
+
+/* Verification Status */
+.verification-status {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.status-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+}
+
+.status-item.verified {
+  background: rgba(16, 185, 129, 0.1);
+  color: #065f46;
+}
+
+.status-item.pending {
+  background: rgba(245, 158, 11, 0.1);
+  color: #92400e;
+}
+
+.status-icon {
+  font-size: 1rem;
+}
+
+/* Quick Actions */
+.quick-actions {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.quick-action-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 18px 12px;
+  background: #f8fafc;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.quick-action-btn:hover {
+  border-color: var(--primary-teal);
+  background: rgba(8, 126, 139, 0.05);
+  transform: translateY(-2px);
+}
+
+.action-icon {
+  font-size: 1.5rem;
+}
+
+.quick-action-btn span:nth-child(2) {
+  font-size: 0.85rem;
+  color: #374151;
+  font-weight: 500;
+}
+
+.requires-nafath {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  background: #0B3954;
+  color: white;
+  font-size: 0.6rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .quick-actions {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .welcome-header {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .welcome-info p {
+    text-align: center;
+  }
+  
+  .verification-status {
+    justify-content: center;
+  }
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
   .header-nav {
