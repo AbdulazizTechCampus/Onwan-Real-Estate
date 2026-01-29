@@ -1471,6 +1471,12 @@ const PropertyCard = ({ property }) => {
                 {property.bathrooms}
               </div>
             )}
+            {property.age !== undefined && (
+              <div className="property-icon">
+                <PropertyIcons.Age />
+                {property.age === 0 ? 'جديد' : property.age}
+              </div>
+            )}
           </div>
         </div>
         
