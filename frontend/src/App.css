@@ -426,17 +426,32 @@ body {
   }
   
   .carousel-wrapper {
-    gap: 10px;
+    position: relative;
   }
   
   .carousel-side-arrow {
-    width: 40px;
-    height: 40px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 36px;
+    height: 36px;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+    z-index: 10;
+    opacity: 0.8;
+  }
+  
+  .carousel-side-arrow.left {
+    right: 5px;
+  }
+  
+  .carousel-side-arrow.right {
+    left: 5px;
   }
   
   .carousel-side-arrow svg {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
   }
   
   .carousel-nav {
