@@ -2201,10 +2201,10 @@ body {
 }
 
 .agent-name {
-  font-size: 0.9rem;
+  font-size: 0.75rem;
   font-weight: 500;
   color: #2d3748;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 /* New Contact Buttons - Like Support Card */
