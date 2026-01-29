@@ -967,35 +967,66 @@ const SearchBar = ({ onSearch }) => {
   return (
     <section className="search-section">
       <div className="container">
-        <div className="search-bar">
-          <div className="search-tabs">
-            <button 
-              className={`search-tab ${searchData.type === 'sale' ? 'active' : ''}`}
-              onClick={() => setSearchData(prev => ({ ...prev, type: 'sale' }))}
-            >
-              للبيع
-            </button>
-            <button 
-              className={`search-tab ${searchData.type === 'rent' ? 'active' : ''}`}
-              onClick={() => setSearchData(prev => ({ ...prev, type: 'rent' }))}
-            >
-              للإيجار
-            </button>
-            <button 
-              className={`search-tab ${searchData.type === 'projects' ? 'active' : ''}`}
-              onClick={() => setSearchData(prev => ({ ...prev, type: 'projects' }))}
-            >
-              المشاريع
-            </button>
-            <button 
-              className={`search-tab ${searchData.type === 'requests' ? 'active' : ''}`}
-              onClick={() => setSearchData(prev => ({ ...prev, type: 'requests' }))}
-            >
-              الطلبات
-            </button>
+        <div className="search-bar-modern">
+          {/* Main Category Tabs - المستوى الأول */}
+          <div className="main-tabs-container">
+            <div className="main-tabs">
+              <button 
+                className={`main-tab ${searchData.mainCategory === 'offers' ? 'active' : ''}`}
+                onClick={() => setSearchData(prev => ({ ...prev, mainCategory: 'offers' }))}
+              >
+                <svg viewBox="0 0 24 24" fill="currentColor" className="tab-icon">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+                العروض
+              </button>
+              <button 
+                className={`main-tab ${searchData.mainCategory === 'requests' ? 'active' : ''}`}
+                onClick={() => setSearchData(prev => ({ ...prev, mainCategory: 'requests' }))}
+              >
+                <svg viewBox="0 0 24 24" fill="currentColor" className="tab-icon">
+                  <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                </svg>
+                الطلبات
+              </button>
+              <button 
+                className={`main-tab ${searchData.mainCategory === 'projects' ? 'active' : ''}`}
+                onClick={() => setSearchData(prev => ({ ...prev, mainCategory: 'projects' }))}
+              >
+                <svg viewBox="0 0 24 24" fill="currentColor" className="tab-icon">
+                  <path d="M12 7V3H2v18h20V7H12zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V9h2v2zm0-4H4V5h2v2zm4 12H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V9h2v2zm0-4H8V5h2v2zm10 12h-8v-2h2v-2h-2v-2h2v-2h-2V9h8v10zm-2-8h-2v2h2v-2zm0 4h-2v2h2v-2z"/>
+                </svg>
+                المشاريع
+              </button>
+            </div>
+          </div>
+
+          {/* Sub Category Tabs - المستوى الثاني */}
+          <div className="sub-tabs-container">
+            <div className="sub-tabs">
+              <button 
+                className={`sub-tab ${searchData.subCategory === 'all' ? 'active' : ''}`}
+                onClick={() => setSearchData(prev => ({ ...prev, subCategory: 'all' }))}
+              >
+                الكل
+              </button>
+              <button 
+                className={`sub-tab ${searchData.subCategory === 'sale' ? 'active' : ''}`}
+                onClick={() => setSearchData(prev => ({ ...prev, subCategory: 'sale' }))}
+              >
+                للبيع
+              </button>
+              <button 
+                className={`sub-tab ${searchData.subCategory === 'rent' ? 'active' : ''}`}
+                onClick={() => setSearchData(prev => ({ ...prev, subCategory: 'rent' }))}
+              >
+                للإيجار
+              </button>
+            </div>
           </div>
           
-          <div className="search-inputs">
+          {/* Search Inputs */}
+          <div className="search-inputs-modern">
             <div className="search-field">
               <select name="region" value={searchData.region} onChange={handleInputChange}>
                 <option value="">اختر المنطقة</option>
