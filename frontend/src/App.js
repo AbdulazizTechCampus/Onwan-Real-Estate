@@ -2153,6 +2153,9 @@ const NafathModal = ({ isOpen, onClose, onSuccess, serviceName }) => {
 // Main App Component
 function App() {
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showNafathModal, setShowNafathModal] = useState(false);
+  const [nafathServiceName, setNafathServiceName] = useState('');
+  const [pendingAction, setPendingAction] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
   const [showFullMap, setShowFullMap] = useState(false);
 
@@ -2180,6 +2183,73 @@ function App() {
     localStorage.removeItem('access_token');
     localStorage.removeItem('user_data');
     setCurrentUser(null);
+  };
+
+  // Protected services that require Nafath
+  const PROTECTED_SERVICES = {
+    'add_property': 'إضافة عقار',
+    'mediation_contract': 'عقد وساطة',
+    'marketing_contract': 'عقد تسويق',
+    'edit_property': 'تعديل عقار',
+    'delete_property': 'حذف عقار'
+  };
+
+  // Check if user can access protected service
+  const checkProtectedAccess = (serviceKey, callback) => {
+    if (!currentUser) {
+      setShowLoginModal(true);
+      setPendingAction({ serviceKey, callback });
+      return false;
+    }
+
+    if (!currentUser.is_nafath_verified) {
+      setNafathServiceName(PROTECTED_SERVICES[serviceKey]);
+      setPendingAction({ serviceKey, callback });
+      setShowNafathModal(true);
+      return false;
+    }
+
+    return true;
+  };
+
+  // Handle Nafath verification success
+  const handleNafathSuccess = (updatedUser) => {
+    setCurrentUser(updatedUser);
+    setShowNafathModal(false);
+    
+    // Execute pending action if any
+    if (pendingAction && pendingAction.callback) {
+      pendingAction.callback();
+      setPendingAction(null);
+    }
+  };
+
+  // Example: Handle add property click
+  const handleAddProperty = () => {
+    if (checkProtectedAccess('add_property', () => {
+      console.log('Opening add property form...');
+      // Navigate to add property page
+    })) {
+      console.log('User verified, opening add property form...');
+    }
+  };
+
+  // Example: Handle mediation contract
+  const handleMediationContract = () => {
+    if (checkProtectedAccess('mediation_contract', () => {
+      console.log('Opening mediation contract form...');
+    })) {
+      console.log('User verified, opening mediation contract form...');
+    }
+  };
+
+  // Example: Handle marketing contract
+  const handleMarketingContract = () => {
+    if (checkProtectedAccess('marketing_contract', () => {
+      console.log('Opening marketing contract form...');
+    })) {
+      console.log('User verified, opening marketing contract form...');
+    }
   };
 
   const handleSearch = (searchData) => {
