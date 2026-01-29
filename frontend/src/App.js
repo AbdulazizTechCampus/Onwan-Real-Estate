@@ -2546,6 +2546,16 @@ function App() {
         onSuccess={handleLoginSuccess}
       />
 
+      <NafathModal
+        isOpen={showNafathModal}
+        onClose={() => {
+          setShowNafathModal(false);
+          setPendingAction(null);
+        }}
+        onSuccess={handleNafathSuccess}
+        serviceName={nafathServiceName}
+      />
+
       {/* Full Page Map Modal */}
       {showFullMap && (
         <FullPageMap
