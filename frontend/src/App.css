@@ -2196,11 +2196,10 @@ body {
 
 /* Property Icon Images (Bed, Bath) */
 .property-icon-img {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   object-fit: contain;
   flex-shrink: 0;
-  opacity: 0.7;
 }
 
 /* Red location icon */
