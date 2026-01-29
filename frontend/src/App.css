@@ -2215,6 +2215,17 @@ body {
   margin-bottom: 4px;
 }
 
+.property-card-agent-name {
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: #2d3748;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px;
+}
+
 /* New Contact Buttons - Like Support Card */
 .agent-contact-buttons {
   display: flex;
