@@ -246,6 +246,7 @@ const SAMPLE_PROPERTIES = [
     price: '12,000',
     location: 'حي العليا، الرياض',
     area: '250',
+    age: 0,
     type: 'office',
     category: 'commercial',
     image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2Mzl8MHwxfHNlYXJjaHw0fHxjb21tZXJjaWFsJTIwYnVpbGRpbmd8ZW58MHx8fHwxNzU1Mzc1MDEyfDA&ixlib=rb-4.1.0&q=85',
