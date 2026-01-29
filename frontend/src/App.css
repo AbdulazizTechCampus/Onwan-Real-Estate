@@ -1238,7 +1238,26 @@ body {
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
 }
 
-/* Main Tabs Container */
+/* Combined Tabs Container - الشريطين على نفس المستوى */
+.combined-tabs-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 18px 30px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  flex-wrap: wrap;
+}
+
+/* Tabs Divider */
+.tabs-divider {
+  width: 2px;
+  height: 35px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+}
+
+/* Main Tabs Container - Keep for mobile */
 .main-tabs-container {
   padding: 18px 30px;
   display: flex;
@@ -1292,7 +1311,7 @@ body {
   opacity: 1;
 }
 
-/* Sub Tabs Container */
+/* Sub Tabs Container - Keep for mobile */
 .sub-tabs-container {
   padding: 15px 30px;
   display: flex;
