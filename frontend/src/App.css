@@ -2614,6 +2614,24 @@ body {
   box-shadow: 0 8px 25px rgba(26, 90, 110, 0.4);
 }
 
+.logo-slider-section.photographer-theme .logo-box {
+  background: linear-gradient(135deg, #1a5a6e 0%, #145060 100%);
+  border-color: #1a5a6e;
+}
+
+.logo-slider-section.photographer-theme .logo-placeholder {
+  background: transparent;
+  color: #ffffff;
+}
+
+.logo-slider-section.photographer-theme .logo-placeholder svg {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.logo-slider-section.photographer-theme .company-initial {
+  color: #ffffff;
+}
+
 .logo-slider-section.photographer-theme .logo-slider-details {
   background: linear-gradient(135deg, rgba(20, 80, 100, 0.5) 0%, rgba(15, 70, 90, 0.4) 100%);
 }
