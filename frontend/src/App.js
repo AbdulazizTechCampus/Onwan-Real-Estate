@@ -1383,34 +1383,34 @@ const Carousel = ({ children, title, subtitle, showMoreLink = "#" }) => {
           <h2 className="carousel-title">{title}</h2>
           {subtitle && <p className="carousel-subtitle">{subtitle}</p>}
         </div>
-        <div className="carousel-nav">
-          <button className="carousel-arrow" onClick={() => scroll('left')}>
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
-            </svg>
-          </button>
-          <button className="carousel-arrow" onClick={() => scroll('right')}>
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"/>
-            </svg>
-          </button>
-        </div>
       </div>
-      <div className="carousel-container" ref={scrollContainerRef}>
-        <div className="carousel-track">
-          {children}
-          {/* View More Card */}
-          <a href={showMoreLink} className="view-more-card">
-            <div className="view-more-content">
-              <div className="view-more-icon">
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
-                </svg>
+      <div className="carousel-wrapper">
+        <button className="carousel-side-arrow left" onClick={() => scroll('right')}>
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+          </svg>
+        </button>
+        <div className="carousel-container" ref={scrollContainerRef}>
+          <div className="carousel-track">
+            {children}
+            {/* View More Card */}
+            <a href={showMoreLink} className="view-more-card">
+              <div className="view-more-content">
+                <div className="view-more-icon">
+                  <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+                  </svg>
+                </div>
+                <span>عرض المزيد</span>
               </div>
-              <span>عرض المزيد</span>
-            </div>
-          </a>
+            </a>
+          </div>
         </div>
+        <button className="carousel-side-arrow right" onClick={() => scroll('left')}>
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"/>
+          </svg>
+        </button>
       </div>
     </div>
   );
