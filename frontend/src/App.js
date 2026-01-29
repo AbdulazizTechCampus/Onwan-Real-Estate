@@ -2290,16 +2290,7 @@ function App() {
             </div>
             
             <div className="footer-section">
-              <h4>تواصل معنا</h4>
-              <div className="contact-info">
-                <p>📞 +966 11 123 4567</p>
-                <p>✉️ info@onwan.sa</p>
-                <p>📍 الرياض، المملكة العربية السعودية</p>
-              </div>
-            </div>
-            
-            <div className="footer-section">
-              <h4>شهادة التوثيق</h4>
+              <h4>الاعتماد من الهيئة</h4>
               <div className="certification">
                 <div className="cert-badge">🏛️</div>
                 <p>منصة معتمدة من الهيئة العامة للعقار</p>
