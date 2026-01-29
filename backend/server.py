@@ -357,11 +357,23 @@ async def send_otp(request: SendOTPRequest, background_tasks: BackgroundTasks):
         
         messages = ArabicTextProcessor.get_localized_messages(request.language)
         
-        return {
+        # Check if dev mode - return OTP for testing
+        dev_mode = os.environ.get('DEV_MODE', 'true').lower() == 'true'
+        unifonic_configured = bool(os.environ.get('UNIFONIC_APP_SID'))
+        
+        response_data = {
             "success": True,
             "message": messages['otp_sent'],
             "phone_number": request.phone_number
         }
+        
+        # In dev mode or if Unifonic not configured, return OTP for testing
+        if dev_mode or not unifonic_configured:
+            response_data["dev_mode"] = True
+            response_data["otp_code"] = otp_code  # Only in dev mode!
+            response_data["note"] = "وضع التطوير - رمز OTP معروض للاختبار فقط"
+        
+        return response_data
         
     except Exception as e:
         logger.error(f"Failed to send OTP: {e}")
