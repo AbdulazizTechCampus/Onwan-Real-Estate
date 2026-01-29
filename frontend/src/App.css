@@ -1938,6 +1938,15 @@ body {
   color: #f59e0b;
 }
 
+.card-action-btn.share {
+  color: #9ca3af;
+}
+
+.card-action-btn.share:hover {
+  background: #dbeafe;
+  color: #3b82f6;
+}
+
 .card-action-btn.report {
   color: #9ca3af;
 }
