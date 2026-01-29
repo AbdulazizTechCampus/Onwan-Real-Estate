@@ -1173,10 +1173,11 @@ const PropertyIcons = {
   ),
   Age: () => (
     <svg viewBox="0 0 24 24" className="property-icon-svg">
-      <path d="M4 21V10l8-6 8 6v11" stroke="#6b7280" strokeWidth="1.5" fill="none" strokeLinejoin="round"/>
-      <path d="M4 21h16" stroke="#6b7280" strokeWidth="1.5"/>
-      <rect x="9" y="14" width="6" height="7" stroke="#6b7280" strokeWidth="1" fill="none"/>
-      <path d="M12 4v-2" stroke="#6b7280" strokeWidth="1.5" strokeLinecap="round"/>
+      <rect x="4" y="6" width="16" height="16" rx="2" stroke="#6b7280" strokeWidth="1.5" fill="none"/>
+      <path d="M4 6c0-1.5 1-3 3-3h10c2 0 3 1.5 3 3" stroke="#6b7280" strokeWidth="1.5" fill="none"/>
+      <rect x="8" y="10" width="3" height="3" fill="#6b7280"/>
+      <rect x="13" y="10" width="3" height="3" fill="#6b7280"/>
+      <rect x="10" y="16" width="4" height="6" stroke="#6b7280" strokeWidth="1" fill="none"/>
     </svg>
   ),
   Location: () => (
