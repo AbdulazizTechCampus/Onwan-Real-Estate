@@ -1478,7 +1478,7 @@ const PropertyCard = ({ property }) => {
             {property.age !== undefined && (
               <div className="property-icon">
                 <PropertyIcons.Age />
-                {property.age === 0 ? 'جديد' : property.age}
+                {property.age === 0 ? 'جديد' : `${property.age} سنة`}
               </div>
             )}
           </div>
