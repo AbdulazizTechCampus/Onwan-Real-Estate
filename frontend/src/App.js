@@ -551,7 +551,7 @@ const Header = ({ onLoginClick, currentUser, onLogout, onOpenMap }) => {
       <div className="header-container">
         {/* Right Side - Logo */}
         <div className="header-logo">
-          <img src="https://customer-assets.emergentagent.com/job_onwan-homes/artifacts/a7d7dgbd_Logo%202030%20.png" alt="عنوان" className="logo-img-large" />
+          <img src="https://customer-assets.emergentagent.com/job_onwan-homes/artifacts/obrzkr9d_Logo%2010201.png" alt="عنوان" className="logo-img-large" />
         </div>
 
         {/* Center - Navigation */}
