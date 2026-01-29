@@ -415,6 +415,37 @@ body {
     flex: 0 0 180px;
     min-width: 180px;
   }
+  
+  /* Modern Search Bar Mobile */
+  .main-tabs {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .main-tab {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+  
+  .main-tab .tab-icon {
+    width: 18px;
+    height: 18px;
+  }
+  
+  .sub-tabs {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .sub-tab {
+    padding: 8px 18px;
+    font-size: 13px;
+  }
+  
+  .search-inputs-modern {
+    grid-template-columns: 1fr 1fr;
+    padding: 20px;
+  }
 }
 
 /* ========================================
