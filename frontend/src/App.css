@@ -2600,22 +2600,22 @@ body {
 }
 
 .logo-slider-section.photographer-theme .logo-slider-arrow {
-  border-color: #c4b5fd;
-  color: #c4b5fd;
+  border-color: #ffffff;
+  color: #ffffff;
 }
 
 .logo-slider-section.photographer-theme .logo-slider-arrow:hover {
-  background: #c4b5fd;
-  color: #5b21b6;
+  background: #ffffff;
+  color: #29B6D2;
 }
 
 .logo-slider-section.photographer-theme .logo-slider-item.center .logo-box {
-  border-color: #c4b5fd;
-  box-shadow: 0 8px 25px rgba(196, 181, 253, 0.4);
+  border-color: #ffffff;
+  box-shadow: 0 8px 25px rgba(255, 255, 255, 0.4);
 }
 
 .logo-slider-section.photographer-theme .logo-slider-details {
-  background: linear-gradient(135deg, rgba(100, 70, 150, 0.6) 0%, rgba(85, 60, 130, 0.5) 100%);
+  background: linear-gradient(135deg, rgba(20, 80, 100, 0.5) 0%, rgba(15, 70, 90, 0.4) 100%);
 }
 
 .logo-slider-section.photographer-theme .selected-item-name {
