@@ -968,8 +968,9 @@ const SearchBar = ({ onSearch }) => {
     <section className="search-section">
       <div className="container">
         <div className="search-bar-modern">
-          {/* Main Category Tabs - المستوى الأول */}
-          <div className="main-tabs-container">
+          {/* Combined Tabs Row - الشريطين على نفس المستوى */}
+          <div className="combined-tabs-container">
+            {/* Main Category Tabs - المستوى الأول */}
             <div className="main-tabs">
               <button 
                 className={`main-tab ${searchData.mainCategory === 'offers' ? 'active' : ''}`}
@@ -999,10 +1000,11 @@ const SearchBar = ({ onSearch }) => {
                 المشاريع
               </button>
             </div>
-          </div>
 
-          {/* Sub Category Tabs - المستوى الثاني */}
-          <div className="sub-tabs-container">
+            {/* Divider */}
+            <div className="tabs-divider"></div>
+
+            {/* Sub Category Tabs - المستوى الثاني */}
             <div className="sub-tabs">
               <button 
                 className={`sub-tab ${searchData.subCategory === 'all' ? 'active' : ''}`}
