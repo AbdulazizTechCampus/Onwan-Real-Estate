@@ -556,8 +556,18 @@ async def get_user_types():
 async def health_check():
     return {"status": "healthy", "service": "Onwan Real Estate Auth Service"}
 
-# Include router in main app
+# Import and setup admin routes
+from routes.admin import create_admin_routes
+admin_router = create_admin_routes(db, AuthService, User)
+
+# Import and setup matching routes
+from routes.matching import create_matching_routes
+matching_router = create_matching_routes(db, AuthService, User)
+
+# Include routers in main app
 app.include_router(api_router)
+app.include_router(admin_router, prefix="/api")
+app.include_router(matching_router, prefix="/api")
 
 @app.on_event("shutdown")
 async def shutdown_db_client():
