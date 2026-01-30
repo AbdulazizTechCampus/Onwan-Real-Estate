@@ -56,7 +56,7 @@ logger = logging.getLogger(__name__)
 
 # User Types Enum
 USER_TYPES = {
-    "visitor": "زائر",
+    "visitor": "ضيف",
     "property_seeker": "طالب عقار", 
     "property_owner": "مالك عقار",
     "broker_individual": "وسيط عقاري - فرد",
