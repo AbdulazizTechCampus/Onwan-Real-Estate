@@ -480,27 +480,28 @@ async def register_user(request: UserRegistration):
 
 @api_router.post("/auth/nafath/verify")
 async def verify_nafath(request: NafathVerificationRequest, current_user: User = Depends(AuthService.get_current_user)):
-    """Verify identity using Nafath (Mock)"""
+    """Verify identity using Nafath (Mock) and optionally update user type"""
     try:
-        # Check if Nafath verification is required for user type
-        nafath_required_types = ["property_owner", "broker_individual", "broker_company"]
-        
-        if current_user.user_type not in nafath_required_types:
-            raise HTTPException(status_code=400, detail="Nafath verification not required for this user type")
-        
         # Call Nafath service
         nafath_result = await NafathService.verify_identity(request.national_id, request.phone_number)
         
         if nafath_result['success']:
+            # Prepare update data
+            update_data = {
+                "national_id": request.national_id,
+                "full_name_arabic": nafath_result['name_arabic'],
+                "full_name_english": nafath_result['name_english'],
+                "is_nafath_verified": True
+            }
+            
+            # Update user type if provided
+            if request.user_type and request.user_type in USER_TYPES:
+                update_data["user_type"] = request.user_type
+            
             # Update user with Nafath data
             await db.users.update_one(
                 {"id": current_user.id},
-                {"$set": {
-                    "national_id": request.national_id,
-                    "full_name_arabic": nafath_result['name_arabic'],
-                    "full_name_english": nafath_result['name_english'],
-                    "is_nafath_verified": True
-                }}
+                {"$set": update_data}
             )
             
             messages = ArabicTextProcessor.get_localized_messages()
@@ -508,7 +509,8 @@ async def verify_nafath(request: NafathVerificationRequest, current_user: User =
             return {
                 "success": True,
                 "message": messages['nafath_verified'],
-                "nafath_data": nafath_result
+                "nafath_data": nafath_result,
+                "user_type": request.user_type or current_user.user_type
             }
         else:
             raise HTTPException(status_code=400, detail="Nafath verification failed")
