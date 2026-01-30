@@ -2215,7 +2215,14 @@ function App() {
     localStorage.removeItem('access_token');
     localStorage.removeItem('user_data');
     setCurrentUser(null);
+    setShowAdminPanel(false);
+    window.location.href = '/';
   };
+
+  // Show Admin Panel if user is admin
+  if (showAdminPanel && currentUser?.user_type === 'admin') {
+    return <AdminDashboard currentUser={currentUser} onLogout={handleLogout} />;
+  }
 
   // Protected services that require Nafath
   const PROTECTED_SERVICES = {
