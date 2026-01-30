@@ -4319,6 +4319,8 @@ body {
 /* Nafath Section */
 .nafath-logo {
   margin-bottom: 15px;
+  display: flex;
+  justify-content: center;
 }
 
 .nafath-info {
