@@ -2378,6 +2378,16 @@ function App() {
                     <span className="action-icon">❤️</span>
                     <span>المفضلة</span>
                   </button>
+                  
+                  {currentUser.user_type === 'admin' && (
+                    <button 
+                      className="quick-action-btn admin-btn"
+                      onClick={() => setShowAdminPanel(true)}
+                    >
+                      <span className="action-icon">⚙️</span>
+                      <span>لوحة التحكم</span>
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
