@@ -9,7 +9,7 @@ const API = `${BACKEND_URL}/api`;
 
 // User Types in Arabic
 const USER_TYPES = {
-  visitor: 'زائر',
+  visitor: 'ضيف',
   property_seeker: 'طالب عقار',
   property_owner: 'مالك عقار',
   broker_individual: 'وسيط عقاري - فرد',
