@@ -116,6 +116,7 @@ class VerifyOTPRequest(BaseModel):
 class NafathVerificationRequest(BaseModel):
     national_id: str
     phone_number: str
+    user_type: Optional[str] = None  # User can choose their type when verifying
 
 class LoginRequest(BaseModel):
     phone_number: str
