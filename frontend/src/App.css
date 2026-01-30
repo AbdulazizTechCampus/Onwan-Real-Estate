@@ -4420,7 +4420,73 @@ body {
 
 /* Nafath Modal */
 .nafath-modal {
-  max-width: 420px;
+  max-width: 500px;
+}
+
+/* Nafath User Types Selection */
+.nafath-user-types {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.nafath-type-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: white;
+}
+
+.nafath-type-card:hover {
+  border-color: #0B3954;
+  background: rgba(11, 57, 84, 0.03);
+}
+
+.nafath-type-card.selected {
+  border-color: #0B3954;
+  background: rgba(11, 57, 84, 0.08);
+}
+
+.nafath-type-card .type-icon {
+  font-size: 1.5rem;
+  width: 40px;
+  text-align: center;
+}
+
+.nafath-type-card .type-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.nafath-type-card .type-label {
+  font-weight: 600;
+  color: #1e293b;
+  font-size: 0.95rem;
+}
+
+.nafath-type-card .type-desc {
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+.nafath-type-card .type-check {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #0B3954;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
 }
 
 /* Nafath Benefits */
