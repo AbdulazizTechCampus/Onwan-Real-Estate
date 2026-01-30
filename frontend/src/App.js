@@ -2179,6 +2179,7 @@ function App() {
   const [pendingAction, setPendingAction] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
   const [showFullMap, setShowFullMap] = useState(false);
+  const [showAdminPanel, setShowAdminPanel] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem('access_token');
@@ -2193,11 +2194,21 @@ function App() {
         localStorage.removeItem('user_data');
       }
     }
+    
+    // Check if URL is admin panel
+    if (window.location.pathname === '/admin') {
+      setShowAdminPanel(true);
+    }
   }, []);
 
   const handleLoginSuccess = (user) => {
     setCurrentUser(user);
     setShowLoginModal(false);
+    
+    // Redirect to admin if user is admin
+    if (user.user_type === 'admin' && window.location.pathname === '/admin') {
+      setShowAdminPanel(true);
+    }
   };
 
   const handleLogout = () => {
