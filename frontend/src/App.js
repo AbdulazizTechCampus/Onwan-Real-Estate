@@ -2021,12 +2021,23 @@ const LoginModal = ({ isOpen, onClose, onSuccess }) => {
 
 // Nafath Verification Modal - Shows when protected service is accessed
 const NafathModal = ({ isOpen, onClose, onSuccess, serviceName }) => {
-  const [formData, setFormData] = useState({ national_id: '' });
+  const [formData, setFormData] = useState({ 
+    national_id: '',
+    user_type: 'property_owner'
+  });
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
 
+  const userTypeOptions = [
+    { key: 'property_owner', label: 'مالك عقار', icon: '🔑', description: 'أملك عقارات وأريد إدارتها' },
+    { key: 'broker_individual', label: 'وسيط عقاري - فرد', icon: '👤', description: 'وسيط عقاري مستقل' },
+    { key: 'broker_company', label: 'وسيط عقاري - منشأة', icon: '🏢', description: 'مكتب أو شركة عقارية' },
+    { key: 'photographer', label: 'مصور عقارات', icon: '📷', description: 'مصور متخصص في العقارات' }
+  ];
+
   const handleInputChange = (e) => {
-    setFormData({ national_id: e.target.value });
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const verifyNafath = async () => {
@@ -2039,7 +2050,8 @@ const NafathModal = ({ isOpen, onClose, onSuccess, serviceName }) => {
       
       const response = await axios.post(`${API}/auth/nafath/verify`, {
         national_id: formData.national_id,
-        phone_number: userData.phone_number
+        phone_number: userData.phone_number,
+        user_type: formData.user_type
       }, {
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -2051,13 +2063,13 @@ const NafathModal = ({ isOpen, onClose, onSuccess, serviceName }) => {
         });
         localStorage.setItem('user_data', JSON.stringify(profileResponse.data.user));
         
-        setMessage('تم التحقق بنجاح!');
+        setMessage('تم التحقق بنجاح! مرحباً بك');
         setTimeout(() => {
           onSuccess(profileResponse.data.user);
           onClose();
-          setFormData({ national_id: '' });
+          setFormData({ national_id: '', user_type: 'property_owner' });
           setMessage('');
-        }, 1000);
+        }, 1500);
       }
     } catch (error) {
       setMessage(error.response?.data?.detail || 'خطأ في التحقق من النفاذ الوطني');
@@ -2084,29 +2096,37 @@ const NafathModal = ({ isOpen, onClose, onSuccess, serviceName }) => {
               </div>
               <h2>التحقق من الهوية مطلوب</h2>
               <p>لاستخدام خدمة <strong>{serviceName}</strong></p>
-              <p>يجب التحقق من هويتك عبر النفاذ الوطني</p>
-            </div>
-            
-            <div className="nafath-benefits">
-              <div className="benefit-item">
-                <span className="benefit-icon">🔒</span>
-                <span>حماية حسابك وبياناتك</span>
-              </div>
-              <div className="benefit-item">
-                <span className="benefit-icon">✅</span>
-                <span>التحقق مرة واحدة فقط</span>
-              </div>
-              <div className="benefit-item">
-                <span className="benefit-icon">⚡</span>
-                <span>الوصول لجميع الخدمات</span>
-              </div>
             </div>
             
             <div className="auth-form">
+              {/* User Type Selection */}
+              <div className="form-group">
+                <label>نوع الحساب</label>
+                <div className="nafath-user-types">
+                  {userTypeOptions.map(type => (
+                    <div 
+                      key={type.key}
+                      className={`nafath-type-card ${formData.user_type === type.key ? 'selected' : ''}`}
+                      onClick={() => setFormData(prev => ({ ...prev, user_type: type.key }))}
+                    >
+                      <span className="type-icon">{type.icon}</span>
+                      <div className="type-info">
+                        <span className="type-label">{type.label}</span>
+                        <span className="type-desc">{type.description}</span>
+                      </div>
+                      {formData.user_type === type.key && (
+                        <span className="type-check">✓</span>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+              
               <div className="form-group">
                 <label>رقم الهوية الوطنية</label>
                 <input
                   type="text"
+                  name="national_id"
                   value={formData.national_id}
                   onChange={handleInputChange}
                   placeholder="1xxxxxxxxx"
