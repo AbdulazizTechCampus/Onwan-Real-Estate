@@ -9,7 +9,7 @@ import re
 import subprocess
 import json
 
-API_URL = "https://realty-revamp-2.preview.emergentagent.com/api"
+API_URL = "https://onwan-subscriptions.preview.emergentagent.com/api"
 TEST_PHONE = "0501234567"
 
 def get_latest_otp():

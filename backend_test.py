@@ -11,7 +11,7 @@ from datetime import datetime
 import time
 
 class OnwanAPITester:
-    def __init__(self, base_url="https://realty-revamp-2.preview.emergentagent.com"):
+    def __init__(self, base_url="https://onwan-subscriptions.preview.emergentagent.com"):
         self.base_url = base_url
         self.api_url = f"{base_url}/api"
         self.token = None

@@ -1,144 +1,136 @@
 <analysis>**original_problem_statement:**
-The user's initial request was to modernize the social media icons on broker cards. This quickly evolved into a comprehensive UI/UX overhaul of the homepage for the Onwan real estate platform. The project has been highly iterative, with the user providing continuous visual feedback. Major implemented features include a complete header redesign, integration of an interactive map for browsing properties, and multiple redesigns of the property and broker cards. The most recent requests focus on refining the homepage's visual elements, including carousels, a properties by region section, and watermarks on images.
+The user requested UI/UX modernization of the Onwan real estate platform for the Saudi market. The project evolved from fixing property card icons to a complete overhaul of the footer, implementing a seamless OTP + Nafath authentication flow, user role assignments, and an Admin Dashboard. The current goal is to define and implement the subscription, payment, and promo code systems for the platform.
 
 PRODUCT REQUIREMENTS:
-The Onwan platform is a real estate mediation and marketing application for the Saudi market. The primary goal is to create a modern, dynamic, and user-friendly UI/UX. Key features include property and broker listings, search functionality, and eventually, user authentication (OTP & Nafath) and distinct user roles. The current development phase is focused on polishing the homepage UI/UX based on direct user feedback before moving to backend integration.
+- Modern, dynamic UI/UX for a real estate mediation platform.
+- Seamless authentication: Fast OTP login for browsing, conditional Nafath verification for protected actions (e.g., adding properties).
+- User roles: Guest (ضيف), Property Owner, Individual Broker, Corporate Broker, Photographer.
+- Comprehensive Admin Dashboard for managing users, listings, popups, and matching.
+- Future: Subscriptions, payments, and property matching system.
 
-**User's preferred language**:
-The user's primary language is Arabic (ar). The next agent MUST continue all communication in Arabic.
+**User's preferred language**: Arabic (ar). You MUST automatically detect the user's primary language from their messages and INSTRUCT the next agent to respond in the user's preferred language (Arabic) only.
 
-**what currently exists?**
-The application is a single-page React app with its UI logic and styling largely contained in monolithic  and  files. The backend is FastAPI but is not yet connected; all data is mocked on the frontend.
-
-Key implemented features include:
-- A fully redesigned, responsive header with dropdown menus, a language toggle, and a login button.
-- An interactive map feature using OpenStreetMap and Leaflet, allowing users to view properties on a map, filter them, and open a full-page map view via a عقاراتنا (Our Properties) button.
-- Redesigned property cards with status badges (For Sale, For Rent), a Featured badge, action icons (like, favorite, report), a custom currency symbol, and unified contact buttons.
-- Redesigned, compact broker cards.
-- Horizontal carousels for Featured Properties and Featured Brokers sections, complete with navigation arrows and a View More card.
-- An enhanced search bar that now includes a District dropdown that populates based on the selected city and uses the 13 official administrative regions of Saudi Arabia.
-- A custom font () has been applied sitewide.
+**what currently exists?** 
+A full-stack application with a React frontend and FastAPI + MongoDB backend. Features include an interactive map, responsive header/footer, seamless OTP login (currently in dev/mock mode printing to screen), conditional Nafath verification modal, user role assignment, and a fully built Admin Dashboard UI (with backend routes and seeded mock data for testing). 
 
 **Last working item**:
-- **Last item agent was working:** The agent was implementing user feedback to redesign the Properties by Region section and adjust the watermark on property images. The initial implementation did not meet the user's expectations.
-- **Status:** IN PROGRESS
-- **Agent Testing Done:** N
-- **Which testing method agent to use?** screenshot tool
-- **User Testing Done:** N (User provided feedback on the last implementation attempt, rejecting it).
+- **Last item agent was working**: The agent completed the Admin Dashboard. The user then asked if the dashboard handles subscription fees, offers, and discount codes. The agent explained these are not yet built and asked the user 4 clarifying questions about the business model (Who pays? What type of fees? Payment gateways? Discount types?) to begin implementation.
+- **Status**: BLOCKED / USER VERIFICATION PENDING (Waiting for human response regarding the business model).
+- **Agent Testing Done**: Y (Screenshot validations and backend API tests done).
+- **Which testing method agent to use?** testing_agent_v3_fork (Recommended for the upcoming payment/subscription integration).
+- **User Testing Done**: N
 
 **All Pending/In progress Issue list**:
-- **Issue 1:** Redesign Properties by Region section and fix the image watermark. (Priority: P0)
-
-**Issues Detail:**
-- **Issue 1: Redesign Properties by Region section and fix the image watermark.**
-    - **Attempted fixes:** The agent created a grid of regions with placeholder icons and made an initial attempt at the watermark. The user rejected this, stating the section title was not right-aligned, the icons were not representative of the regions, and the watermark needed to be a transparent white and more centered.
-    - **Next debug checklist:**
-        1.  **Region Section Title:** In , modify the styles for the Properties by Region section header to be right-aligned, consistent with other section titles like العقارات المميزة.
-        2.  **Region Icons:** In , update the  array. Replace the placeholder icon URLs with URLs for meaningful images that symbolize each of the 13 Saudi regions (e.g., Kaaba for Makkah, Kingdom Centre for Riyadh).
-        3.  **Image Watermark:** In , adjust the  and  classes.
-            -   Change the image  or  to make it a transparent white.
-            -   Adjust positioning properties (e.g., , , ) to move the watermark from the corner closer to the center of the image.
-    - **Why fix this issue and what will be achieved with the fix?** To align the homepage's visual design with the user's explicit and detailed requirements.
-    - **Status:** IN PROGRESS
-    - **Is recurring issue?** N
-    - **Should Test frontend/backend/both after fix?** Frontend
-    - **Blocked on other issue:** None.
+- **Issue 1: Awaiting User Business Model for Subscriptions/Payments** (Priority: P0)
+  - **Attempted fixes**: N/A. Agent asked for requirements.
+  - **Next debug checklist**: Read the user's next message. Based on their answers to (Who pays, fee types, payment gateways, discount types), plan the DB schema for subscriptions/payments, update the FastAPI backend, and integrate the UI into both the user flow and Admin Dashboard.
+  - **Why fix this issue and what will be achieved with the fix?**: Fulfills the user's direct request to add monetization, offers, and subscription management to the platform.
+  - **Status**: BLOCKED (Waiting on user reply).
+  - **Is recurring issue?**: N.
+  - **Should Test frontend/backend/both after fix?**: Both (Use testing agent for payments).
+  - **Blocked on other issue**: None.
 
 **In progress Task List**:
-- **Task 1: Complete UI fixes from user feedback.**
-    - **Where to resume:** Resume by editing  and  to implement the three fixes detailed in Issue 1 above.
-    - **What will be achieved with this?** A homepage design that meets the user's latest visual requirements for the region section and property images.
-    - **Status:** IN PROGRESS
-    - **Should Test frontend/backend/both after fix?** Frontend
-    - **Blocked on something:** None.
+- **Task 1: Property Matching and Recommendations System** (Priority: P1)
+  - **Where to resume**: The backend route file  was created, but the logic and UI integration were paused to build the Admin Dashboard first.
+  - **What will be achieved with this?**: Automatically match property requests with available listings based on user interests, likes, and search history.
+  - **Status**: NOT STARTED (Only empty route file created).
+  - **Should Test frontend/backend/both after fix?**: Both.
+  - **Blocked on something**: None.
 
-**Upcoming and Future Tasks**
-- **Upcoming Tasks:**
-    - **P1: Implement backend functionality for navigation links:** The header dropdowns contain links like Add Property, Request Property, and Favorites. These currently do nothing and need to be connected to actual pages or backend logic.
-- **Future Tasks:**
-    - **P2:** Connect the frontend to the backend, replacing all mock data with live data from the MongoDB database.
-    - **P2:** Implement full user authentication (Login/Register) and Nafath integration.
-    - **P2:** Build out the remaining application pages as per the PRD (e.g., Admin Dashboard, Broker Dashboard, full property/broker search result pages).
-    - **P3:** Refactor the monolithic frontend (, ) into smaller, reusable components (e.g., , , ).
+**Upcoming and Future Tasks**:
+- **P1**: Implement the Subscriptions, Payments, and Promo Codes system (pending user details).
+- **P1**: Implement real backend logic for adding properties, requesting properties, and broker contracts (currently UI triggers the Nafath modal, but form submission needs wiring).
+- **P2**: Connect the main frontend property display () to MongoDB (currently still using  mock data).
+- **P2**: Real API integration for Unifonic (SMS) and Nafath (currently mocked via ).
+- **P3**: (CRITICAL) Refactor  (>2500 lines) and  (>4300 lines) into smaller, reusable components.
 
-**Completed work in this session**
-- **Header Redesign:** A new responsive header with dropdowns, language toggle, and login button was created.
-- **Map Integration:** Successfully integrated Leaflet.js to display properties on an interactive map with filtering and a full-page view.
-- **Property Card Redesign:** Cards were overhauled with new status/featured badges, action icons, a custom currency symbol, English numerals, and unified contact buttons.
-- **Broker Card Redesign:** Simplified the design for a compact, modern look.
-- **Carousel Implementation:** Converted the Featured Properties and Featured Brokers sections to horizontal carousels with navigation.
-- **Search Bar Enhancement:** Added a dynamic District dropdown and updated the UI to a single-line layout.
-- **UI/UX Refinements:** Applied a new site-wide font () and implemented the first version of the watermark and Properties by Region section.
+**Completed work in this session**:
+- Unified Property Icons sizing and styling (DONE)
+- Footer Redesign with policies, certifications, and social links (DONE)
+- Simplified OTP Login Flow with Dev Mode UI display (DONE)
+- Conditional Nafath Verification Modal for protected services (DONE)
+- User Role Selection during Nafath verification (DONE)
+- Admin Dashboard UI and backend routes with mock data seeding (DONE)
 
-**Earlier issues found/mentioned but not fixed**
-- None. The agent has been diligent in addressing user feedback. The only outstanding item is the in-progress task.
+**Earlier issues found/mentioned but not fixed**:
+- None. All user visual and functional requests from this session were addressed.
 
-**Known issue recurrence from previous fork**
-- None.
+**Known issue recurrence from previous fork**:
+- **Monolithic Codebase**:  and  are extremely large. This occasionally causes minor connection/websocket hiccups during hot reloads. Refactoring is highly recommended soon to prevent development bottlenecks.
 
-**Code Architecture**
+**Code Architecture**:
 
 
-**Key Technical Concepts**
-- **Frontend:** React (Hooks: useState, useEffect), Leaflet.js, react-leaflet
-- **Backend:** FastAPI, Python
-- **Database:** MongoDB (data is currently mocked on the frontend)
-- **Styling:** Custom CSS, Flexbox, CSS variables,  for custom fonts.
+**Key Technical Concepts**:
+- **Frontend**: React, Conditional Rendering (Modals), CSS Flexbox/Grid.
+- **Backend**: FastAPI, JWT Authentication.
+- **Database**: MongoDB (PyMongo).
+- **Auth Flow**: Two-step decoupled auth. Step 1: OTP to become Guest. Step 2: Nafath verification to assign elevated roles (Broker, Owner) and unlock protected routes.
 
-**key DB schema**
-- N/A (No database interaction in this session).
+**key DB schema**:
+- : 
+- : 
+- : 
 
-**changes in tech stack**
-- Added  and  to the frontend dependencies.
+**changes in tech stack**:
+- Modularized backend routing by introducing  and .
+- Added  to frontend.
 
-**All files of reference**
-- : The primary file for all components, layout, and logic. Was heavily modified throughout the session.
-- : The primary stylesheet. Was heavily modified to implement all new designs.
-- : A new file created to encapsulate the map logic.
-- : A new file for map-specific styles.
+**All files of reference**:
+-  & : Core monolithic UI.
+-  & : Newly created Admin panel.
+- : Core backend logic and OTP endpoints.
+- : Admin stats and management endpoints.
+- : Pydantic models.
 
 **Areas that need refactoring**:
-- The monolithic structure of  and  makes the codebase increasingly difficult to maintain.  is over 1700 lines long. A high-priority future task should be to break down the UI into smaller, reusable components (e.g., , , , ), each with its own scoped styles.
+-  and  MUST be broken down. The files are too large and are becoming difficult to manage.
 
-**key api endpoints**
-- N/A.
+**key api endpoints**:
+- 
+- 
+- 
+- 
 
-**Critical Info for New Agent**
-- **User communication is key:** The user directs development with highly iterative, visual feedback, often providing images of what they want. You must analyze these images carefully and communicate exclusively in Arabic.
-- **Immediate Priority:** The most pressing task is to fix the design of the Properties by Region section and the watermark on property images, as detailed in the Last working item section. Do not proceed to other tasks until this is approved by the user.
-- **Propose Refactoring:** After fixing the current UI issues, it would be beneficial to propose refactoring the frontend into modular components as a necessary step for future development and maintainability.
+**Critical Info for New Agent**:
+- **Language**: Communicate exclusively in **Arabic**.
+- **Pending Input**: Do not start building the payment/subscription models until you read the user's response to the 4 business model questions asked in the last message.
+- **Mocked Auth**: OTP is printed on the screen in a yellow box (Dev Mode). Unifonic and Nafath are currently mocked. Do not ask for API keys for them right now unless the user brings it up.
+- **Role System**: Users login as  (ضيف) initially. Elevated roles (, , , ) are assigned ONLY after they pass the Nafath verification modal.
 
-**documents and test reports created in this job**
--  was created and updated.
+**documents and test reports created in this job**:
+- None updated in this session. Update  upon task completions.
 
-**Last 10 User Messages and any pending HUMAN messages**
-1.  **Chat Message 371:** Reiteration of feedback: The Properties by Region title needs to be right-aligned and the icons must be more expressive. (PENDING)
-2.  **Chat Message 368:** User feedback on the region grid and watermark: align title right, graphics are not expressive, make watermark transparent white and more centered. (PENDING)
-3.  **Chat Message 353:** Request to add a View More card to carousels, redesign Properties by Region to use icons/counts, and add a watermark to property images. (Partially implemented, requires fixes).
-4.  **Chat Message 315:** User provides an image of the desired carousel style and confirms they want to use it. (COMPLETED)
-5.  **Chat Message 313:** User asks for a recommendation on horizontal vs. vertical scrolling for card lists. (ADDRESSED)
-6.  **Chat Message 291:** User requests to redesign the broker cards to a more compact version, as shown in an attached image. (COMPLETED)
-7.  **Chat Message 279:** User requests to change the Featured badge color to metallic gold and adjust the font weight/size of the ad date. (COMPLETED)
-8.  **Chat Message 263:** User requests to change the Featured badge color and asks to implement a new font similar to an image. (COMPLETED)
-9.  **Chat Message 239:** User requests to use a specific currency symbol, use English numerals for all numbers, rename Advanced Search to Filter, and resize search bar buttons. (COMPLETED)
-10. **Chat Message 197:** User provides a major list of changes for the property card (status badge colors, new Featured badge, action icons, currency symbol, number format) and requests adding a District search dropdown. (COMPLETED)
+**Last 10 User Messages and any pending HUMAN messages**:
+1. **User (Pending)**: *Waiting for response to Agent's questions about subscription/payment business model.*
+2. **User**: هل ترتبط لوحة التحكم برسوم الاشتراك والعروض والواد الخصم مثلا والمستخدين (Does the dashboard link to subscription fees, offers, discount codes, and users?) - *Agent responded clarifying they are not built yet and asked for requirements.*
+3. **User**: جميل جدا لكن لايمكن التأكد من عمل جميع الخصائص حاليا لعدم وجود بيانات (Very beautiful, but I can't be sure all features work currently due to lack of data) - *Agent seeded mock data and verified.*
+4. **User**: P1 (Selected Admin Dashboard to build next) - *Agent built Admin Dashboard.*
+5. **User**: نعم موافق (Yes, I agree to the property matching system proposal) - *Agent planned it and built backend routes.*
+6. **User**: جميع ما سبق , وليس لدي تصميم معين هل يمكن ان توفق المنصة بين العروض والطالبات... (All the above for Admin, no specific design. Can the platform match offers and requests based on interests?) - *Agent proposed the matching system.*
+7. **User**: ماهي الخطوة التالية؟ (What is the next step?) - *Agent proposed Admin Dashboard vs Property Pages.*
+8. **User**: جميل جدا هل يمكن وضع الدائرة(نفاذ) في منتصف النافذة ايضا غير مسمى زائر إلى ضيف في تصنيف المستخدمين (Beautiful, can you center the Nafath circle and change 'Visitor' to 'Guest'?) - *Agent completed this.*
+9. **User**: 1 (Selected Option 1: Ask for user role during Nafath verification) - *Agent implemented this.*
+10. **User**: جميل جدا التطبيق يعمل بصورة ممتازة , لكن كيف نميز المستخدمين الضيف أو الوسيط... (App works great, but how do we differentiate guests from brokers to add them to lists?) - *Agent proposed options for role selection.*
 
-**Project Health Check:**
-- **Broken:** The Properties by Region section and image watermarks do not match the user's design specification. This is a high-priority visual bug.
-- **Mocked:** The entire application's data is mocked in the frontend  file. The backend and database are not yet integrated.
+**Project Health Check**:
+- **Broken**: None.
+- **Mocked**: OTP SMS (Unifonic), Nafath Identity Verification, Property Data in main UI ( still uses hardcoded ), Payment Gateways.
 
-**3rd Party Integrations**
-- **Leaflet.js & OpenStreetMap:** Used for the interactive map feature.
-- **Google Fonts:** The  font is being imported.
+**3rd Party Integrations**:
+- Leaflet.js (Map)
+- Unifonic (SMS - Mocked)
+- Nafath (Identity - Mocked)
 
-**Testing status**
-- **Testing agent used after significant changes:** NO
-- **Troubleshoot agent used after agent stuck in loop:** NO
-- **Test files created:** None.
-- **Known regressions:** None.
+**Testing status**:
+- Testing agent used after significant changes: NO
+- Troubleshoot agent used after agent stuck in loop: NO
+- Test files created: None
+- Known regressions: None
 
-**Credentials to test flow:**
-- N/A
+**Credentials to test flow**:
+- Phone:  (Admin user seeded in DB) - OTP will appear on screen.
 
-**What agent forgot to execute**
-- The agent has not yet correctly implemented the user's latest feedback regarding the Properties by Region section and the watermark. This is the immediate task to be addressed.</analysis>
+**What agent forgot to execute**:
+- The agent forgot to update  using the finish tool after completing the Auth system and Admin dashboard features. Update the PRD document in your next steps.</analysis>
