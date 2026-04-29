@@ -1,9 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import axios from 'axios';
 import './App.css';
 import './components/MapStyles.css';
 import { PropertyMap, FullPageMap, PropertyMiniMap } from './components/MapComponent';
 import AdminDashboard from './AdminDashboard';
+import {
+  AIHeroHook,
+  AIMatchingModal,
+  SmartFilters,
+  PropertyDetailsModal,
+} from './components/AIComponents';
+import {
+  computeMarketAverages,
+  getPriceInsight,
+  getPropertyBadges,
+  getAISummary,
+  getInterestedNow,
+  smartFilter,
+} from './utils/marketAnalysis';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
@@ -1406,9 +1420,15 @@ const Carousel = ({ children, title, subtitle, showMoreLink = "#" }) => {
 };
 
 // Property Card Component - Updated Design
-const PropertyCard = ({ property }) => {
+const PropertyCard = ({ property, marketAverages = {}, onClick }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [isInterested, setIsInterested] = useState(false);
+
+  // AI computed insights
+  const badges = getPropertyBadges(property, marketAverages);
+  const priceInsight = getPriceInsight(property, marketAverages);
+  const aiSummary = getAISummary(property);
+  const interestedNow = getInterestedNow(property);
 
   // تنسيق التاريخ بالأرقام الإنجليزية
   const formatDate = (dateString) => {
@@ -1419,16 +1439,43 @@ const PropertyCard = ({ property }) => {
     return `${day}/${month}/${year}`;
   };
 
+  const handleCardClick = (e) => {
+    // Don't open modal when clicking on action buttons / agent links
+    if (e.target.closest('.card-action-btn')) return;
+    if (e.target.closest('.contact-whatsapp-btn')) return;
+    if (e.target.closest('.contact-call-btn')) return;
+    onClick?.(property);
+  };
+
   return (
-    <div className="property-card" data-testid={`property-card-${property.id}`}>
+    <div
+      className="property-card"
+      data-testid={`property-card-${property.id}`}
+      onClick={handleCardClick}
+      style={{ cursor: onClick ? 'pointer' : 'default' }}
+    >
       <div className="property-image">
         <img src={property.image} alt={property.title} />
-        
+
         {/* Watermark Logo */}
         <div className="property-watermark">
           <img src="https://customer-assets.emergentagent.com/job_onwan-homes/artifacts/a7d7dgbd_Logo%202030%20.png" alt="عنوان" />
         </div>
-        
+
+        {/* AI Badges (top-right) */}
+        {badges.length > 0 && (
+          <div className="ai-card-badges" data-testid={`ai-badges-${property.id}`}>
+            {badges.map((b) => (
+              <span key={b.key} className={`ai-badge ${b.tone}`}>
+                {b.icon === 'fire' && '🔥'}
+                {b.icon === 'star' && '⭐'}
+                {b.icon === 'sparkle' && '✨'}
+                {b.label}
+              </span>
+            ))}
+          </div>
+        )}
+
         {/* Status & Featured Badges */}
         <div className="property-badges-top">
           <div className={`property-status-badge ${property.status === 'للبيع' ? 'for-sale' : 'for-rent'}`}>
@@ -1499,6 +1546,17 @@ const PropertyCard = ({ property }) => {
           {property.price}
           <img src="https://customer-assets.emergentagent.com/job_realestate-refresh/artifacts/xb5u2agi_%D8%B1%D9%8A%D8%A7%D9%84.svg.png" alt="ريال" className="sar-icon" />
         </div>
+
+        {/* AI Price insight */}
+        {priceInsight && priceInsight.percent >= 3 && (
+          <span className={`ai-price-insight ${priceInsight.isBelow ? '' : 'over'}`} data-testid={`ai-price-insight-${property.id}`}>
+            {priceInsight.isBelow ? '📉' : '📈'}
+            {priceInsight.isBelow
+              ? `أرخص بـ ${priceInsight.percent}% من السوق`
+              : `أعلى بـ ${priceInsight.percent}% من السوق`}
+          </span>
+        )}
+
         <div className="property-location">
           <PropertyIcons.Location />
           {property.location}
@@ -1541,7 +1599,18 @@ const PropertyCard = ({ property }) => {
             {property.views} مشاهدة
           </span>
         </div>
-        
+
+        {/* AI Summary line */}
+        <div className="ai-card-summary" data-testid={`ai-summary-${property.id}`}>
+          <span className="ai-tag">AI</span>
+          {aiSummary}
+        </div>
+
+        {/* Interested now */}
+        <div className="ai-interest-line" data-testid={`ai-interest-${property.id}`}>
+          🔥 <strong>{interestedNow} شخص</strong> مهتم الآن بهذا العقار
+        </div>
+
         <div className="agent-info">
           <img src={property.agent.image} alt={property.agent.name} className="agent-avatar" />
           <div className="agent-details">
@@ -2180,6 +2249,22 @@ function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [showFullMap, setShowFullMap] = useState(false);
   const [showAdminPanel, setShowAdminPanel] = useState(false);
+  // AI / Smart UX state
+  const [showAIMatching, setShowAIMatching] = useState(false);
+  const [activeSmartFilter, setActiveSmartFilter] = useState('all');
+  const [selectedPropertyDetails, setSelectedPropertyDetails] = useState(null);
+
+  // Pre-compute market averages once for the property dataset
+  const marketAverages = useMemo(
+    () => computeMarketAverages(SAMPLE_PROPERTIES),
+    []
+  );
+
+  // Apply smart filter to base list (all properties)
+  const filteredProperties = useMemo(() => {
+    if (activeSmartFilter === 'all') return SAMPLE_PROPERTIES;
+    return smartFilter(SAMPLE_PROPERTIES, activeSmartFilter);
+  }, [activeSmartFilter]);
 
   useEffect(() => {
     const token = localStorage.getItem('access_token');
@@ -2296,9 +2381,12 @@ function App() {
     // Implement search functionality
   };
 
-  const featuredProperties = SAMPLE_PROPERTIES.filter(p => p.featured);
-  const latestProperties = SAMPLE_PROPERTIES.slice().reverse().slice(0, 4);
-  const mostViewedProperties = SAMPLE_PROPERTIES.slice().sort((a, b) => b.views - a.views).slice(0, 4);
+  const featuredProperties = filteredProperties.filter(p => p.featured);
+  const latestProperties = filteredProperties.slice().reverse().slice(0, 4);
+  const mostViewedProperties = filteredProperties.slice().sort((a, b) => b.views - a.views).slice(0, 4);
+
+  // When smart filter results in empty featured list, fallback to filteredProperties slice
+  const effectiveFeatured = featuredProperties.length > 0 ? featuredProperties : filteredProperties.slice(0, 6);
 
   return (
     <div className="App">
@@ -2308,8 +2396,12 @@ function App() {
         onLogout={handleLogout}
         onOpenMap={() => setShowFullMap(true)}
       />
-      
+
+      <AIHeroHook onStartMatching={() => setShowAIMatching(true)} />
+
       <SearchBar onSearch={handleSearch} />
+
+      <SmartFilters active={activeSmartFilter} onChange={setActiveSmartFilter} />
       
       <main className="main-content">
         {currentUser && (
@@ -2398,8 +2490,13 @@ function App() {
         <section className="properties-section">
           <div className="container">
             <Carousel title="العقارات المميزة" subtitle="اكتشف أفضل العقارات المختارة لك">
-              {featuredProperties.map(property => (
-                <PropertyCard key={property.id} property={property} />
+              {effectiveFeatured.map(property => (
+                <PropertyCard
+                  key={property.id}
+                  property={property}
+                  marketAverages={marketAverages}
+                  onClick={setSelectedPropertyDetails}
+                />
               ))}
             </Carousel>
           </div>
@@ -2435,7 +2532,12 @@ function App() {
           <div className="container">
             <Carousel title="العقارات الأحدث" subtitle="أحدث الإضافات في السوق العقاري">
               {latestProperties.map(property => (
-                <PropertyCard key={property.id} property={property} />
+                <PropertyCard
+                  key={property.id}
+                  property={property}
+                  marketAverages={marketAverages}
+                  onClick={setSelectedPropertyDetails}
+                />
               ))}
             </Carousel>
           </div>
@@ -2446,7 +2548,12 @@ function App() {
           <div className="container">
             <Carousel title="العقارات الأكثر مشاهدة" subtitle="العقارات التي تجذب اهتمام الزوار">
               {mostViewedProperties.map(property => (
-                <PropertyCard key={property.id} property={property} />
+                <PropertyCard
+                  key={property.id}
+                  property={property}
+                  marketAverages={marketAverages}
+                  onClick={setSelectedPropertyDetails}
+                />
               ))}
             </Carousel>
           </div>
@@ -2610,6 +2717,23 @@ function App() {
         <FullPageMap
           properties={SAMPLE_PROPERTIES}
           onClose={() => setShowFullMap(false)}
+        />
+      )}
+
+      {/* AI Matching Modal */}
+      <AIMatchingModal
+        isOpen={showAIMatching}
+        onClose={() => setShowAIMatching(false)}
+        properties={SAMPLE_PROPERTIES}
+        onSelectProperty={(p) => setSelectedPropertyDetails(p)}
+      />
+
+      {/* Property Details Modal */}
+      {selectedPropertyDetails && (
+        <PropertyDetailsModal
+          property={selectedPropertyDetails}
+          properties={SAMPLE_PROPERTIES}
+          onClose={() => setSelectedPropertyDetails(null)}
         />
       )}
     </div>
