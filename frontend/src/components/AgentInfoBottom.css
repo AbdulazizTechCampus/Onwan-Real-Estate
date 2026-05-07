@@ -1,0 +1,139 @@
+/* ==========================================================
+   Agent Info - Bottom of Property Card (redesigned)
+   Avatar with gold ring + verified badge | circular action buttons
+   ========================================================== */
+.agent-info-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 14px;
+  margin-top: 14px;
+  border-top: 1px solid #f1f5f9;
+}
+
+/* RIGHT side (RTL): identity */
+.agent-identity {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  flex: 1;
+}
+
+.agent-avatar-wrap {
+  position: relative;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  padding: 2.5px;
+  background: linear-gradient(135deg, #F7B733 0%, #D4AF37 50%, #B89020 100%);
+  flex-shrink: 0;
+  box-shadow: 0 4px 10px -4px rgba(212, 175, 55, 0.55);
+}
+
+.agent-avatar-wrap .agent-avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #fff;
+  border: 2px solid #fff;
+  display: block;
+}
+
+.agent-identity-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.agent-name-line {
+  font-size: 14px;
+  font-weight: 700;
+  color: #0B3954;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.3;
+}
+
+.agent-verified-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #B89020;
+  line-height: 1;
+}
+
+.agent-verified-badge svg {
+  color: #D4AF37;
+  flex-shrink: 0;
+}
+
+/* LEFT side (RTL): circular action buttons */
+.agent-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.agent-action-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+  border: 0;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.agent-action-btn:hover {
+  transform: translateY(-2px);
+}
+
+.agent-action-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* WhatsApp circular button - brand green */
+.agent-action-btn.whatsapp {
+  background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+  color: #fff;
+  box-shadow: 0 6px 14px -4px rgba(37, 211, 102, 0.55);
+}
+
+.agent-action-btn.whatsapp:hover {
+  box-shadow: 0 10px 20px -6px rgba(37, 211, 102, 0.7);
+  filter: brightness(1.05);
+}
+
+/* Call circular button - dark navy/teal */
+.agent-action-btn.call {
+  background: linear-gradient(135deg, #0B3954 0%, #087E8B 100%);
+  color: #fff;
+  box-shadow: 0 6px 14px -4px rgba(11, 57, 84, 0.5);
+}
+
+.agent-action-btn.call:hover {
+  box-shadow: 0 10px 20px -6px rgba(11, 57, 84, 0.65);
+  filter: brightness(1.1);
+}
+
+/* Mobile tweaks */
+@media (max-width: 480px) {
+  .agent-avatar-wrap { width: 44px; height: 44px; }
+  .agent-action-btn { width: 38px; height: 38px; }
+  .agent-action-btn svg { width: 18px; height: 18px; }
+  .agent-name-line { font-size: 13px; }
+}
