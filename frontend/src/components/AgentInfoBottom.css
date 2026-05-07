@@ -74,18 +74,18 @@
   flex-shrink: 0;
 }
 
-/* LEFT side (RTL): circular action buttons */
+/* LEFT side (RTL): rounded-square action buttons */
 .agent-actions {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   flex-shrink: 0;
 }
 
 .agent-action-btn {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -102,38 +102,38 @@
 }
 
 .agent-action-btn svg {
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
 }
 
-/* WhatsApp circular button - brand green */
+/* WhatsApp rounded-square button - brand green */
 .agent-action-btn.whatsapp {
   background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
   color: #fff;
-  box-shadow: 0 6px 14px -4px rgba(37, 211, 102, 0.55);
+  box-shadow: 0 4px 10px -3px rgba(37, 211, 102, 0.5);
 }
 
 .agent-action-btn.whatsapp:hover {
-  box-shadow: 0 10px 20px -6px rgba(37, 211, 102, 0.7);
+  box-shadow: 0 8px 16px -4px rgba(37, 211, 102, 0.65);
   filter: brightness(1.05);
 }
 
-/* Call circular button - dark navy/teal */
+/* Call rounded-square button - dark navy */
 .agent-action-btn.call {
-  background: linear-gradient(135deg, #0B3954 0%, #087E8B 100%);
+  background: linear-gradient(135deg, #0B3954 0%, #1a4d6b 100%);
   color: #fff;
-  box-shadow: 0 6px 14px -4px rgba(11, 57, 84, 0.5);
+  box-shadow: 0 4px 10px -3px rgba(11, 57, 84, 0.5);
 }
 
 .agent-action-btn.call:hover {
-  box-shadow: 0 10px 20px -6px rgba(11, 57, 84, 0.65);
-  filter: brightness(1.1);
+  box-shadow: 0 8px 16px -4px rgba(11, 57, 84, 0.65);
+  filter: brightness(1.15);
 }
 
 /* Mobile tweaks */
 @media (max-width: 480px) {
   .agent-avatar-wrap { width: 44px; height: 44px; }
-  .agent-action-btn { width: 38px; height: 38px; }
-  .agent-action-btn svg { width: 18px; height: 18px; }
+  .agent-action-btn { width: 32px; height: 32px; border-radius: 9px; }
+  .agent-action-btn svg { width: 14px; height: 14px; }
   .agent-name-line { font-size: 13px; }
 }

@@ -1612,6 +1612,26 @@ const PropertyCard = ({ property, marketAverages = {}, onClick }) => {
         </div>
 
         <div className="agent-info-bottom">
+          {/* Agent identity (right in RTL) */}
+          <div className="agent-identity">
+            <div className="agent-avatar-wrap">
+              <img
+                src={property.agent.image}
+                alt={property.agent.name}
+                className="agent-avatar"
+              />
+            </div>
+            <div className="agent-identity-text">
+              <div className="agent-name-line">{property.agent.name}</div>
+              <div className="agent-verified-badge">
+                <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14">
+                  <path d="M12 1l3.22 3.22L20 4l-.78 4.78L22 12l-2.78 3.22L20 20l-4.78-.78L12 22l-3.22-2.78L4 20l.78-4.78L2 12l2.78-3.22L4 4l4.78.78L12 1zm-1 15l8-8-1.41-1.41L11 13.17l-3.59-3.58L6 11l5 5z" />
+                </svg>
+                <span>معتمد</span>
+              </div>
+            </div>
+          </div>
+
           {/* Contact action buttons (left in RTL) */}
           <div className="agent-actions">
             <a
@@ -1636,26 +1656,6 @@ const PropertyCard = ({ property, marketAverages = {}, onClick }) => {
                 <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
               </svg>
             </a>
-          </div>
-
-          {/* Agent identity (right in RTL) */}
-          <div className="agent-identity">
-            <div className="agent-identity-text">
-              <div className="agent-name-line">{property.agent.name}</div>
-              <div className="agent-verified-badge">
-                <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14">
-                  <path d="M12 1l3.22 3.22L20 4l-.78 4.78L22 12l-2.78 3.22L20 20l-4.78-.78L12 22l-3.22-2.78L4 20l.78-4.78L2 12l2.78-3.22L4 4l4.78.78L12 1zm-1 15l8-8-1.41-1.41L11 13.17l-3.59-3.58L6 11l5 5z" />
-                </svg>
-                <span>معتمد</span>
-              </div>
-            </div>
-            <div className="agent-avatar-wrap">
-              <img
-                src={property.agent.image}
-                alt={property.agent.name}
-                className="agent-avatar"
-              />
-            </div>
           </div>
         </div>
       </div>
