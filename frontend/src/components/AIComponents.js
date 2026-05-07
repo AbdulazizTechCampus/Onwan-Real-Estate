@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import {
   parsePrice,
   formatPrice,
@@ -6,6 +6,71 @@ import {
   matchScore,
 } from '../utils/marketAnalysis';
 import './AIComponents.css';
+
+/* Inline icon set - matches PropertyCard icons for visual consistency */
+const Icon = {
+  Area: () => (
+    <svg viewBox="0 0 24 24" className="pd-ico" width="20" height="20">
+      <rect x="2" y="2" width="20" height="20" stroke="#087E8B" strokeWidth="1.6" fill="none" />
+      <path d="M2 2l5 5M22 2l-5 5M2 22l5-5M22 22l-5-5" stroke="#087E8B" strokeWidth="1.6" />
+      <path d="M7 12h10M12 7v10" stroke="#087E8B" strokeWidth="1.2" />
+    </svg>
+  ),
+  Bed: () => (
+    <img
+      src="https://customer-assets.emergentagent.com/job_realty-revamp-2/artifacts/pkmtzp3w_%D8%A3%D9%8A%D9%82%D9%88%D9%86%D8%A9_%D8%A7%D9%84%D8%B3%D8%B1%D9%8A%D8%B1_%D8%A7%D9%84%D8%B3%D9%88%D8%AF%D8%A7%D8%A1-removebg-preview.png"
+      alt="غرف"
+      className="pd-ico-img"
+    />
+  ),
+  Bath: () => (
+    <img
+      src="https://customer-assets.emergentagent.com/job_realty-revamp-2/artifacts/lffof85s_%D8%A3%D9%8A%D9%82%D9%88%D9%86%D8%A9_%D8%A7%D9%84%D8%AD%D9%88%D8%B6_%D8%A7%D9%84%D8%B3%D9%88%D8%AF%D8%A7%D8%A1-removebg-preview.png"
+      alt="حمامات"
+      className="pd-ico-img"
+    />
+  ),
+  Age: () => (
+    <svg viewBox="0 0 24 24" className="pd-ico" width="20" height="20">
+      <rect x="4" y="6" width="16" height="16" rx="2" stroke="#087E8B" strokeWidth="1.6" fill="none" />
+      <path d="M4 6c0-1.5 1-3 3-3h10c2 0 3 1.5 3 3" stroke="#087E8B" strokeWidth="1.6" fill="none" />
+      <rect x="8" y="10" width="3" height="3" fill="#087E8B" />
+      <rect x="13" y="10" width="3" height="3" fill="#087E8B" />
+      <rect x="10" y="16" width="4" height="6" stroke="#087E8B" strokeWidth="1" fill="none" />
+    </svg>
+  ),
+  Location: () => (
+    <svg viewBox="0 0 24 24" className="pd-ico" width="20" height="20">
+      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke="#ef4444" strokeWidth="2" fill="none" />
+      <circle cx="12" cy="9" r="2.5" fill="#ef4444" />
+    </svg>
+  ),
+  Views: () => (
+    <svg viewBox="0 0 24 24" className="pd-ico" width="20" height="20">
+      <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" fill="#087E8B" />
+    </svg>
+  ),
+  Date: () => (
+    <svg viewBox="0 0 24 24" className="pd-ico" width="20" height="20">
+      <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z" fill="#087E8B" />
+    </svg>
+  ),
+  Sparkle: () => (
+    <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+      <path d="M12 2L9.5 9.5 2 12l7.5 2.5L12 22l2.5-7.5L22 12l-7.5-2.5L12 2z" />
+    </svg>
+  ),
+  Trending: () => (
+    <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+      <path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6h-6z" />
+    </svg>
+  ),
+  Fire: () => (
+    <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+      <path d="M13.5.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67zM11.71 19c-1.78 0-3.22-1.4-3.22-3.14 0-1.62 1.05-2.76 2.81-3.12 1.77-.36 3.6-1.21 4.62-2.58.39 1.29.59 2.65.59 4.04 0 2.65-2.15 4.8-4.8 4.8z" />
+    </svg>
+  ),
+};
 
 /* ===========================
    1) AI Hero Hook
@@ -402,15 +467,112 @@ export const SmartFilters = ({ active, onChange }) => {
 /* ===========================
    4) Property Details Modal
    =========================== */
+const FALLBACK_GALLERY = {
+  residential: [
+    'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=900&q=80',
+    'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=900&q=80',
+    'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=900&q=80',
+    'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=900&q=80',
+  ],
+  commercial: [
+    'https://images.unsplash.com/photo-1497366216548-37526070297c?w=900&q=80',
+    'https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=900&q=80',
+    'https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=900&q=80',
+  ],
+  default: [
+    'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=900&q=80',
+    'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=900&q=80',
+  ],
+};
+
+const getGallery = (property) => {
+  if (Array.isArray(property.gallery) && property.gallery.length > 0) {
+    return property.gallery;
+  }
+  const base = [property.image];
+  const extra = FALLBACK_GALLERY[property.category] || FALLBACK_GALLERY.default;
+  return [...base, ...extra].slice(0, 5);
+};
+
+/* Lightbox component */
+const Lightbox = ({ images, startIndex = 0, onClose }) => {
+  const [index, setIndex] = useState(startIndex);
+  const [zoomed, setZoomed] = useState(false);
+
+  useEffect(() => {
+    const handler = (e) => {
+      if (e.key === 'Escape') onClose();
+      if (e.key === 'ArrowRight') setIndex((i) => (i - 1 + images.length) % images.length);
+      if (e.key === 'ArrowLeft') setIndex((i) => (i + 1) % images.length);
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [images.length, onClose]);
+
+  return (
+    <div className="lb-backdrop" onClick={onClose} data-testid="property-lightbox">
+      <button className="lb-close" onClick={onClose} data-testid="lb-close-btn" aria-label="إغلاق">
+        ✕
+      </button>
+      <button
+        className="lb-arrow lb-arrow-prev"
+        onClick={(e) => {
+          e.stopPropagation();
+          setIndex((i) => (i + 1) % images.length);
+        }}
+        aria-label="الصورة السابقة"
+      >
+        ‹
+      </button>
+      <button
+        className="lb-arrow lb-arrow-next"
+        onClick={(e) => {
+          e.stopPropagation();
+          setIndex((i) => (i - 1 + images.length) % images.length);
+        }}
+        aria-label="الصورة التالية"
+      >
+        ›
+      </button>
+      <img
+        className={`lb-image ${zoomed ? 'zoomed' : ''}`}
+        src={images[index]}
+        alt={`صورة ${index + 1}`}
+        onClick={(e) => {
+          e.stopPropagation();
+          setZoomed((z) => !z);
+        }}
+      />
+      <div className="lb-counter">
+        {index + 1} / {images.length}
+      </div>
+      <div className="lb-thumbs" onClick={(e) => e.stopPropagation()}>
+        {images.map((src, i) => (
+          <button
+            key={i}
+            className={`lb-thumb ${i === index ? 'active' : ''}`}
+            onClick={() => setIndex(i)}
+          >
+            <img src={src} alt="" />
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+};
+
 export const PropertyDetailsModal = ({ property, properties, onClose }) => {
   const averages = useMemo(
     () => computeMarketAverages(properties || []),
     [properties]
   );
 
+  const gallery = useMemo(() => (property ? getGallery(property) : []), [property]);
+  const [activeImg, setActiveImg] = useState(0);
+  const [lightbox, setLightbox] = useState(null); // null or starting index
+
   if (!property) return null;
 
-  // Inline computations to avoid duplicate imports
   const price = parsePrice(property.price);
   const area = parseFloat(property.area) || 0;
   const key = `${property.category || 'all'}__${property.status || 'all'}`;
@@ -432,7 +594,6 @@ export const PropertyDetailsModal = ({ property, properties, onClose }) => {
     Math.round((property.views || 0) * 0.018) + ((property.id || 0) % 7)
   );
 
-  // Generate AI summary
   const summaryParts = [];
   if (property.category === 'residential') {
     if (property.bedrooms >= 4) summaryParts.push('مناسب لعائلة');
@@ -447,179 +608,227 @@ export const PropertyDetailsModal = ({ property, properties, onClose }) => {
     summaryParts.push('في موقع حيوي قريب من مراكز الأعمال');
   if (property.age === 0) summaryParts.push('بناء جديد ولم يُسكَن من قبل');
   else if (property.age <= 2) summaryParts.push('بناء حديث بمواصفات عصرية');
-
   const aiSummary = summaryParts.join('. ') + '.';
 
+  const formatDate = (dateString) => {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
+  };
+
   return (
-    <div className="pd-modal-backdrop" onClick={onClose}>
-      <div
-        className="pd-modal"
-        onClick={(e) => e.stopPropagation()}
-        data-testid="property-details-modal"
-      >
-        <button
-          className="pd-close"
-          onClick={onClose}
-          data-testid="property-details-close-btn"
-          aria-label="إغلاق"
+    <>
+      <div className="pd-modal-backdrop" onClick={onClose}>
+        <div
+          className="pd-modal"
+          onClick={(e) => e.stopPropagation()}
+          data-testid="property-details-modal"
         >
-          ✕
-        </button>
+          <button
+            className="pd-close"
+            onClick={onClose}
+            data-testid="property-details-close-btn"
+            aria-label="إغلاق"
+          >
+            ✕
+          </button>
 
-        <div className="pd-cover">
-          <img src={property.image} alt={property.title} />
-          <div className="pd-cover-overlay">
-            <span className="pd-status-pill">{property.status}</span>
-            {property.featured && (
-              <span className="pd-status-pill" style={{ color: '#087E8B' }}>
-                ⭐ مميز
+          {/* Gallery */}
+          <div className="pd-gallery">
+            <div
+              className="pd-gallery-main"
+              onClick={() => setLightbox(activeImg)}
+              data-testid="pd-gallery-main"
+            >
+              <img src={gallery[activeImg]} alt={property.title} />
+              <button className="pd-zoom-btn" aria-label="تكبير الصورة">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                  <path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+                </svg>
+                <span>تكبير</span>
+              </button>
+              <div className="pd-status-pill">{property.status}</div>
+            </div>
+            {gallery.length > 1 && (
+              <div className="pd-thumbs-row">
+                {gallery.map((src, i) => (
+                  <button
+                    key={i}
+                    className={`pd-thumb ${i === activeImg ? 'active' : ''}`}
+                    onClick={() => setActiveImg(i)}
+                    data-testid={`pd-thumb-${i}`}
+                    aria-label={`الصورة ${i + 1}`}
+                  >
+                    <img src={src} alt="" />
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <div className="pd-body">
+            <h2 className="pd-title" data-testid="property-details-title">
+              {property.title}
+            </h2>
+            <div className="pd-loc">
+              <Icon.Location />
+              <span>{property.location}</span>
+            </div>
+
+            <div className="pd-price-row">
+              <div className="pd-price">
+                {property.price} <small>ريال</small>
+              </div>
+              {insight && (
+                <div className={`ai-price-insight ${insight.isBelow ? '' : 'over'}`}>
+                  <Icon.Trending />
+                  {insight.isBelow
+                    ? `أرخص بـ ${insight.percent}% من متوسط السوق`
+                    : `أعلى بـ ${insight.percent}% من متوسط السوق`}
+                </div>
+              )}
+            </div>
+
+            {/* AI Summary Card */}
+            <div className="pd-ai-summary-card" data-testid="pd-ai-summary">
+              <span className="label">
+                <Icon.Sparkle />
+                تحليل الذكاء الاصطناعي
               </span>
-            )}
-          </div>
-        </div>
-
-        <div className="pd-body">
-          <h2 className="pd-title" data-testid="property-details-title">
-            {property.title}
-          </h2>
-          <div className="pd-loc">📍 {property.location}</div>
-
-          <div className="pd-price-row">
-            <div className="pd-price">
-              {property.price} <small>ريال</small>
+              <p>{aiSummary}</p>
             </div>
-            {insight && (
-              <div className={`ai-price-insight ${insight.isBelow ? '' : 'over'}`}>
-                {insight.isBelow ? '📉' : '📈'}
-                {insight.isBelow
-                  ? `أرخص بـ ${insight.percent}% من متوسط السوق`
-                  : `أعلى بـ ${insight.percent}% من متوسط السوق`}
+
+            {/* Insights Grid */}
+            <div className="pd-insights-grid">
+              {insight && (
+                <div className={`pd-insight ${insight.isBelow ? 'pos' : 'warn'}`}>
+                  <div className="pd-i-tag">
+                    <Icon.Trending /> تحليل السعر
+                  </div>
+                  <div className="pd-i-val">
+                    {formatPrice(insight.propPerSqm)} ريال/م²
+                  </div>
+                  <div className="pd-i-sub">
+                    متوسط السوق: {formatPrice(insight.marketAvgPerSqm)} ريال/م²
+                  </div>
+                </div>
+              )}
+              <div className="pd-insight pos">
+                <div className="pd-i-tag">
+                  <Icon.Fire /> طلب نشِط
+                </div>
+                <div className="pd-i-val">{interestedNow} شخص</div>
+                <div className="pd-i-sub">يهتمّون بهذا العقار الآن</div>
               </div>
-            )}
-          </div>
-
-          {/* AI Summary Card */}
-          <div className="pd-ai-summary-card" data-testid="pd-ai-summary">
-            <span className="label">
-              <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
-                <path d="M12 2L9.5 9.5 2 12l7.5 2.5L12 22l2.5-7.5L22 12l-7.5-2.5L12 2z" />
-              </svg>
-              تحليل الذكاء الاصطناعي
-            </span>
-            <p>{aiSummary}</p>
-          </div>
-
-          {/* Insights Grid */}
-          <div className="pd-insights-grid">
-            {insight && (
-              <div className={`pd-insight ${insight.isBelow ? 'pos' : 'warn'}`}>
-                <div className="pd-i-tag">📊 تحليل السعر</div>
+              <div className="pd-insight">
+                <div className="pd-i-tag">
+                  <Icon.Views /> مشاهدات
+                </div>
                 <div className="pd-i-val">
-                  {formatPrice(insight.propPerSqm)} ريال/م²
+                  {property.views?.toLocaleString('en') || 0}
                 </div>
-                <div className="pd-i-sub">
-                  متوسط السوق: {formatPrice(insight.marketAvgPerSqm)} ريال/م²
+                <div className="pd-i-sub">إجمالي زوار الإعلان</div>
+              </div>
+            </div>
+
+            {/* Specs - using property card icons */}
+            <h3 className="pd-section-title">
+              <Icon.Area /> المواصفات
+            </h3>
+            <div className="pd-specs-grid">
+              <div className="pd-spec">
+                <Icon.Area />
+                <div className="num">{property.area}</div>
+                <div className="lbl">م²</div>
+              </div>
+              {property.bedrooms != null && (
+                <div className="pd-spec">
+                  <Icon.Bed />
+                  <div className="num">{property.bedrooms}</div>
+                  <div className="lbl">غرفة نوم</div>
                 </div>
-              </div>
-            )}
-            <div className="pd-insight pos">
-              <div className="pd-i-tag">🔥 طلب نشِط</div>
-              <div className="pd-i-val">{interestedNow} شخص</div>
-              <div className="pd-i-sub">يهتمّون بهذا العقار الآن</div>
-            </div>
-            <div className="pd-insight">
-              <div className="pd-i-tag">👁️ مشاهدات</div>
-              <div className="pd-i-val">{property.views?.toLocaleString('en') || 0}</div>
-              <div className="pd-i-sub">إجمالي زوار الإعلان</div>
-            </div>
-          </div>
-
-          {/* Specs */}
-          <h3 className="pd-section-title">📐 المواصفات</h3>
-          <div className="pd-specs-grid">
-            <div className="pd-spec">
-              <div className="num">{property.area}</div>
-              <div className="lbl">م²</div>
-            </div>
-            {property.bedrooms != null && (
-              <div className="pd-spec">
-                <div className="num">{property.bedrooms}</div>
-                <div className="lbl">غرفة نوم</div>
-              </div>
-            )}
-            {property.bathrooms != null && (
-              <div className="pd-spec">
-                <div className="num">{property.bathrooms}</div>
-                <div className="lbl">حمام</div>
-              </div>
-            )}
-            {property.age != null && (
-              <div className="pd-spec">
-                <div className="num">{property.age === 0 ? 'جديد' : property.age}</div>
-                <div className="lbl">{property.age === 0 ? 'البناء' : 'سنة'}</div>
-              </div>
-            )}
-          </div>
-
-          {/* Agent */}
-          {property.agent && (
-            <>
-              <h3 className="pd-section-title">👤 الوسيط المسؤول</h3>
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 12,
-                  padding: 12,
-                  background: '#f8fafc',
-                  borderRadius: 12,
-                  marginBottom: 16,
-                }}
-              >
-                <img
-                  src={property.agent.image}
-                  alt={property.agent.name}
-                  style={{ width: 48, height: 48, borderRadius: '50%' }}
-                />
-                <div>
-                  <div style={{ fontWeight: 700, color: '#0B3954' }}>
-                    {property.agent.name}
+              )}
+              {property.bathrooms != null && (
+                <div className="pd-spec">
+                  <Icon.Bath />
+                  <div className="num">{property.bathrooms}</div>
+                  <div className="lbl">حمام</div>
+                </div>
+              )}
+              {property.age != null && (
+                <div className="pd-spec">
+                  <Icon.Age />
+                  <div className="num">
+                    {property.age === 0 ? 'جديد' : property.age}
                   </div>
-                  <div style={{ fontSize: 13, color: '#6b7280' }}>
-                    {property.agent.phone}
-                  </div>
+                  <div className="lbl">{property.age === 0 ? 'البناء' : 'سنة'}</div>
                 </div>
-              </div>
-            </>
-          )}
+              )}
+              {property.publishDate && (
+                <div className="pd-spec">
+                  <Icon.Date />
+                  <div className="num" style={{ fontSize: 14 }}>
+                    {formatDate(property.publishDate)}
+                  </div>
+                  <div className="lbl">تاريخ النشر</div>
+                </div>
+              )}
+            </div>
 
-          <div className="pd-actions-row">
+            {/* Agent */}
             {property.agent && (
               <>
-                <a
-                  className="pd-action whatsapp"
-                  href={`https://wa.me/${property.agent.phone.replace(/[^0-9]/g, '')}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  data-testid="pd-whatsapp-btn"
-                >
-                  💬 تواصل عبر واتساب
-                </a>
-                <a
-                  className="pd-action call"
-                  href={`tel:${property.agent.phone}`}
-                  data-testid="pd-call-btn"
-                >
-                  📞 اتصال
-                </a>
+                <h3 className="pd-section-title">الوسيط المسؤول</h3>
+                <div className="pd-agent-row">
+                  <img
+                    src={property.agent.image}
+                    alt={property.agent.name}
+                    className="pd-agent-avatar"
+                  />
+                  <div>
+                    <div className="pd-agent-name">{property.agent.name}</div>
+                    <div className="pd-agent-phone">{property.agent.phone}</div>
+                  </div>
+                </div>
               </>
             )}
-            <button className="pd-action primary" data-testid="pd-interest-btn">
-              ⭐ سجّل اهتمامك
-            </button>
+
+            <div className="pd-actions-row">
+              {property.agent && (
+                <>
+                  <a
+                    className="pd-action whatsapp"
+                    href={`https://wa.me/${property.agent.phone.replace(/[^0-9]/g, '')}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    data-testid="pd-whatsapp-btn"
+                  >
+                    تواصل عبر واتساب
+                  </a>
+                  <a
+                    className="pd-action call"
+                    href={`tel:${property.agent.phone}`}
+                    data-testid="pd-call-btn"
+                  >
+                    اتصال مباشر
+                  </a>
+                </>
+              )}
+              <button className="pd-action primary" data-testid="pd-interest-btn">
+                سجّل اهتمامك
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+
+      {lightbox !== null && (
+        <Lightbox
+          images={gallery}
+          startIndex={lightbox}
+          onClose={() => setLightbox(null)}
+        />
+      )}
+    </>
   );
 };

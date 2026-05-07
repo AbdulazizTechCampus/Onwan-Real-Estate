@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import axios from 'axios';
 import './App.css';
 import './components/MapStyles.css';
+import './components/AuthExtras.css';
 import { PropertyMap, FullPageMap, PropertyMiniMap } from './components/MapComponent';
 import AdminDashboard from './AdminDashboard';
 import {
@@ -1476,12 +1477,11 @@ const PropertyCard = ({ property, marketAverages = {}, onClick }) => {
           </div>
         )}
 
-        {/* Status & Featured Badges */}
+        {/* Status Badge (top-right) */}
         <div className="property-badges-top">
           <div className={`property-status-badge ${property.status === 'للبيع' ? 'for-sale' : 'for-rent'}`}>
             {property.status}
           </div>
-          {property.featured && <div className="featured-badge-new">مميز</div>}
         </div>
         
         {/* Action Buttons - Left Side */}
@@ -1886,6 +1886,7 @@ const LoginModal = ({ isOpen, onClose, onSuccess }) => {
     phone_number: '',
     otp_code: ''
   });
+  const [selectedRole, setSelectedRole] = useState('visitor');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
   const [devOtpCode, setDevOtpCode] = useState(null);
@@ -1920,6 +1921,17 @@ const LoginModal = ({ isOpen, onClose, onSuccess }) => {
     }
   };
 
+  // After entering OTP code, advance to role selection step (no API call yet)
+  const proceedToRole = () => {
+    if (formData.otp_code.length !== 6) {
+      setMessage('الرجاء إدخال رمز مكون من 6 أرقام');
+      return;
+    }
+    setMessage('');
+    setStep('role');
+  };
+
+  // Final step: verify OTP with selected user_type
   const verifyOTP = async () => {
     setLoading(true);
     setMessage('');
@@ -1927,7 +1939,8 @@ const LoginModal = ({ isOpen, onClose, onSuccess }) => {
     try {
       const response = await axios.post(`${API}/auth/verify-otp`, {
         phone_number: formData.phone_number,
-        otp_code: formData.otp_code
+        otp_code: formData.otp_code,
+        user_type: selectedRole
       });
       
       if (response.data.success) {
@@ -1938,6 +1951,8 @@ const LoginModal = ({ isOpen, onClose, onSuccess }) => {
       }
     } catch (error) {
       setMessage(error.response?.data?.detail || 'خطأ في التحقق من الرمز');
+      // If OTP failed (e.g., expired), go back to OTP step
+      if (error.response?.status === 400) setStep('otp');
     } finally {
       setLoading(false);
     }
@@ -1947,6 +1962,7 @@ const LoginModal = ({ isOpen, onClose, onSuccess }) => {
     onClose();
     setStep('phone');
     setFormData({ phone_number: '', otp_code: '' });
+    setSelectedRole('visitor');
     setDevOtpCode(null);
     setMessage('');
   };
@@ -1964,10 +1980,15 @@ const LoginModal = ({ isOpen, onClose, onSuccess }) => {
             <div className="step-circle">1</div>
             <span>رقم الهاتف</span>
           </div>
-          <div className={`progress-line ${step === 'otp' ? 'active' : ''}`}></div>
-          <div className={`progress-step ${step === 'otp' ? 'active' : ''}`}>
+          <div className={`progress-line ${step !== 'phone' ? 'active' : ''}`}></div>
+          <div className={`progress-step ${step === 'otp' ? 'active' : (step === 'role' ? 'completed' : '')}`}>
             <div className="step-circle">2</div>
             <span>رمز التحقق</span>
+          </div>
+          <div className={`progress-line ${step === 'role' ? 'active' : ''}`}></div>
+          <div className={`progress-step ${step === 'role' ? 'active' : ''}`}>
+            <div className="step-circle">3</div>
+            <span>صفة المستخدم</span>
           </div>
         </div>
 
@@ -2054,16 +2075,12 @@ const LoginModal = ({ isOpen, onClose, onSuccess }) => {
                 </div>
                 
                 <button
-                  onClick={verifyOTP}
+                  onClick={proceedToRole}
                   disabled={loading || formData.otp_code.length !== 6}
                   className="auth-submit-btn"
+                  data-testid="auth-otp-submit-btn"
                 >
-                  {loading ? (
-                    <span className="btn-loading">
-                      <span className="spinner"></span>
-                      جاري التحقق...
-                    </span>
-                  ) : 'تأكيد الرمز'}
+                  متابعة
                 </button>
                 
                 <div className="auth-actions">
@@ -2074,6 +2091,96 @@ const LoginModal = ({ isOpen, onClose, onSuccess }) => {
                     إعادة إرسال الرمز
                   </button>
                 </div>
+              </div>
+            </div>
+          )}
+
+          {step === 'role' && (
+            <div className="auth-step" data-testid="auth-role-step">
+              <div className="auth-header">
+                <h2>اختر صفتك</h2>
+                <p>حدّد كيف ستستخدم منصة عنوان (يمكنك تغييرها لاحقاً)</p>
+              </div>
+
+              <div className="role-options-grid">
+                <button
+                  type="button"
+                  className={`role-option ${selectedRole === 'visitor' ? 'active' : ''}`}
+                  onClick={() => setSelectedRole('visitor')}
+                  data-testid="role-visitor"
+                >
+                  <div className="role-emoji">👤</div>
+                  <div className="role-title">ضيف</div>
+                  <div className="role-desc">تصفّح وحفظ العقارات والتواصل مع الوسطاء</div>
+                </button>
+
+                <button
+                  type="button"
+                  className={`role-option ${selectedRole === 'owner' ? 'active' : ''}`}
+                  onClick={() => setSelectedRole('owner')}
+                  data-testid="role-owner"
+                >
+                  <div className="role-emoji">🏠</div>
+                  <div className="role-title">مالك عقار</div>
+                  <div className="role-desc">إضافة عقاراتك للبيع أو الإيجار</div>
+                  <div className="role-tag">يتطلب التحقق عبر نفاذ</div>
+                </button>
+
+                <button
+                  type="button"
+                  className={`role-option ${selectedRole === 'broker_individual' ? 'active' : ''}`}
+                  onClick={() => setSelectedRole('broker_individual')}
+                  data-testid="role-broker-individual"
+                >
+                  <div className="role-emoji">🤝</div>
+                  <div className="role-title">وسيط فردي</div>
+                  <div className="role-desc">تسويق العقارات بصفة شخصية معتمدة</div>
+                  <div className="role-tag">يتطلب التحقق عبر نفاذ</div>
+                </button>
+
+                <button
+                  type="button"
+                  className={`role-option ${selectedRole === 'broker_corporate' ? 'active' : ''}`}
+                  onClick={() => setSelectedRole('broker_corporate')}
+                  data-testid="role-broker-corporate"
+                >
+                  <div className="role-emoji">🏢</div>
+                  <div className="role-title">وسيط مؤسسي</div>
+                  <div className="role-desc">شركة وساطة عقارية بترخيص ساري</div>
+                  <div className="role-tag">يتطلب التحقق عبر نفاذ</div>
+                </button>
+
+                <button
+                  type="button"
+                  className={`role-option ${selectedRole === 'photographer' ? 'active' : ''}`}
+                  onClick={() => setSelectedRole('photographer')}
+                  data-testid="role-photographer"
+                >
+                  <div className="role-emoji">📷</div>
+                  <div className="role-title">مصور عقاري</div>
+                  <div className="role-desc">تقديم خدمات التصوير الاحترافي للعقارات</div>
+                  <div className="role-tag">يتطلب التحقق عبر نفاذ</div>
+                </button>
+              </div>
+
+              <button
+                onClick={verifyOTP}
+                disabled={loading}
+                className="auth-submit-btn"
+                data-testid="auth-role-submit-btn"
+              >
+                {loading ? (
+                  <span className="btn-loading">
+                    <span className="spinner"></span>
+                    جاري إنشاء الحساب...
+                  </span>
+                ) : 'إنشاء الحساب وتسجيل الدخول'}
+              </button>
+
+              <div className="auth-actions">
+                <button onClick={() => setStep('otp')} className="auth-link-btn">
+                  رجوع
+                </button>
               </div>
             </div>
           )}
