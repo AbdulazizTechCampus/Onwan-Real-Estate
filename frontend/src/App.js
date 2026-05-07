@@ -2689,7 +2689,7 @@ function App() {
           <div className="container">
             <LogoSlider 
               items={SAMPLE_AGENTS} 
-              title="الوسطاء المميزون" 
+              title="شركاء النجاح" 
               type="agent"
             />
           </div>
@@ -2700,7 +2700,7 @@ function App() {
           <div className="container">
             <LogoSlider 
               items={SAMPLE_PHOTOGRAPHERS} 
-              title="المصورون المميزون" 
+              title="عقارك بعيوننا" 
               type="photographer"
             />
           </div>
