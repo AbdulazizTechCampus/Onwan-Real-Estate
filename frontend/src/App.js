@@ -6,6 +6,7 @@ import './components/AuthExtras.css';
 import './components/AgentInfoBottom.css';
 import './components/RoleMenu.css';
 import './components/FeaturedCards.css';
+import './components/WelcomeBanner.css';
 import { PropertyMap, FullPageMap, PropertyMiniMap } from './components/MapComponent';
 import AdminDashboard from './AdminDashboard';
 import {
@@ -2753,79 +2754,42 @@ function App() {
       
       <main className="main-content">
         {currentUser && (
-          <section className="user-welcome-section">
+          <section className="user-welcome-banner" data-testid="user-welcome-banner">
             <div className="container">
-              <div className="user-welcome-card">
-                <div className="welcome-header">
-                  <div className="welcome-avatar">
-                    {currentUser.full_name_arabic ? currentUser.full_name_arabic.charAt(0) : '👤'}
-                  </div>
-                  <div className="welcome-info">
-                    <h2>مرحباً بك{currentUser.full_name_arabic ? `، ${currentUser.full_name_arabic}` : ''}</h2>
-                    <p>{currentUser.phone_number}</p>
-                  </div>
+              <div className="welcome-banner-inner">
+                <div className="welcome-banner-greeting">
+                  <span className="welcome-banner-emoji">👋</span>
+                  <span className="welcome-banner-text">
+                    مرحباً بك{currentUser.full_name_arabic ? `، ${currentUser.full_name_arabic}` : ''}
+                  </span>
                 </div>
-                
-                <div className="verification-status">
-                  <div className="status-item verified">
-                    <span className="status-icon">✅</span>
-                    <span>رقم الهاتف مُوثق</span>
-                  </div>
-                  
+
+                <div className="welcome-banner-badges">
+                  <span className="verify-chip verified" data-testid="verify-chip-phone">
+                    <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14">
+                      <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                    </svg>
+                    رقم الهاتف موثّق
+                  </span>
+
                   {currentUser.is_nafath_verified ? (
-                    <div className="status-item verified">
-                      <span className="status-icon">✅</span>
-                      <span>الهوية مُوثقة عبر نفاذ</span>
-                    </div>
+                    <span className="verify-chip verified" data-testid="verify-chip-nafath">
+                      <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14">
+                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                      </svg>
+                      الهوية موثّقة عبر نفاذ
+                    </span>
                   ) : (
-                    <div className="status-item pending">
-                      <span className="status-icon">🔓</span>
-                      <span>الهوية غير مُوثقة</span>
-                    </div>
-                  )}
-                </div>
-                
-                {/* Quick Actions */}
-                <div className="quick-actions">
-                  <button 
-                    className="quick-action-btn"
-                    onClick={handleAddProperty}
-                  >
-                    <span className="action-icon">🏠</span>
-                    <span>إضافة عقار</span>
-                    {!currentUser.is_nafath_verified && <span className="requires-nafath">نفاذ</span>}
-                  </button>
-                  
-                  <button 
-                    className="quick-action-btn"
-                    onClick={handleMediationContract}
-                  >
-                    <span className="action-icon">📋</span>
-                    <span>عقد وساطة</span>
-                    {!currentUser.is_nafath_verified && <span className="requires-nafath">نفاذ</span>}
-                  </button>
-                  
-                  <button 
-                    className="quick-action-btn"
-                    onClick={handleMarketingContract}
-                  >
-                    <span className="action-icon">📢</span>
-                    <span>عقد تسويق</span>
-                    {!currentUser.is_nafath_verified && <span className="requires-nafath">نفاذ</span>}
-                  </button>
-                  
-                  <button className="quick-action-btn">
-                    <span className="action-icon">❤️</span>
-                    <span>المفضلة</span>
-                  </button>
-                  
-                  {currentUser.user_type === 'admin' && (
-                    <button 
-                      className="quick-action-btn admin-btn"
-                      onClick={() => setShowAdminPanel(true)}
+                    <button
+                      type="button"
+                      className="verify-chip pending"
+                      onClick={handleMediationContract}
+                      data-testid="verify-chip-nafath-pending"
                     >
-                      <span className="action-icon">⚙️</span>
-                      <span>لوحة التحكم</span>
+                      <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14">
+                        <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-1 6h2v2h-2V7zm0 4h2v6h-2v-6z" />
+                      </svg>
+                      وثّق هويتك عبر نفاذ
                     </button>
                   )}
                 </div>
