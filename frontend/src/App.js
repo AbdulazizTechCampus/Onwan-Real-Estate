@@ -1,9 +1,11 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import axios from 'axios';
 import './App.css';
 import './components/MapStyles.css';
 import './components/AuthExtras.css';
 import './components/AgentInfoBottom.css';
+import './components/RoleMenu.css';
+import './components/FeaturedCards.css';
 import { PropertyMap, FullPageMap, PropertyMiniMap } from './components/MapComponent';
 import AdminDashboard from './AdminDashboard';
 import {
@@ -181,6 +183,7 @@ const SAMPLE_PROPERTIES = [
     image: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Njl8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjByZWFsJTIwZXN0YXRlfGVufDB8fHx8MTc1NTI2OTg1NHww&ixlib=rb-4.1.0&q=85',
     status: 'للبيع',
     featured: true,
+    featured_type: 'premium_plus',
     views: 1250,
     publishDate: '2024-01-15',
     coordinates: [24.8204, 46.6275], // حي الملقا
@@ -204,6 +207,7 @@ const SAMPLE_PROPERTIES = [
     image: 'https://images.unsplash.com/photo-1613490493576-7fde63acd811?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Njl8MHwxfHNlYXJjaHwyfHxsdXh1cnklMjByZWFsJTIwZXN0YXRlfGVufDB8fHx8MTc1NTI2OTg1NHww&ixlib=rb-4.1.0&q=85',
     status: 'للإيجار',
     featured: true,
+    featured_type: 'premium',
     views: 890,
     publishDate: '2024-01-10',
     coordinates: [24.6632, 46.7186], // حي الملز
@@ -225,6 +229,7 @@ const SAMPLE_PROPERTIES = [
     image: 'https://images.unsplash.com/photo-1621831337128-35676ca30868?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2Mzl8MHwxfHNlYXJjaHwxfHxjb21tZXJjaWFsJTIwYnVpbGRpbmd8ZW58MHx8fHwxNzU1Mzc1MDEyfDA&ixlib=rb-4.1.0&q=85',
     status: 'للبيع',
     featured: true,
+    featured_type: 'premium',
     views: 2150,
     publishDate: '2024-01-08',
     coordinates: [21.5433, 39.1728], // جدة
@@ -248,6 +253,7 @@ const SAMPLE_PROPERTIES = [
     image: 'https://images.unsplash.com/photo-1670589953882-b94c9cb380f5?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzB8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjB2aWxsYXxlbnwwfHx8fDE3NTUzNzUwMDd8MA&ixlib=rb-4.1.0&q=85',
     status: 'للبيع',
     featured: false,
+    featured_type: 'standard',
     views: 765,
     publishDate: '2024-01-12',
     coordinates: [24.8607, 46.6458], // حي النرجس
@@ -269,6 +275,7 @@ const SAMPLE_PROPERTIES = [
     image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2Mzl8MHwxfHNlYXJjaHw0fHxjb21tZXJjaWFsJTIwYnVpbGRpbmd8ZW58MHx8fHwxNzU1Mzc1MDEyfDA&ixlib=rb-4.1.0&q=85',
     status: 'للإيجار',
     featured: false,
+    featured_type: 'standard',
     views: 420,
     publishDate: '2024-01-18',
     coordinates: [24.6903, 46.6854], // حي العليا
@@ -292,6 +299,7 @@ const SAMPLE_PROPERTIES = [
     image: 'https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Njl8MHwxfHNlYXJjaHwzfHxsdXh1cnklMjByZWFsJTIwZXN0YXRlfGVufDB8fHx8MTc1NTI2OTg1NHww&ixlib=rb-4.1.0&q=85',
     status: 'للبيع',
     featured: true,
+    featured_type: 'premium_plus',
     views: 3420,
     publishDate: '2024-01-05',
     coordinates: [24.8142, 46.5983], // حي الياسمين
@@ -545,11 +553,170 @@ const REGIONS_DATA = [
   }
 ];
 
+// Role-based User Menu (dropdown shown when clicking user name in header)
+const RoleMenu = ({ currentUser, onClose, onLogout, onOpenAdmin }) => {
+  const menuRef = useRef(null);
+
+  useEffect(() => {
+    const handler = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        onClose();
+      }
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, [onClose]);
+
+  const handleAction = (cb) => {
+    onClose();
+    cb && cb();
+  };
+
+  const ICONS = {
+    dashboard: <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>,
+    list: <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zm0-10v2h14V7H7z"/></svg>,
+    plus: <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>,
+    stats: <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M3 13h2v8H3v-8zm4-6h2v14H7V7zm4 3h2v11h-2V10zm4-7h2v18h-2V3zm4 9h2v9h-2v-9z"/></svg>,
+    contract: <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>,
+    crown: <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm0 3h14v2H5z"/></svg>,
+    heart: <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>,
+    camera: <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/></svg>,
+    gallery: <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>,
+    logout: <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M10.09 15.59L11.5 17l5-5-5-5-1.41 1.41L12.67 11H3v2h9.67l-2.58 2.59zM19 3H5c-1.11 0-2 .9-2 2v4h2V5h14v14H5v-4H3v4c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>,
+    bell: <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5S10.5 3.17 10.5 4v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>,
+    settings: <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94 0 .31.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>,
+  };
+
+  const COMMON_ITEMS = (
+    <>
+      <a href="#favorites" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(); }} data-testid="role-menu-favorites">
+        {ICONS.heart}<span>المفضلة</span>
+      </a>
+      <a href="#notifications" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(); }} data-testid="role-menu-notifications">
+        {ICONS.bell}<span>الإشعارات</span>
+      </a>
+      <a href="#settings" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(); }} data-testid="role-menu-settings">
+        {ICONS.settings}<span>الإعدادات</span>
+      </a>
+    </>
+  );
+
+  const ROLE_ITEMS = {
+    admin: (
+      <>
+        <button type="button" className="role-menu-item primary" onClick={() => handleAction(onOpenAdmin)} data-testid="role-menu-admin-panel">
+          {ICONS.dashboard}<span>لوحة تحكم الإدارة</span>
+        </button>
+        <a href="#users" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(); }} data-testid="role-menu-users">
+          {ICONS.stats}<span>إدارة المستخدمين</span>
+        </a>
+      </>
+    ),
+    company_broker: (
+      <>
+        <button type="button" className="role-menu-item primary" onClick={() => handleAction(onOpenAdmin)} data-testid="role-menu-broker-dashboard">
+          {ICONS.dashboard}<span>لوحة تحكم المنشأة</span>
+        </button>
+        <a href="#my-properties" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(); }} data-testid="role-menu-my-properties">
+          {ICONS.list}<span>عقاراتي</span>
+        </a>
+        <a href="#add-property" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(); }} data-testid="role-menu-add-property">
+          {ICONS.plus}<span>إضافة عقار</span>
+        </a>
+        <a href="#contracts" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(); }} data-testid="role-menu-contracts">
+          {ICONS.contract}<span>عقودي</span>
+        </a>
+        <a href="#subscription" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(); }} data-testid="role-menu-subscription">
+          {ICONS.crown}<span>الاشتراك والباقات</span>
+        </a>
+      </>
+    ),
+    individual_broker: (
+      <>
+        <button type="button" className="role-menu-item primary" onClick={() => handleAction(onOpenAdmin)} data-testid="role-menu-broker-dashboard">
+          {ICONS.dashboard}<span>لوحة تحكم الوسيط</span>
+        </button>
+        <a href="#my-properties" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(); }} data-testid="role-menu-my-properties">
+          {ICONS.list}<span>عقاراتي</span>
+        </a>
+        <a href="#add-property" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(); }} data-testid="role-menu-add-property">
+          {ICONS.plus}<span>إضافة عقار</span>
+        </a>
+        <a href="#contracts" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(); }} data-testid="role-menu-contracts">
+          {ICONS.contract}<span>عقودي</span>
+        </a>
+        <a href="#subscription" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(); }} data-testid="role-menu-subscription">
+          {ICONS.crown}<span>الاشتراك</span>
+        </a>
+      </>
+    ),
+    property_owner: (
+      <>
+        <a href="#my-properties" className="role-menu-item primary" onClick={(e) => { e.preventDefault(); handleAction(); }} data-testid="role-menu-my-properties">
+          {ICONS.list}<span>عقاراتي</span>
+        </a>
+        <a href="#add-property" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(); }} data-testid="role-menu-add-property">
+          {ICONS.plus}<span>إضافة عقار للبيع/الإيجار</span>
+        </a>
+        <a href="#stats" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(); }} data-testid="role-menu-stats">
+          {ICONS.stats}<span>إحصائيات الإعلانات</span>
+        </a>
+      </>
+    ),
+    photographer: (
+      <>
+        <a href="#portfolio" className="role-menu-item primary" onClick={(e) => { e.preventDefault(); handleAction(); }} data-testid="role-menu-portfolio">
+          {ICONS.gallery}<span>معرض أعمالي</span>
+        </a>
+        <a href="#shoot-requests" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(); }} data-testid="role-menu-shoot-requests">
+          {ICONS.camera}<span>طلبات التصوير</span>
+        </a>
+        <a href="#earnings" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(); }} data-testid="role-menu-earnings">
+          {ICONS.stats}<span>الأرباح والإحصائيات</span>
+        </a>
+      </>
+    ),
+    guest: null,
+  };
+
+  const userType = currentUser.user_type || 'guest';
+
+  return (
+    <div className="role-menu-dropdown" ref={menuRef} data-testid="role-menu-dropdown">
+      <div className="role-menu-header">
+        <div className="role-menu-avatar">
+          {currentUser.full_name_arabic
+            ? currentUser.full_name_arabic.charAt(0)
+            : (currentUser.phone_number || 'U').slice(-1)}
+        </div>
+        <div className="role-menu-userinfo">
+          <div className="role-menu-name">{currentUser.full_name_arabic || currentUser.phone_number}</div>
+          <div className="role-menu-rolebadge">{USER_TYPES[userType] || 'مستخدم'}</div>
+        </div>
+      </div>
+
+      <div className="role-menu-section">
+        {ROLE_ITEMS[userType]}
+        {COMMON_ITEMS}
+      </div>
+
+      <div className="role-menu-footer">
+        <button type="button" className="role-menu-item logout" onClick={() => handleAction(onLogout)} data-testid="role-menu-logout">
+          {ICONS.logout}<span>تسجيل الخروج</span>
+        </button>
+      </div>
+    </div>
+  );
+};
+
+
+
 // Header Component - Modern Design
-const Header = ({ onLoginClick, currentUser, onLogout, onOpenMap }) => {
+const Header = ({ onLoginClick, currentUser, onLogout, onOpenMap, onOpenAdmin }) => {
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isArabic, setIsArabic] = useState(true);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
 
   const toggleDropdown = (dropdownName) => {
     setActiveDropdown(activeDropdown === dropdownName ? null : dropdownName);
@@ -763,19 +930,35 @@ const Header = ({ onLoginClick, currentUser, onLogout, onOpenMap }) => {
         {/* Left Side - Auth & Actions */}
         <div className="header-actions">
           {currentUser ? (
-            <div className="user-logged-in">
-              <div className="user-avatar">
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+            <div className="user-menu-wrapper" data-testid="user-menu-wrapper">
+              <button
+                type="button"
+                className="user-menu-trigger"
+                onClick={(e) => { e.stopPropagation(); setUserMenuOpen((v) => !v); }}
+                data-testid="user-menu-trigger"
+              >
+                <div className="user-avatar">
+                  <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                  </svg>
+                </div>
+                <div className="user-details">
+                  <span className="user-greeting">{currentUser.full_name_arabic || currentUser.phone_number}</span>
+                  <span className="user-role">{USER_TYPES[currentUser.user_type]}</span>
+                </div>
+                <svg className={`user-menu-caret ${userMenuOpen ? 'open' : ''}`} viewBox="0 0 24 24" fill="currentColor" width="14" height="14">
+                  <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z" />
                 </svg>
-              </div>
-              <div className="user-details">
-                <span className="user-greeting">مرحباً، {currentUser.full_name_arabic || currentUser.phone_number}</span>
-                <span className="user-role">{USER_TYPES[currentUser.user_type]}</span>
-              </div>
-              <button onClick={onLogout} className="btn-logout" data-testid="logout-btn">
-                خروج
               </button>
+
+              {userMenuOpen && (
+                <RoleMenu
+                  currentUser={currentUser}
+                  onClose={() => setUserMenuOpen(false)}
+                  onLogout={onLogout}
+                  onOpenAdmin={onOpenAdmin}
+                />
+              )}
             </div>
           ) : (
             <button onClick={onLoginClick} className="btn-login" data-testid="login-btn">
@@ -1450,11 +1633,29 @@ const PropertyCard = ({ property, marketAverages = {}, onClick }) => {
 
   return (
     <div
-      className="property-card"
+      className={`property-card featured-${property.featured_type || 'standard'}`}
       data-testid={`property-card-${property.id}`}
       onClick={handleCardClick}
       style={{ cursor: onClick ? 'pointer' : 'default' }}
     >
+      {/* Premium ribbon badges */}
+      {property.featured_type === 'premium_plus' && (
+        <div className="premium-plus-ribbon" data-testid={`premium-plus-ribbon-${property.id}`}>
+          <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14">
+            <path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm0 3h14v2H5z" />
+          </svg>
+          <span>مميز+</span>
+        </div>
+      )}
+      {property.featured_type === 'premium' && (
+        <div className="premium-ribbon" data-testid={`premium-ribbon-${property.id}`}>
+          <svg viewBox="0 0 24 24" fill="currentColor" width="12" height="12">
+            <path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.8l-6.2 4.5 2.4-7.4L2 9.4h7.6z" />
+          </svg>
+          <span>مميز</span>
+        </div>
+      )}
+
       <div className="property-image">
         <img src={property.image} alt={property.title} />
 
@@ -2394,10 +2595,21 @@ function App() {
     []
   );
 
-  // Apply smart filter to base list (all properties)
+  // Featured ordering: premium_plus pinned at top, then premium, then standard
+  const FEATURED_RANK = { premium_plus: 0, premium: 1, standard: 2 };
+  const sortByFeatured = (list) =>
+    list.slice().sort((a, b) => {
+      const ra = FEATURED_RANK[a.featured_type || 'standard'] ?? 2;
+      const rb = FEATURED_RANK[b.featured_type || 'standard'] ?? 2;
+      return ra - rb;
+    });
+
+  // Apply smart filter to base list (all properties), then sort by featured priority
   const filteredProperties = useMemo(() => {
-    if (activeSmartFilter === 'all') return SAMPLE_PROPERTIES;
-    return smartFilter(SAMPLE_PROPERTIES, activeSmartFilter);
+    const base = activeSmartFilter === 'all'
+      ? SAMPLE_PROPERTIES
+      : smartFilter(SAMPLE_PROPERTIES, activeSmartFilter);
+    return sortByFeatured(base);
   }, [activeSmartFilter]);
 
   useEffect(() => {
@@ -2439,7 +2651,8 @@ function App() {
   };
 
   // Show Admin Panel if user is admin
-  if (showAdminPanel && currentUser?.user_type === 'admin') {
+  const DASHBOARD_ROLES = ['admin', 'individual_broker', 'company_broker'];
+  if (showAdminPanel && DASHBOARD_ROLES.includes(currentUser?.user_type)) {
     return <AdminDashboard currentUser={currentUser} onLogout={handleLogout} />;
   }
 
@@ -2529,6 +2742,7 @@ function App() {
         currentUser={currentUser}
         onLogout={handleLogout}
         onOpenMap={() => setShowFullMap(true)}
+        onOpenAdmin={() => setShowAdminPanel(true)}
       />
 
       <AIHeroHook onStartMatching={() => setShowAIMatching(true)} />
@@ -2657,6 +2871,7 @@ function App() {
               height="450px"
               showSearch={true}
               zoom={11}
+              onPropertyClick={(p) => setSelectedPropertyDetails(p)}
             />
           </div>
         </section>
@@ -2851,6 +3066,10 @@ function App() {
         <FullPageMap
           properties={SAMPLE_PROPERTIES}
           onClose={() => setShowFullMap(false)}
+          onPropertySelect={(p) => {
+            setShowFullMap(false);
+            setSelectedPropertyDetails(p);
+          }}
         />
       )}
 

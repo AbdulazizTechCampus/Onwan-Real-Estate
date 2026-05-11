@@ -61,6 +61,12 @@
 .map-property-popup {
   min-width: 220px;
   direction: rtl;
+  cursor: pointer;
+  transition: transform 0.18s ease;
+}
+
+.map-property-popup:hover {
+  transform: translateY(-1px);
 }
 
 .popup-image {
@@ -83,11 +89,42 @@
   top: 8px;
   right: 8px;
   padding: 4px 10px;
-  background: linear-gradient(135deg, #FF5A5F 0%, #C81D25 100%);
   color: white;
   font-size: 0.75rem;
-  font-weight: 600;
+  font-weight: 700;
   border-radius: 15px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+}
+
+.popup-status.for-sale {
+  background: linear-gradient(135deg, #FF5A5F 0%, #C81D25 100%);
+}
+
+.popup-status.for-rent {
+  background: linear-gradient(135deg, #14B8A6 0%, #0B7B72 100%);
+}
+
+.popup-details-btn {
+  margin-top: 10px;
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: linear-gradient(135deg, #087E8B 0%, #0B3954 100%);
+  color: #fff;
+  border: 0;
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: filter 0.18s ease, transform 0.18s ease;
+}
+
+.popup-details-btn:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
 }
 
 .popup-content {

@@ -64,23 +64,51 @@ const ChangeView = ({ center, zoom }) => {
 };
 
 // Property Popup Component
-const PropertyPopup = ({ property }) => (
-  <div className="map-property-popup">
-    <div className="popup-image">
-      <img src={property.image} alt={property.title} />
-      <span className="popup-status">{property.status}</span>
-    </div>
-    <div className="popup-content">
-      <h4 className="popup-title">{property.title}</h4>
-      <p className="popup-price">{property.price} ريال</p>
-      <p className="popup-location">{property.location}</p>
-      <div className="popup-details">
-        {property.area && <span>{property.area} م²</span>}
-        {property.bedrooms && <span>{property.bedrooms} غرف</span>}
+const PropertyPopup = ({ property, onOpenDetails }) => {
+  const statusClass = property.status === 'للإيجار' ? 'for-rent' : 'for-sale';
+  return (
+    <div
+      className="map-property-popup"
+      role="button"
+      tabIndex={0}
+      onClick={() => onOpenDetails && onOpenDetails(property)}
+      onKeyDown={(e) => {
+        if ((e.key === 'Enter' || e.key === ' ') && onOpenDetails) {
+          onOpenDetails(property);
+        }
+      }}
+      data-testid={`map-popup-${property.id}`}
+    >
+      <div className="popup-image">
+        <img src={property.image} alt={property.title} />
+        <span className={`popup-status ${statusClass}`}>{property.status}</span>
+      </div>
+      <div className="popup-content">
+        <h4 className="popup-title">{property.title}</h4>
+        <p className="popup-price">{property.price} ريال</p>
+        <p className="popup-location">{property.location}</p>
+        <div className="popup-details">
+          {property.area && <span>{property.area} م²</span>}
+          {property.bedrooms && <span>{property.bedrooms} غرف</span>}
+        </div>
+        <button
+          type="button"
+          className="popup-details-btn"
+          onClick={(e) => {
+            e.stopPropagation();
+            onOpenDetails && onOpenDetails(property);
+          }}
+          data-testid={`map-popup-details-btn-${property.id}`}
+        >
+          عرض التفاصيل
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+            <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
+          </svg>
+        </button>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 // Main Map Component
 export const PropertyMap = ({ 
@@ -170,7 +198,7 @@ export const PropertyMap = ({
               }}
             >
               <Popup>
-                <PropertyPopup property={property} />
+                <PropertyPopup property={property} onOpenDetails={onPropertyClick} />
               </Popup>
             </Marker>
           )
@@ -233,9 +261,10 @@ export const FullPageMap = ({ properties, onPropertySelect, onClose }) => {
   }, [properties, filterStatus]);
 
   const handlePropertyClick = (property) => {
-    setSelectedProperty(property);
     if (onPropertySelect) {
       onPropertySelect(property);
+    } else {
+      setSelectedProperty(property);
     }
   };
 

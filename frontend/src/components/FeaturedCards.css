@@ -1,0 +1,125 @@
+/* ==========================================================
+   Featured Property Cards - Premium / Premium+
+   ========================================================== */
+
+/* Base premium card */
+.property-card.featured-premium {
+  position: relative;
+  border: 2px solid #D4AF37;
+  box-shadow: 0 8px 24px -8px rgba(212, 175, 55, 0.35), 0 2px 6px rgba(11, 57, 84, 0.06);
+}
+
+.property-card.featured-premium:hover {
+  box-shadow: 0 14px 32px -10px rgba(212, 175, 55, 0.55), 0 4px 10px rgba(11, 57, 84, 0.08);
+}
+
+/* Premium ribbon (top-left corner inside card) */
+.premium-ribbon {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 5;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 11px;
+  background: linear-gradient(135deg, #F7B733 0%, #D4AF37 50%, #B89020 100%);
+  color: #fff;
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+  border-radius: 999px;
+  box-shadow: 0 4px 10px -2px rgba(212, 175, 55, 0.55);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+}
+
+.premium-ribbon svg {
+  color: #fff;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.2));
+}
+
+/* Premium+ card: pinned top, glowing frame */
+.property-card.featured-premium_plus {
+  position: relative;
+  border: 2px solid transparent;
+  background:
+    linear-gradient(#ffffff, #ffffff) padding-box,
+    linear-gradient(135deg, #F7B733 0%, #D4AF37 25%, #C9A227 50%, #D4AF37 75%, #F7B733 100%) border-box;
+  box-shadow:
+    0 0 0 1px rgba(212, 175, 55, 0.18),
+    0 12px 32px -10px rgba(212, 175, 55, 0.55),
+    0 4px 10px rgba(11, 57, 84, 0.08);
+  animation: premiumPlusGlow 3.2s ease-in-out infinite;
+}
+
+.property-card.featured-premium_plus:hover {
+  box-shadow:
+    0 0 0 1px rgba(212, 175, 55, 0.25),
+    0 16px 40px -10px rgba(212, 175, 55, 0.7),
+    0 6px 14px rgba(11, 57, 84, 0.1);
+  transform: translateY(-3px);
+}
+
+@keyframes premiumPlusGlow {
+  0%, 100% {
+    box-shadow:
+      0 0 0 1px rgba(212, 175, 55, 0.18),
+      0 12px 32px -10px rgba(212, 175, 55, 0.45),
+      0 4px 10px rgba(11, 57, 84, 0.08);
+  }
+  50% {
+    box-shadow:
+      0 0 0 1px rgba(212, 175, 55, 0.3),
+      0 14px 40px -8px rgba(212, 175, 55, 0.75),
+      0 4px 10px rgba(11, 57, 84, 0.08);
+  }
+}
+
+/* Premium+ ribbon - more prominent, diamond style */
+.premium-plus-ribbon {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 5;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: linear-gradient(135deg, #0B3954 0%, #1a4d6b 50%, #0B3954 100%);
+  color: #F7B733;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  border-radius: 999px;
+  border: 1.5px solid #D4AF37;
+  box-shadow:
+    0 4px 14px -2px rgba(212, 175, 55, 0.6),
+    inset 0 1px 0 rgba(247, 183, 51, 0.25);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+}
+
+.premium-plus-ribbon::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 999px;
+  border: 1.5px solid rgba(247, 183, 51, 0.35);
+  pointer-events: none;
+  animation: premiumPlusRing 2s ease-in-out infinite;
+}
+
+@keyframes premiumPlusRing {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50%      { opacity: 0; transform: scale(1.06); }
+}
+
+.premium-plus-ribbon svg {
+  color: #F7B733;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.3));
+}
+
+/* RTL alignment note: keep ribbon on top-LEFT (opposite of status badge on top-RIGHT) */
+.property-card.featured-premium .ai-card-badges,
+.property-card.featured-premium_plus .ai-card-badges {
+  top: 12px;
+}
