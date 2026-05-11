@@ -13,6 +13,27 @@
 
 ## ما تم إنجازه
 
+### 11 فبراير 2026 - 3 ميزات: خريطة، قائمة الصلاحيات، الإعلانات المميزة
+- ✅ **Map Popup محسّن** (`/app/frontend/src/components/MapComponent.js` + `MapStyles.css`):
+  - تاق الحالة بلونين: أحمر للبيع، تركواز للإيجار (CSS `.popup-status.for-sale` / `.for-rent`)
+  - البطاقة قابلة للنقر بالكامل + زر "عرض التفاصيل" يفتح Property Details Modal
+  - `FullPageMap` و `PropertyMap` يستقبلان `onPropertyClick` لربط الـ modal
+- ✅ **قائمة منسدلة ديناميكية حسب الصلاحية** (`RoleMenu` في App.js + `/app/frontend/src/components/RoleMenu.css`):
+  - عند الضغط على اسم المستخدم في الهيدر تفتح dropdown مع gradient header + avatar + role badge
+  - **Admin**: لوحة تحكم الإدارة، إدارة المستخدمين
+  - **Broker (فرد/منشأة)**: لوحة تحكم الوسيط/المنشأة، عقاراتي، إضافة عقار، عقودي، الاشتراك
+  - **مالك عقار**: عقاراتي، إضافة عقار، إحصائيات الإعلانات
+  - **مصور**: معرض أعمالي، طلبات التصوير، الأرباح
+  - **ضيف**: عناصر مشتركة فقط
+  - عناصر مشتركة لكل الأدوار: المفضلة، الإشعارات، الإعدادات، تسجيل الخروج (أحمر)
+  - توحيد role keys (canonical): `visitor / property_owner / broker_individual / broker_company / photographer / admin`
+- ✅ **نظام الإعلانات المميزة** (`/app/frontend/src/components/FeaturedCards.css`):
+  - `featured_type` على بيانات العقار: `standard` / `premium` / `premium_plus`
+  - شارة "مميز" ذهبية للعادي المميز، شارة "مميز+" دارك نيفي مع نص ذهبي + إطار متوهج بأنيميشن
+  - **ترتيب تلقائي**: premium_plus → premium → standard في كل القوائم
+  - بيانات تجريبية: IDs 1 و 6 = premium_plus، IDs 2 و 3 = premium
+- ✅ AdminDashboard متاح الآن للوسطاء (`DASHBOARD_ROLES = ['admin','broker_individual','broker_company']`)
+
 ### 7 فبراير 2026 - بطاقة العقار: قسم بيانات الوسيط
 - ✅ نقل قسم بيانات الوسيط إلى أسفل بطاقة العقار
 - ✅ صورة وسيط بإطار ذهبي + شارة "معتمد" تحت الاسم

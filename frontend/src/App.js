@@ -631,7 +631,6 @@ const RoleMenu = ({ currentUser, onClose, onLogout, onOpenAdmin }) => {
         </a>
       </>
     ),
-    individual_broker: null,
     broker_individual: (
       <>
         <button type="button" className="role-menu-item primary" onClick={() => handleAction(onOpenAdmin)} data-testid="role-menu-broker-dashboard">
@@ -678,7 +677,6 @@ const RoleMenu = ({ currentUser, onClose, onLogout, onOpenAdmin }) => {
       </>
     ),
     visitor: null,
-    guest: null,
   };
 
   const userType = currentUser.user_type || 'visitor';
