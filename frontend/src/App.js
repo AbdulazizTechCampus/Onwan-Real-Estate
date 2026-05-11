@@ -545,6 +545,7 @@ const REGIONS_DATA = [
     color: '#4f46e5',
     image: 'https://customer-assets.emergentagent.com/job_onwan-homes/artifacts/ki4e89fv_image.png'
   },
+
   {
     id: 'jawf',
     name: 'الجوف',
@@ -553,6 +554,115 @@ const REGIONS_DATA = [
     image: 'https://customer-assets.emergentagent.com/job_onwan-homes/artifacts/u2fic6lw_image.png'
   }
 ];
+
+
+// Profile Completion Indicator - shows % with progress ring + missing items popover
+const ProfileCompletion = ({ currentUser }) => {
+  const [open, setOpen] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const handler = (e) => {
+      if (ref.current && !ref.current.contains(e.target)) setOpen(false);
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, []);
+
+  const checks = useMemo(() => [
+    { key: 'phone', label: 'تأكيد رقم الهاتف', weight: 15, done: !!currentUser.is_verified || !!currentUser.phone_number },
+    { key: 'role', label: 'اختيار نوع الحساب', weight: 15, done: !!currentUser.user_type && currentUser.user_type !== 'visitor' },
+    { key: 'name', label: 'الاسم الكامل (عربي)', weight: 20, done: !!currentUser.full_name_arabic },
+    { key: 'email', label: 'البريد الإلكتروني', weight: 15, done: !!currentUser.email },
+    { key: 'nafath', label: 'التحقق عبر نفاذ', weight: 25, done: !!currentUser.is_nafath_verified },
+    { key: 'avatar', label: 'الصورة الشخصية', weight: 10, done: !!currentUser.profile_image || !!currentUser.avatar_url },
+  ], [currentUser]);
+
+  const percent = checks.reduce((acc, c) => acc + (c.done ? c.weight : 0), 0);
+  const missing = checks.filter((c) => !c.done);
+
+  const R = 18;
+  const C = 2 * Math.PI * R;
+  const dash = (percent / 100) * C;
+
+  const ringColor =
+    percent >= 90 ? '#10b981' :
+    percent >= 60 ? '#087E8B' :
+    percent >= 30 ? '#F7B733' :
+    '#FF6B6F';
+
+  return (
+    <div className="profile-completion" ref={ref} data-testid="profile-completion">
+      <button
+        type="button"
+        className="profile-completion-trigger"
+        onClick={() => setOpen((v) => !v)}
+        data-testid="profile-completion-trigger"
+      >
+        <svg className="profile-ring" viewBox="0 0 44 44" width="44" height="44">
+          <circle cx="22" cy="22" r={R} fill="none" stroke="#e5e7eb" strokeWidth="4" />
+          <circle
+            cx="22" cy="22" r={R}
+            fill="none"
+            stroke={ringColor}
+            strokeWidth="4"
+            strokeLinecap="round"
+            strokeDasharray={`${dash} ${C}`}
+            transform="rotate(-90 22 22)"
+            style={{ transition: 'stroke-dasharray 0.6s ease, stroke 0.3s ease' }}
+          />
+          <text x="22" y="26" textAnchor="middle" fontSize="11" fontWeight="800" fill={ringColor}>
+            {percent}%
+          </text>
+        </svg>
+        <div className="profile-completion-text">
+          <span className="profile-completion-label">اكتمال الملف</span>
+          <span className="profile-completion-hint">
+            {percent === 100 ? 'مكتمل ✓' : `${missing.length} ${missing.length === 1 ? 'بند متبقي' : 'بنود متبقية'}`}
+          </span>
+        </div>
+      </button>
+
+      {open && (
+        <div className="profile-completion-popover" data-testid="profile-completion-popover">
+          <div className="popover-header">
+            <span>اكتمال ملفك الشخصي</span>
+            <strong style={{ color: ringColor }}>{percent}%</strong>
+          </div>
+          <div className="popover-progress">
+            <div
+              className="popover-progress-fill"
+              style={{ width: `${percent}%`, background: ringColor }}
+            />
+          </div>
+          <ul className="popover-checklist">
+            {checks.map((c) => (
+              <li key={c.key} className={c.done ? 'done' : 'pending'} data-testid={`check-${c.key}`}>
+                {c.done ? (
+                  <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                  </svg>
+                ) : (
+                  <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+                    <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" strokeWidth="2" />
+                  </svg>
+                )}
+                <span>{c.label}</span>
+                <span className="weight-tag">{c.weight}%</span>
+              </li>
+            ))}
+          </ul>
+          {missing.length > 0 && (
+            <div className="popover-hint">
+              💡 كلما زاد اكتمال ملفك، زادت ثقة الباحثين عن عقاراتك وفُرص ظهور إعلاناتك.
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+};
+
 
 // Role-based User Menu (dropdown shown when clicking user name in header)
 const RoleMenu = ({ currentUser, onClose, onLogout, onOpenAdmin }) => {
@@ -1639,24 +1749,6 @@ const PropertyCard = ({ property, marketAverages = {}, onClick }) => {
       onClick={handleCardClick}
       style={{ cursor: onClick ? 'pointer' : 'default' }}
     >
-      {/* Premium ribbon badges */}
-      {property.featured_type === 'premium_plus' && (
-        <div className="premium-plus-ribbon" data-testid={`premium-plus-ribbon-${property.id}`}>
-          <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14">
-            <path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm0 3h14v2H5z" />
-          </svg>
-          <span>مميز+</span>
-        </div>
-      )}
-      {property.featured_type === 'premium' && (
-        <div className="premium-ribbon" data-testid={`premium-ribbon-${property.id}`}>
-          <svg viewBox="0 0 24 24" fill="currentColor" width="12" height="12">
-            <path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.8l-6.2 4.5 2.4-7.4L2 9.4h7.6z" />
-          </svg>
-          <span>مميز</span>
-        </div>
-      )}
-
       <div className="property-image">
         <img src={property.image} alt={property.title} />
 
@@ -1665,27 +1757,62 @@ const PropertyCard = ({ property, marketAverages = {}, onClick }) => {
           <img src="https://customer-assets.emergentagent.com/job_onwan-homes/artifacts/a7d7dgbd_Logo%202030%20.png" alt="عنوان" />
         </div>
 
-        {/* AI Badges (top-right) */}
-        {badges.length > 0 && (
-          <div className="ai-card-badges" data-testid={`ai-badges-${property.id}`}>
-            {badges.map((b) => (
-              <span key={b.key} className={`ai-badge ${b.tone}`}>
-                {b.icon === 'fire' && '🔥'}
-                {b.icon === 'star' && '⭐'}
-                {b.icon === 'sparkle' && '✨'}
-                {b.label}
-              </span>
-            ))}
-          </div>
-        )}
-
-        {/* Status Badge (top-right) */}
-        <div className="property-badges-top">
-          <div className={`property-status-badge ${property.status === 'للبيع' ? 'for-sale' : 'for-rent'}`}>
+        {/* Unified Badge Stack (top-right, vertical) */}
+        <div className="property-badge-stack" data-testid={`badge-stack-${property.id}`}>
+          {/* 1. Status: للبيع / للإيجار */}
+          <span
+            className={`stack-badge status ${property.status === 'للبيع' ? 'for-sale' : 'for-rent'}`}
+            data-testid={`status-badge-${property.id}`}
+          >
+            <span className="stack-badge-dot" aria-hidden="true"></span>
             {property.status}
-          </div>
+          </span>
+
+          {/* 2. Featured tier: مميز+ / مميز */}
+          {property.featured_type === 'premium_plus' && (
+            <span className="stack-badge premium-plus" data-testid={`premium-plus-ribbon-${property.id}`}>
+              <svg viewBox="0 0 24 24" fill="currentColor" width="12" height="12">
+                <path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm0 3h14v2H5z" />
+              </svg>
+              مميز+
+            </span>
+          )}
+          {property.featured_type === 'premium' && (
+            <span className="stack-badge premium" data-testid={`premium-ribbon-${property.id}`}>
+              <svg viewBox="0 0 24 24" fill="currentColor" width="12" height="12">
+                <path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.8l-6.2 4.5 2.4-7.4L2 9.4h7.6z" />
+              </svg>
+              مميز
+            </span>
+          )}
+
+          {/* 3. AI Badges: فرصة 🔥 / موصى به ⭐ / جديد ✨ */}
+          {badges.map((b) => (
+            <span
+              key={b.key}
+              className={`stack-badge ai ${b.tone}`}
+              data-testid={`ai-badge-${b.key}-${property.id}`}
+            >
+              {b.icon === 'fire' && (
+                <svg viewBox="0 0 24 24" fill="currentColor" width="12" height="12">
+                  <path d="M13.5.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67zM11.71 19c-1.78 0-3.22-1.4-3.22-3.14 0-1.62 1.05-2.76 2.81-3.12 1.77-.36 3.6-1.21 4.62-2.58.39 1.29.59 2.65.59 4.04 0 2.65-2.15 4.8-4.8 4.8z" />
+                </svg>
+              )}
+              {b.icon === 'star' && (
+                <svg viewBox="0 0 24 24" fill="currentColor" width="12" height="12">
+                  <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                </svg>
+              )}
+              {b.icon === 'sparkle' && (
+                <svg viewBox="0 0 24 24" fill="currentColor" width="12" height="12">
+                  <path d="M19 9l1.25-2.75L23 5l-2.75-1.25L19 1l-1.25 2.75L15 5l2.75 1.25L19 9zm-7.5.5L9 4 6.5 9.5 1 12l5.5 2.5L9 20l2.5-5.5L17 12l-5.5-2.5zM19 15l-1.25 2.75L15 19l2.75 1.25L19 23l1.25-2.75L23 19l-2.75-1.25L19 15z" />
+                </svg>
+              )}
+              {b.label}
+            </span>
+          ))}
         </div>
-        
+
         {/* Action Buttons - Left Side */}
         <div className="property-actions-left">
           <button 
@@ -2763,6 +2890,8 @@ function App() {
                     مرحباً بك{currentUser.full_name_arabic ? `، ${currentUser.full_name_arabic}` : ''}
                   </span>
                 </div>
+
+                <ProfileCompletion currentUser={currentUser} />
 
                 <div className="welcome-banner-badges">
                   <span className="verify-chip verified" data-testid="verify-chip-phone">
