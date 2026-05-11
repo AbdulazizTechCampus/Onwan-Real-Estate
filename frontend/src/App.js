@@ -612,7 +612,7 @@ const RoleMenu = ({ currentUser, onClose, onLogout, onOpenAdmin }) => {
         </a>
       </>
     ),
-    company_broker: (
+    broker_company: (
       <>
         <button type="button" className="role-menu-item primary" onClick={() => handleAction(onOpenAdmin)} data-testid="role-menu-broker-dashboard">
           {ICONS.dashboard}<span>لوحة تحكم المنشأة</span>
@@ -631,7 +631,8 @@ const RoleMenu = ({ currentUser, onClose, onLogout, onOpenAdmin }) => {
         </a>
       </>
     ),
-    individual_broker: (
+    individual_broker: null,
+    broker_individual: (
       <>
         <button type="button" className="role-menu-item primary" onClick={() => handleAction(onOpenAdmin)} data-testid="role-menu-broker-dashboard">
           {ICONS.dashboard}<span>لوحة تحكم الوسيط</span>
@@ -676,10 +677,11 @@ const RoleMenu = ({ currentUser, onClose, onLogout, onOpenAdmin }) => {
         </a>
       </>
     ),
+    visitor: null,
     guest: null,
   };
 
-  const userType = currentUser.user_type || 'guest';
+  const userType = currentUser.user_type || 'visitor';
 
   return (
     <div className="role-menu-dropdown" ref={menuRef} data-testid="role-menu-dropdown">
@@ -2344,8 +2346,8 @@ const LoginModal = ({ isOpen, onClose, onSuccess }) => {
 
                 <button
                   type="button"
-                  className={`role-option ${selectedRole === 'owner' ? 'active' : ''}`}
-                  onClick={() => setSelectedRole('owner')}
+                  className={`role-option ${selectedRole === 'property_owner' ? 'active' : ''}`}
+                  onClick={() => setSelectedRole('property_owner')}
                   data-testid="role-owner"
                 >
                   <div className="role-emoji">🏠</div>
@@ -2368,8 +2370,8 @@ const LoginModal = ({ isOpen, onClose, onSuccess }) => {
 
                 <button
                   type="button"
-                  className={`role-option ${selectedRole === 'broker_corporate' ? 'active' : ''}`}
-                  onClick={() => setSelectedRole('broker_corporate')}
+                  className={`role-option ${selectedRole === 'broker_company' ? 'active' : ''}`}
+                  onClick={() => setSelectedRole('broker_company')}
                   data-testid="role-broker-corporate"
                 >
                   <div className="role-emoji">🏢</div>
@@ -2651,7 +2653,7 @@ function App() {
   };
 
   // Show Admin Panel if user is admin
-  const DASHBOARD_ROLES = ['admin', 'individual_broker', 'company_broker'];
+  const DASHBOARD_ROLES = ['admin', 'broker_individual', 'broker_company'];
   if (showAdminPanel && DASHBOARD_ROLES.includes(currentUser?.user_type)) {
     return <AdminDashboard currentUser={currentUser} onLogout={handleLogout} />;
   }

@@ -1,0 +1,37 @@
+{
+  "summary": "Frontend-only retest of Feature 2 (role-based header dropdown) after role-key mismatch fix. All 4 sub-scenarios (2A-C broker_individual, 2D property_owner, 2E photographer, 2F visitor) PASSED. Dropdown items match spec, header+dropdown badges show correct Arabic labels, and broker_individual correctly opens AdminDashboard view via role-menu-broker-dashboard.",
+  "backend_issues": {
+    "critical": [],
+    "minor": [
+      {"endpoint": "/api/admin/stats (or equivalent)", "issue": "Returns 403 when accessed by broker_individual after clicking role-menu-broker-dashboard. AdminDashboard view still renders but stats are blank/zero. Either the admin stats endpoint should accept broker_individual role, or a separate broker dashboard endpoint should be created."}
+    ]
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_results_per_scenario": {
+    "2A-C broker_individual (0533333333)": "OK – dropdown items: broker-dashboard, my-properties, add-property, contracts, subscription, favorites, notifications, settings, logout. Badge='وسيط عقاري - فرد'. Clicking broker-dashboard opens AdminDashboard view (لوحة التحكم rendered).",
+    "2D property_owner (0544444444)": "OK – dropdown items: my-properties (primary), add-property, stats, favorites, notifications, settings, logout. No broker-dashboard. Badge='مالك عقار'.",
+    "2E photographer (0566666666)": "OK – dropdown items: portfolio (primary), shoot-requests, earnings, favorites, notifications, settings, logout. Badge='مصور عقارات'.",
+    "2F visitor (0577777777)": "OK – dropdown items: favorites, notifications, settings, logout only. No role-specific section. Badge='ضيف'."
+  },
+  "test_report_links": [],
+  "action_items": [
+    "(Optional/minor) Decide whether broker_individual should have access to AdminDashboard stats API. Currently the page opens but stats endpoint returns 403, leaving the cards at 0. Either: (a) restrict broker dashboard view to admin only and create a dedicated broker dashboard for non-admin roles, or (b) extend backend admin-stats endpoint to allow broker_individual/broker_company with scoped data."
+  ],
+  "critical_code_review_comments": [
+    "/app/frontend/src/App.js still contains a leftover `individual_broker: null` entry in ROLE_ITEMS (line ~634) alongside the canonical `broker_individual`. Harmless but dead code – can be removed for clarity.",
+    "/app/frontend/src/App.js similarly retains `guest: null` alongside `visitor: null` (line ~681). Safe to remove now that USER_TYPES uses `visitor` as the canonical key.",
+    "App.js is ~3100 lines – consider splitting Header/RoleMenu/LoginModal into separate component files for maintainability."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "n/a (not retested)", "frontend": "100% (4/4 scenarios)"},
+  "test_credentials": "OTP via /api/auth/send-otp dev_mode (otp_code in response). Test phones used: 0533333333, 0544444444, 0566666666, 0577777777 (fresh registrations).",
+  "seed_data_creation": "Created 4 new test users via OTP registration with canonical role keys: broker_individual, property_owner, photographer, visitor.",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "Feature 2 fully verified after role-key canonicalization. Old test users 0511111111 and 0522222222 from iteration 1 still exist with the OLD role keys (owner/individual_broker) – avoid reusing those phones; use new numbers for any future fresh-registration tests. Map popup (Feature 1) and premium ribbons (Feature 3) were already verified in iteration 1 and skipped per request.",
+  "rca of the issue": "Iteration 1 RCA: ROLE_ITEMS keyed on `individual_broker`/`company_broker`/`owner`/`guest` while LoginModal was emitting both canonical (`property_owner`, `photographer`) and non-canonical (`owner`, `broker_corporate`) values, and DASHBOARD_ROLES used yet another set. Fix applied: (1) LoginModal sends canonical keys matching USER_TYPES; (2) ROLE_ITEMS keys renamed to broker_individual/broker_company/property_owner/visitor; (3) DASHBOARD_ROLES updated to canonical; (4) userType fallback set to 'visitor'. Verified end-to-end via Playwright – all dropdown items, badges, and dashboard routing now align."
+}
