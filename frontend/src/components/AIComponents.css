@@ -889,7 +889,8 @@
 .pd-close {
   position: absolute;
   top: 14px;
-  inset-inline-start: 14px;
+  left: 14px;
+  right: auto;
   width: 38px;
   height: 38px;
   border-radius: 50%;
