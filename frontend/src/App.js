@@ -465,84 +465,84 @@ const REGIONS_DATA = [
     id: 'riyadh',
     name: 'الرياض',
     count: 2450,
-    color: '#059669',
+    color: '#003D78',
     image: 'https://customer-assets.emergentagent.com/job_onwan-homes/artifacts/gscjtmpa_image.png'
   },
   {
     id: 'makkah',
     name: 'مكة المكرمة',
     count: 1890,
-    color: '#7c3aed',
+    color: '#E22718',
     image: 'https://customer-assets.emergentagent.com/job_onwan-homes/artifacts/4yy6dj8q_image.png'
   },
   {
     id: 'madinah',
     name: 'المدينة المنورة',
     count: 875,
-    color: '#0891b2',
+    color: '#0066B1',
     image: 'https://customer-assets.emergentagent.com/job_onwan-homes/artifacts/60iwzi58_image.png'
   },
   {
     id: 'eastern',
     name: 'المنطقة الشرقية',
     count: 1560,
-    color: '#dc2626',
+    color: '#262626',
     image: 'https://customer-assets.emergentagent.com/job_onwan-homes/artifacts/evsc4fn2_image.png'
   },
   {
     id: 'qassim',
     name: 'القصيم',
     count: 620,
-    color: '#ca8a04',
+    color: '#B71F13',
     image: 'https://customer-assets.emergentagent.com/job_onwan-homes/artifacts/fyiox5v4_image.png'
   },
   {
     id: 'asir',
     name: 'عسير',
     count: 480,
-    color: '#16a34a',
+    color: '#4FA3DC',
     image: 'https://customer-assets.emergentagent.com/job_onwan-homes/artifacts/opxd5wfl_image.png'
   },
   {
     id: 'tabuk',
     name: 'تبوك',
     count: 320,
-    color: '#2563eb',
+    color: '#003D78',
     image: 'https://customer-assets.emergentagent.com/job_onwan-homes/artifacts/ny6kzsl7_image.png'
   },
   {
     id: 'hail',
     name: 'حائل',
     count: 280,
-    color: '#9333ea',
+    color: '#E22718',
     image: 'https://customer-assets.emergentagent.com/job_onwan-homes/artifacts/f05xlh3f_image.png'
   },
   {
     id: 'northern',
     name: 'الحدود الشمالية',
     count: 150,
-    color: '#0d9488',
+    color: '#0066B1',
     image: 'https://customer-assets.emergentagent.com/job_onwan-homes/artifacts/ga4v9xq2_image.png'
   },
   {
     id: 'jazan',
     name: 'جازان',
     count: 340,
-    color: '#ea580c',
+    color: '#262626',
     image: 'https://customer-assets.emergentagent.com/job_onwan-homes/artifacts/uiwe7h3d_image.png'
   },
   {
     id: 'najran',
     name: 'نجران',
     count: 210,
-    color: '#be123c',
+    color: '#B71F13',
     image: 'https://customer-assets.emergentagent.com/job_onwan-homes/artifacts/ocyw088g_image.png'
   },
   {
     id: 'bahah',
     name: 'الباحة',
     count: 180,
-    color: '#4f46e5',
+    color: '#4FA3DC',
     image: 'https://customer-assets.emergentagent.com/job_onwan-homes/artifacts/ki4e89fv_image.png'
   },
 
@@ -550,7 +550,7 @@ const REGIONS_DATA = [
     id: 'jawf',
     name: 'الجوف',
     count: 145,
-    color: '#0369a1',
+    color: '#003D78',
     image: 'https://customer-assets.emergentagent.com/job_onwan-homes/artifacts/u2fic6lw_image.png'
   }
 ];
@@ -589,7 +589,7 @@ const ProfileCompletion = ({ currentUser }) => {
     percent >= 90 ? '#10b981' :
     percent >= 60 ? '#0066B1' :
     percent >= 30 ? '#F7B733' :
-    '#FF6B6F';
+    '#E22718';
 
   return (
     <div className="profile-completion" ref={ref} data-testid="profile-completion">

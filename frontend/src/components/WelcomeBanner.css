@@ -11,7 +11,7 @@
   justify-content: space-between;
   gap: 16px;
   padding: 12px 18px;
-  background: linear-gradient(135deg, rgba(0, 102, 177, 0.06) 0%, rgba(54, 209, 220, 0.04) 100%);
+  background: linear-gradient(135deg, rgba(0, 102, 177, 0.06) 0%, rgba(79, 163, 220, 0.04) 100%);
   border: 1px solid rgba(0, 102, 177, 0.18);
   border-radius: 14px;
   box-shadow: 0 4px 12px -8px rgba(0, 61, 120, 0.18);

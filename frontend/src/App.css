@@ -327,27 +327,27 @@ body {
 
 /* Region Colors */
 .region-card.riyadh {
-  background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%);
+  background: linear-gradient(135deg, #0066B1 0%, #003D78 100%);
   color: white;
 }
 
 .region-card.jeddah {
-  background: linear-gradient(135deg, #ec4899 0%, #be185d 100%);
+  background: linear-gradient(135deg, #E22718 0%, #B71F13 100%);
   color: white;
 }
 
 .region-card.makkah {
-  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  background: linear-gradient(135deg, #0066B1 0%, #003D78 100%);
   color: white;
 }
 
 .region-card.madinah {
-  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  background: linear-gradient(135deg, #4FA3DC 0%, #0066B1 100%);
   color: white;
 }
 
 .region-card.eastern {
-  background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
+  background: linear-gradient(135deg, #003D78 0%, #262626 100%);
   color: white;
 }
 
@@ -692,13 +692,13 @@ body {
 
 /* Icon Colors */
 .dropdown-link-icon.add {
-  background: linear-gradient(135deg, #ccfbf1 0%, #99f6e4 100%);
+  background: linear-gradient(135deg, #D6E8F7 0%, #BFDCF2 100%);
   color: var(--primary-teal);
 }
 
 .dropdown-link-icon.request {
   background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
-  color: #2563eb;
+  color: #0066B1;
 }
 
 .dropdown-link-icon.interest {
@@ -712,8 +712,8 @@ body {
 }
 
 .dropdown-link-icon.brokers {
-  background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
-  color: #059669;
+  background: linear-gradient(135deg, #FCF4D9 0%, #F0E1B0 100%);
+  color: #B89020;
 }
 
 .dropdown-link-icon.contracts {
@@ -722,13 +722,13 @@ body {
 }
 
 .dropdown-link-icon.photographer {
-  background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
-  color: #4f46e5;
+  background: linear-gradient(135deg, #DBEAF7 0%, #C3DCF2 100%);
+  color: #003D78;
 }
 
 .dropdown-link-icon.request-photo {
-  background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%);
-  color: #db2777;
+  background: linear-gradient(135deg, #FBE3E0 0%, #F5CFCA 100%);
+  color: #B71F13;
 }
 
 .dropdown-link-text {
@@ -2025,7 +2025,7 @@ body {
 
 .card-action-btn.share:hover {
   background: #dbeafe;
-  color: #3b82f6;
+  color: #0066B1;
 }
 
 .card-action-btn.report {
@@ -2609,22 +2609,22 @@ body {
 /* Photographer Theme Styles - Light coral/peach palette */
 .logo-slider-wrapper.photographers-slider {
   background:
-    radial-gradient(700px 300px at 90% 0%, rgba(255, 138, 100, 0.20), transparent 65%),
+    radial-gradient(700px 300px at 90% 0%, rgba(226, 39, 24, 0.20), transparent 65%),
     radial-gradient(600px 250px at 10% 100%, rgba(226, 39, 24, 0.15), transparent 65%),
-    linear-gradient(135deg, #FFF8F3 0%, #FFEEE2 50%, #FFDFC8 100%);
+    linear-gradient(135deg, #FFF6F5 0%, #FBE3E0 50%, #F5CFCA 100%);
 }
 
 .logo-slider-section.photographer-theme .logo-slider-title {
-  color: #8B3A2A;
+  color: #8F1710;
 }
 
 .logo-slider-section.photographer-theme .logo-slider-title::after {
-  background: linear-gradient(135deg, #FF8A4C 0%, #E22718 100%);
+  background: linear-gradient(135deg, #E22718 0%, #B71F13 100%);
 }
 
 .logo-slider-section.photographer-theme .logo-slider-arrow {
-  border-color: #FF8A4C;
-  color: #B84327;
+  border-color: #E22718;
+  color: #B71F13;
 }
 
 .logo-slider-section.photographer-theme .logo-slider-arrow:hover {
@@ -2633,51 +2633,51 @@ body {
 }
 
 .logo-slider-section.photographer-theme .logo-slider-item.center .logo-box {
-  border-color: #FF8A4C;
-  box-shadow: 0 8px 25px rgba(255, 138, 76, 0.4);
+  border-color: #E22718;
+  box-shadow: 0 8px 25px rgba(226, 39, 24, 0.4);
 }
 
 .logo-slider-section.photographer-theme .logo-box {
-  background: linear-gradient(135deg, #FFFFFF 0%, #FFF6EE 100%);
-  border-color: rgba(255, 138, 76, 0.3);
+  background: linear-gradient(135deg, #FFFFFF 0%, #FDF0EF 100%);
+  border-color: rgba(226, 39, 24, 0.3);
 }
 
 .logo-slider-section.photographer-theme .logo-placeholder {
   background: transparent;
-  color: #B84327;
+  color: #B71F13;
 }
 
 .logo-slider-section.photographer-theme .logo-placeholder svg {
-  color: rgba(184, 67, 39, 0.7);
+  color: rgba(183, 31, 19, 0.7);
 }
 
 .logo-slider-section.photographer-theme .company-initial {
-  color: #B84327;
+  color: #B71F13;
 }
 
 .logo-slider-section.photographer-theme .logo-slider-details {
   background: linear-gradient(135deg, rgba(255, 248, 243, 0.9) 0%, rgba(255, 238, 226, 0.85) 100%);
-  border: 1px solid rgba(255, 138, 76, 0.25);
+  border: 1px solid rgba(226, 39, 24, 0.25);
 }
 
 .logo-slider-section.photographer-theme .selected-item-name {
-  color: #8B3A2A;
+  color: #8F1710;
 }
 
 .logo-slider-section.photographer-theme .selected-item-stats {
-  color: #B84327;
+  color: #B71F13;
 }
 
 .logo-slider-section.photographer-theme .stats-divider {
-  color: rgba(184, 67, 39, 0.4);
+  color: rgba(183, 31, 19, 0.4);
 }
 
 .logo-slider-section.photographer-theme .item-name-small {
-  color: rgba(139, 58, 42, 0.8);
+  color: rgba(143, 23, 16, 0.8);
 }
 
 .logo-slider-section.photographer-theme .slider-dot {
-  background: rgba(255, 138, 76, 0.35);
+  background: rgba(226, 39, 24, 0.35);
 }
 
 .logo-slider-section.photographer-theme .slider-dot.active {
@@ -2685,21 +2685,21 @@ body {
 }
 
 .logo-slider-section.photographer-theme .logo-slider-viewport::before {
-  background: linear-gradient(to left, #FFEEE2 0%, transparent 100%);
+  background: linear-gradient(to left, #FBE3E0 0%, transparent 100%);
 }
 
 .logo-slider-section.photographer-theme .logo-slider-viewport::after {
-  background: linear-gradient(to right, #FFEEE2 0%, transparent 100%);
+  background: linear-gradient(to right, #FBE3E0 0%, transparent 100%);
 }
 
 .logo-placeholder.photographer-icon {
-  background: linear-gradient(135deg, #FF8A4C 0%, #E22718 100%);
+  background: linear-gradient(135deg, #E22718 0%, #B71F13 100%);
 }
 
 .logo-placeholder.photographer-icon svg {
   width: 50px;
   height: 50px;
-  color: #5b21b6;
+  color: #ffffff;
 }
 
 /* ========================================
@@ -2881,7 +2881,7 @@ body {
 .logo-slider-title {
   font-size: 2rem;
   font-weight: 700;
-  color: #166534;
+  color: #003D78;
   margin-bottom: 40px;
   position: relative;
   display: inline-block;
@@ -2895,7 +2895,7 @@ body {
   transform: translateX(50%);
   width: 80px;
   height: 3px;
-  background: linear-gradient(135deg, #16a34a 0%, #166534 100%);
+  background: linear-gradient(135deg, #0066B1 0%, #003D78 100%);
   border-radius: 2px;
 }
 
@@ -2911,20 +2911,20 @@ body {
   width: 50px;
   height: 120px;
   background: transparent;
-  border: 3px solid #16a34a;
+  border: 3px solid #0066B1;
   border-radius: 8px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
-  color: #16a34a;
+  color: #0066B1;
   flex-shrink: 0;
   z-index: 10;
 }
 
 .logo-slider-arrow:hover {
-  background: #16a34a;
+  background: #0066B1;
   color: white;
 }
 
@@ -3024,8 +3024,8 @@ body {
 }
 
 .logo-slider-item.center .logo-box {
-  border-color: #16a34a;
-  box-shadow: 0 10px 30px rgba(22, 163, 74, 0.3);
+  border-color: #0066B1;
+  box-shadow: 0 10px 30px rgba(0, 102, 177, 0.3);
 }
 
 .logo-box {
@@ -3068,7 +3068,7 @@ body {
   position: absolute;
   font-size: 1.5rem;
   font-weight: 700;
-  color: #166534;
+  color: #003D78;
 }
 
 .item-name-small {
@@ -3079,7 +3079,7 @@ body {
 
 .logo-slider-details {
   padding: 20px;
-  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+  background: linear-gradient(135deg, #F0F7FC 0%, #DBEAF7 100%);
   border-radius: 16px;
   max-width: 500px;
   margin: 0 auto;
@@ -3088,7 +3088,7 @@ body {
 .selected-item-name {
   font-size: 1.4rem;
   font-weight: 700;
-  color: #166534;
+  color: #003D78;
   margin-bottom: 10px;
 }
 
@@ -3134,7 +3134,7 @@ body {
 }
 
 .slider-dot.active {
-  background: #16a34a;
+  background: #0066B1;
   transform: scale(1.2);
 }
 

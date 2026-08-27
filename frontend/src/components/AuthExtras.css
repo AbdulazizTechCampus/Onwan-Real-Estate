@@ -19,14 +19,14 @@
 }
 
 .role-option:hover {
-  border-color: #36D1DC;
+  border-color: #4FA3DC;
   transform: translateY(-2px);
-  box-shadow: 0 8px 18px -10px rgba(54, 209, 220, 0.4);
+  box-shadow: 0 8px 18px -10px rgba(79, 163, 220, 0.4);
 }
 
 .role-option.active {
   border-color: #0066B1;
-  background: linear-gradient(135deg, rgba(54, 209, 220, 0.08), rgba(0, 102, 177, 0.08));
+  background: linear-gradient(135deg, rgba(79, 163, 220, 0.08), rgba(0, 102, 177, 0.08));
   box-shadow: 0 8px 20px -10px rgba(0, 102, 177, 0.5);
 }
 
@@ -38,7 +38,7 @@
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #36D1DC, #0066B1);
+  background: linear-gradient(135deg, #4FA3DC, #0066B1);
   color: #fff;
   font-size: 13px;
   font-weight: 800;
