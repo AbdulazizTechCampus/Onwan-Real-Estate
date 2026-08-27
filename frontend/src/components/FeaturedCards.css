@@ -30,7 +30,7 @@
   color: #fff;
   white-space: nowrap;
   line-height: 1;
-  box-shadow: 0 4px 10px -3px rgba(11, 57, 84, 0.35), 0 1px 2px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 10px -3px rgba(0, 61, 120, 0.35), 0 1px 2px rgba(0, 0, 0, 0.06);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
   border: 1px solid rgba(255, 255, 255, 0.18);
@@ -63,13 +63,13 @@
 }
 
 .stack-badge.status.for-sale {
-  background: linear-gradient(135deg, #FF6B6F 0%, #E53E3E 60%, #C81D25 100%);
-  box-shadow: 0 4px 12px -3px rgba(200, 29, 37, 0.55), 0 1px 2px rgba(0, 0, 0, 0.08);
+  background: linear-gradient(135deg, #FF6B6F 0%, #E53E3E 60%, #B71F13 100%);
+  box-shadow: 0 4px 12px -3px rgba(183, 31, 19, 0.55), 0 1px 2px rgba(0, 0, 0, 0.08);
 }
 
 .stack-badge.status.for-rent {
-  background: linear-gradient(135deg, #14B8A6 0%, #0F9C8D 60%, #087E8B 100%);
-  box-shadow: 0 4px 12px -3px rgba(8, 126, 139, 0.55), 0 1px 2px rgba(0, 0, 0, 0.08);
+  background: linear-gradient(135deg, #14B8A6 0%, #0F9C8D 60%, #0066B1 100%);
+  box-shadow: 0 4px 12px -3px rgba(0, 102, 177, 0.55), 0 1px 2px rgba(0, 0, 0, 0.08);
 }
 
 .stack-badge-dot {
@@ -108,7 +108,7 @@
 
 .stack-badge.premium-plus {
   position: relative;
-  background: linear-gradient(135deg, #0B3954 0%, #1a4d6b 50%, #0B3954 100%);
+  background: linear-gradient(135deg, #003D78 0%, #0a5a9e 50%, #003D78 100%);
   color: #F7B733;
   border: 1.5px solid #D4AF37;
   box-shadow:
@@ -143,7 +143,7 @@
 }
 
 .stack-badge.ai.fresh {
-  background: linear-gradient(135deg, #36D1DC 0%, #14B8A6 50%, #087E8B 100%);
+  background: linear-gradient(135deg, #36D1DC 0%, #14B8A6 50%, #0066B1 100%);
   box-shadow: 0 4px 12px -3px rgba(54, 209, 220, 0.55);
 }
 
@@ -155,11 +155,11 @@
 .property-card.featured-premium {
   position: relative;
   border: 2px solid #D4AF37;
-  box-shadow: 0 8px 24px -8px rgba(212, 175, 55, 0.35), 0 2px 6px rgba(11, 57, 84, 0.06);
+  box-shadow: 0 8px 24px -8px rgba(212, 175, 55, 0.35), 0 2px 6px rgba(0, 61, 120, 0.06);
 }
 
 .property-card.featured-premium:hover {
-  box-shadow: 0 14px 32px -10px rgba(212, 175, 55, 0.55), 0 4px 10px rgba(11, 57, 84, 0.08);
+  box-shadow: 0 14px 32px -10px rgba(212, 175, 55, 0.55), 0 4px 10px rgba(0, 61, 120, 0.08);
 }
 
 /* Premium+ card: glowing gold gradient border with pulse */
@@ -172,7 +172,7 @@
   box-shadow:
     0 0 0 1px rgba(212, 175, 55, 0.18),
     0 12px 32px -10px rgba(212, 175, 55, 0.55),
-    0 4px 10px rgba(11, 57, 84, 0.08);
+    0 4px 10px rgba(0, 61, 120, 0.08);
   animation: premiumPlusGlow 3.2s ease-in-out infinite;
 }
 
@@ -180,7 +180,7 @@
   box-shadow:
     0 0 0 1px rgba(212, 175, 55, 0.25),
     0 16px 40px -10px rgba(212, 175, 55, 0.7),
-    0 6px 14px rgba(11, 57, 84, 0.1);
+    0 6px 14px rgba(0, 61, 120, 0.1);
   transform: translateY(-3px);
 }
 
@@ -189,13 +189,13 @@
     box-shadow:
       0 0 0 1px rgba(212, 175, 55, 0.18),
       0 12px 32px -10px rgba(212, 175, 55, 0.45),
-      0 4px 10px rgba(11, 57, 84, 0.08);
+      0 4px 10px rgba(0, 61, 120, 0.08);
   }
   50% {
     box-shadow:
       0 0 0 1px rgba(212, 175, 55, 0.3),
       0 14px 40px -8px rgba(212, 175, 55, 0.75),
-      0 4px 10px rgba(11, 57, 84, 0.08);
+      0 4px 10px rgba(0, 61, 120, 0.08);
   }
 }
 

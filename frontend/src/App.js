@@ -587,7 +587,7 @@ const ProfileCompletion = ({ currentUser }) => {
 
   const ringColor =
     percent >= 90 ? '#10b981' :
-    percent >= 60 ? '#087E8B' :
+    percent >= 60 ? '#0066B1' :
     percent >= 30 ? '#F7B733' :
     '#FF6B6F';
 
@@ -846,7 +846,7 @@ const Header = ({ onLoginClick, currentUser, onLogout, onOpenMap, onOpenAdmin })
       <div className="header-container">
         {/* Right Side - Logo */}
         <div className="header-logo">
-          <img src="https://customer-assets.emergentagent.com/job_onwan-homes/artifacts/obrzkr9d_Logo%2010201.png" alt="عنوان" className="logo-img-large" />
+          <img src="https://customer-assets-4nw71qhi.emergentagent.net/job_bf882f8d-ca2a-4cc8-ae17-54e05f111d0a/artifacts/lgulg4ve_ChatGPT%20Image%2026%20%D8%A3%D8%BA%D8%B3%D8%B7%D8%B3%202026%D8%8C%2010_08_21%20%D8%B5.webp" alt="عنوان" className="logo-img-large" />
         </div>
 
         {/* Center - Navigation */}
@@ -1754,7 +1754,7 @@ const PropertyCard = ({ property, marketAverages = {}, onClick }) => {
 
         {/* Watermark Logo */}
         <div className="property-watermark">
-          <img src="https://customer-assets.emergentagent.com/job_onwan-homes/artifacts/a7d7dgbd_Logo%202030%20.png" alt="عنوان" />
+          <img src="https://customer-assets-4nw71qhi.emergentagent.net/job_bf882f8d-ca2a-4cc8-ae17-54e05f111d0a/artifacts/lgulg4ve_ChatGPT%20Image%2026%20%D8%A3%D8%BA%D8%B3%D8%B7%D8%B3%202026%D8%8C%2010_08_21%20%D8%B5.webp" alt="عنوان" />
         </div>
 
         {/* Unified Badge Stack (top-right, vertical) */}
@@ -1950,14 +1950,11 @@ const PropertyCard = ({ property, marketAverages = {}, onClick }) => {
                 className="agent-avatar"
               />
             </div>
-            <div className="agent-identity-text">
-              <div className="agent-name-line">{property.agent.name}</div>
-              <div className="agent-verified-badge">
-                <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14">
-                  <path d="M12 1l3.22 3.22L20 4l-.78 4.78L22 12l-2.78 3.22L20 20l-4.78-.78L12 22l-3.22-2.78L4 20l.78-4.78L2 12l2.78-3.22L4 4l4.78.78L12 1zm-1 15l8-8-1.41-1.41L11 13.17l-3.59-3.58L6 11l5 5z" />
-                </svg>
-                <span>معتمد</span>
-              </div>
+            <div className="agent-verified-badge">
+              <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14">
+                <path d="M12 1l3.22 3.22L20 4l-.78 4.78L22 12l-2.78 3.22L20 20l-4.78-.78L12 22l-3.22-2.78L4 20l.78-4.78L2 12l2.78-3.22L4 4l4.78.78L12 1zm-1 15l8-8-1.41-1.41L11 13.17l-3.59-3.58L6 11l5 5z" />
+              </svg>
+              <span>معتمد</span>
             </div>
           </div>
 
@@ -2353,7 +2350,7 @@ const LoginModal = ({ isOpen, onClose, onSuccess }) => {
             <div className="auth-step">
               <div className="auth-header">
                 <div className="auth-logo">
-                  <img src="https://customer-assets.emergentagent.com/job_onwan-homes/artifacts/obrzkr9d_Logo%2010201.png" alt="عنوان" className="auth-logo-img" />
+                  <img src="https://customer-assets-4nw71qhi.emergentagent.net/job_bf882f8d-ca2a-4cc8-ae17-54e05f111d0a/artifacts/lgulg4ve_ChatGPT%20Image%2026%20%D8%A3%D8%BA%D8%B3%D8%B7%D8%B3%202026%D8%8C%2010_08_21%20%D8%B5.webp" alt="عنوان" className="auth-logo-img" />
                 </div>
                 <h2>مرحباً بك في عنوان</h2>
                 <p>سجل دخولك برقم الهاتف للوصول إلى جميع الخدمات</p>
@@ -2623,7 +2620,7 @@ const NafathModal = ({ isOpen, onClose, onSuccess, serviceName }) => {
             <div className="auth-header">
               <div className="nafath-logo">
                 <svg viewBox="0 0 100 100" width="70" height="70">
-                  <circle cx="50" cy="50" r="45" fill="#0B3954" />
+                  <circle cx="50" cy="50" r="45" fill="#003D78" />
                   <text x="50" y="58" textAnchor="middle" fill="white" fontSize="18" fontWeight="bold">نفاذ</text>
                 </svg>
               </div>
@@ -3048,7 +3045,7 @@ function App() {
           <div className="footer-content">
             <div className="footer-section">
               <div className="footer-logo">
-                <img src="https://customer-assets.emergentagent.com/job_onwan-homes/artifacts/obrzkr9d_Logo%2010201.png" alt="عنوان" className="footer-logo-img" />
+                <img src="https://customer-assets-4nw71qhi.emergentagent.net/job_bf882f8d-ca2a-4cc8-ae17-54e05f111d0a/artifacts/lgulg4ve_ChatGPT%20Image%2026%20%D8%A3%D8%BA%D8%B3%D8%B7%D8%B3%202026%D8%8C%2010_08_21%20%D8%B5.webp" alt="عنوان" className="footer-logo-img" />
                 <p>منصة الوساطة والتسويق العقاري</p>
               </div>
             </div>

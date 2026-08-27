@@ -25,9 +25,9 @@
 }
 
 .role-option.active {
-  border-color: #087E8B;
-  background: linear-gradient(135deg, rgba(54, 209, 220, 0.08), rgba(8, 126, 139, 0.08));
-  box-shadow: 0 8px 20px -10px rgba(8, 126, 139, 0.5);
+  border-color: #0066B1;
+  background: linear-gradient(135deg, rgba(54, 209, 220, 0.08), rgba(0, 102, 177, 0.08));
+  box-shadow: 0 8px 20px -10px rgba(0, 102, 177, 0.5);
 }
 
 .role-option.active::before {
@@ -38,7 +38,7 @@
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #36D1DC, #087E8B);
+  background: linear-gradient(135deg, #36D1DC, #0066B1);
   color: #fff;
   font-size: 13px;
   font-weight: 800;
@@ -56,7 +56,7 @@
 .role-option .role-title {
   font-size: 15px;
   font-weight: 800;
-  color: #0B3954;
+  color: #003D78;
   margin-bottom: 4px;
 }
 
@@ -73,7 +73,7 @@
   border-radius: 999px;
   font-size: 10.5px;
   font-weight: 700;
-  background: rgba(8, 126, 139, 0.1);
-  color: #087E8B;
+  background: rgba(0, 102, 177, 0.1);
+  color: #0066B1;
   margin-top: 4px;
 }

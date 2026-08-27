@@ -10,8 +10,8 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  background: linear-gradient(135deg, rgba(8, 126, 139, 0.08), rgba(54, 209, 220, 0.05));
-  border: 1.5px solid rgba(8, 126, 139, 0.18);
+  background: linear-gradient(135deg, rgba(0, 102, 177, 0.08), rgba(54, 209, 220, 0.05));
+  border: 1.5px solid rgba(0, 102, 177, 0.18);
   padding: 6px 14px 6px 10px;
   border-radius: 14px;
   cursor: pointer;
@@ -20,8 +20,8 @@
 }
 
 .user-menu-trigger:hover {
-  border-color: #087E8B;
-  box-shadow: 0 6px 16px -8px rgba(8, 126, 139, 0.45);
+  border-color: #0066B1;
+  box-shadow: 0 6px 16px -8px rgba(0, 102, 177, 0.45);
   transform: translateY(-1px);
 }
 
@@ -29,7 +29,7 @@
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #087E8B 0%, #0B3954 100%);
+  background: linear-gradient(135deg, #0066B1 0%, #003D78 100%);
   color: #fff;
   display: inline-flex;
   align-items: center;
@@ -52,7 +52,7 @@
 .user-menu-trigger .user-greeting {
   font-size: 13.5px;
   font-weight: 700;
-  color: #0B3954;
+  color: #003D78;
   max-width: 140px;
   white-space: nowrap;
   overflow: hidden;
@@ -62,12 +62,12 @@
 .user-menu-trigger .user-role {
   font-size: 11px;
   font-weight: 600;
-  color: #087E8B;
+  color: #0066B1;
   margin-top: 2px;
 }
 
 .user-menu-caret {
-  color: #0B3954;
+  color: #003D78;
   transition: transform 0.2s ease;
 }
 
@@ -83,7 +83,7 @@
   width: 280px;
   background: #ffffff;
   border-radius: 16px;
-  box-shadow: 0 20px 48px -16px rgba(11, 57, 84, 0.28), 0 4px 12px rgba(11, 57, 84, 0.08);
+  box-shadow: 0 20px 48px -16px rgba(0, 61, 120, 0.28), 0 4px 12px rgba(0, 61, 120, 0.08);
   border: 1px solid #eef2f6;
   overflow: hidden;
   z-index: 1000;
@@ -101,7 +101,7 @@
   align-items: center;
   gap: 12px;
   padding: 16px;
-  background: linear-gradient(135deg, #0B3954 0%, #087E8B 100%);
+  background: linear-gradient(135deg, #003D78 0%, #0066B1 100%);
   color: #fff;
 }
 
@@ -182,8 +182,8 @@
 }
 
 .role-menu-item:hover {
-  background: rgba(8, 126, 139, 0.08);
-  color: #087E8B;
+  background: rgba(0, 102, 177, 0.08);
+  color: #0066B1;
   transform: translateX(-3px);
 }
 
@@ -194,20 +194,20 @@
 }
 
 .role-menu-item:hover svg {
-  color: #087E8B;
+  color: #0066B1;
 }
 
 .role-menu-item.primary {
-  background: linear-gradient(135deg, rgba(8, 126, 139, 0.1), rgba(54, 209, 220, 0.06));
-  color: #0B3954;
+  background: linear-gradient(135deg, rgba(0, 102, 177, 0.1), rgba(54, 209, 220, 0.06));
+  color: #003D78;
 }
 
 .role-menu-item.primary svg {
-  color: #087E8B;
+  color: #0066B1;
 }
 
 .role-menu-item.primary:hover {
-  background: linear-gradient(135deg, rgba(8, 126, 139, 0.18), rgba(54, 209, 220, 0.12));
+  background: linear-gradient(135deg, rgba(0, 102, 177, 0.18), rgba(54, 209, 220, 0.12));
 }
 
 .role-menu-item.logout {

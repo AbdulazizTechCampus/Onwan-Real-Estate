@@ -11,9 +11,9 @@ import './AIComponents.css';
 const Icon = {
   Area: () => (
     <svg viewBox="0 0 24 24" className="pd-ico" width="20" height="20">
-      <rect x="2" y="2" width="20" height="20" stroke="#087E8B" strokeWidth="1.6" fill="none" />
-      <path d="M2 2l5 5M22 2l-5 5M2 22l5-5M22 22l-5-5" stroke="#087E8B" strokeWidth="1.6" />
-      <path d="M7 12h10M12 7v10" stroke="#087E8B" strokeWidth="1.2" />
+      <rect x="2" y="2" width="20" height="20" stroke="#0066B1" strokeWidth="1.6" fill="none" />
+      <path d="M2 2l5 5M22 2l-5 5M2 22l5-5M22 22l-5-5" stroke="#0066B1" strokeWidth="1.6" />
+      <path d="M7 12h10M12 7v10" stroke="#0066B1" strokeWidth="1.2" />
     </svg>
   ),
   Bed: () => (
@@ -32,11 +32,11 @@ const Icon = {
   ),
   Age: () => (
     <svg viewBox="0 0 24 24" className="pd-ico" width="20" height="20">
-      <rect x="4" y="6" width="16" height="16" rx="2" stroke="#087E8B" strokeWidth="1.6" fill="none" />
-      <path d="M4 6c0-1.5 1-3 3-3h10c2 0 3 1.5 3 3" stroke="#087E8B" strokeWidth="1.6" fill="none" />
-      <rect x="8" y="10" width="3" height="3" fill="#087E8B" />
-      <rect x="13" y="10" width="3" height="3" fill="#087E8B" />
-      <rect x="10" y="16" width="4" height="6" stroke="#087E8B" strokeWidth="1" fill="none" />
+      <rect x="4" y="6" width="16" height="16" rx="2" stroke="#0066B1" strokeWidth="1.6" fill="none" />
+      <path d="M4 6c0-1.5 1-3 3-3h10c2 0 3 1.5 3 3" stroke="#0066B1" strokeWidth="1.6" fill="none" />
+      <rect x="8" y="10" width="3" height="3" fill="#0066B1" />
+      <rect x="13" y="10" width="3" height="3" fill="#0066B1" />
+      <rect x="10" y="16" width="4" height="6" stroke="#0066B1" strokeWidth="1" fill="none" />
     </svg>
   ),
   Location: () => (
@@ -47,12 +47,12 @@ const Icon = {
   ),
   Views: () => (
     <svg viewBox="0 0 24 24" className="pd-ico" width="20" height="20">
-      <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" fill="#087E8B" />
+      <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" fill="#0066B1" />
     </svg>
   ),
   Date: () => (
     <svg viewBox="0 0 24 24" className="pd-ico" width="20" height="20">
-      <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z" fill="#087E8B" />
+      <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z" fill="#0066B1" />
     </svg>
   ),
   Sparkle: () => (

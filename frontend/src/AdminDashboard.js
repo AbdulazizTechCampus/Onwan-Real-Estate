@@ -78,7 +78,7 @@ function AdminDashboard({ currentUser, onLogout }) {
       <aside className={`admin-sidebar ${sidebarOpen ? 'open' : 'closed'}`}>
         <div className="sidebar-header">
           <img 
-            src="https://customer-assets.emergentagent.com/job_onwan-homes/artifacts/obrzkr9d_Logo%2010201.png" 
+            src="https://customer-assets-4nw71qhi.emergentagent.net/job_bf882f8d-ca2a-4cc8-ae17-54e05f111d0a/artifacts/lgulg4ve_ChatGPT%20Image%2026%20%D8%A3%D8%BA%D8%B3%D8%B7%D8%B3%202026%D8%8C%2010_08_21%20%D8%B5.webp" 
             alt="عنوان" 
             className="sidebar-logo"
           />

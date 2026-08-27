@@ -13,7 +13,7 @@ L.Icon.Default.mergeOptions({
 
 // Custom property marker icon
 const createPropertyIcon = (status) => {
-  const color = status === 'للبيع' ? '#FF5A5F' : '#087E8B';
+  const color = status === 'للبيع' ? '#E22718' : '#0066B1';
   return L.divIcon({
     className: 'custom-property-marker',
     html: `

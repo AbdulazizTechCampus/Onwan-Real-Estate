@@ -36,7 +36,7 @@
 
 .map-city-select:focus {
   outline: none;
-  box-shadow: 0 2px 10px rgba(8, 126, 139, 0.3);
+  box-shadow: 0 2px 10px rgba(0, 102, 177, 0.3);
 }
 
 .selected-location-info {
@@ -54,7 +54,7 @@
 .selected-location-info svg {
   width: 18px;
   height: 18px;
-  color: #FF5A5F;
+  color: #E22718;
 }
 
 /* Property Popup Styles */
@@ -97,7 +97,7 @@
 }
 
 .popup-status.for-sale {
-  background: linear-gradient(135deg, #FF5A5F 0%, #C81D25 100%);
+  background: linear-gradient(135deg, #E22718 0%, #B71F13 100%);
 }
 
 .popup-status.for-rent {
@@ -111,7 +111,7 @@
   align-items: center;
   justify-content: center;
   gap: 6px;
-  background: linear-gradient(135deg, #087E8B 0%, #0B3954 100%);
+  background: linear-gradient(135deg, #0066B1 0%, #003D78 100%);
   color: #fff;
   border: 0;
   padding: 8px 12px;
@@ -142,7 +142,7 @@
 .popup-price {
   font-size: 1.1rem;
   font-weight: 700;
-  color: #087E8B;
+  color: #0066B1;
   margin: 0 0 4px 0;
 }
 
@@ -237,13 +237,13 @@
 }
 
 .map-filter-btn:hover {
-  border-color: #087E8B;
-  color: #087E8B;
+  border-color: #0066B1;
+  color: #0066B1;
 }
 
 .map-filter-btn.active {
-  background: #087E8B;
-  border-color: #087E8B;
+  background: #0066B1;
+  border-color: #0066B1;
   color: white;
 }
 
@@ -338,7 +338,7 @@
 .sidebar-price {
   font-size: 1.3rem;
   font-weight: 700;
-  color: #087E8B;
+  color: #0066B1;
   margin: 0 0 8px 0;
 }
 
@@ -359,7 +359,7 @@
 .sidebar-contact-btn {
   width: 100%;
   padding: 14px;
-  background: linear-gradient(135deg, #087E8B 0%, #0B3954 100%);
+  background: linear-gradient(135deg, #0066B1 0%, #003D78 100%);
   color: white;
   border: none;
   border-radius: 10px;
@@ -371,7 +371,7 @@
 
 .sidebar-contact-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(8, 126, 139, 0.3);
+  box-shadow: 0 4px 15px rgba(0, 102, 177, 0.3);
 }
 
 /* Map Section in Homepage */
@@ -398,7 +398,7 @@
   content: '';
   width: 60px;
   height: 4px;
-  background: linear-gradient(135deg, #FF5A5F 0%, #C81D25 100%);
+  background: linear-gradient(135deg, #E22718 0%, #B71F13 100%);
   position: absolute;
   bottom: -8px;
   right: 0;
@@ -410,7 +410,7 @@
   align-items: center;
   gap: 8px;
   padding: 12px 24px;
-  background: linear-gradient(135deg, #087E8B 0%, #0B3954 100%);
+  background: linear-gradient(135deg, #0066B1 0%, #003D78 100%);
   color: white;
   border: none;
   border-radius: 25px;
@@ -422,7 +422,7 @@
 
 .view-full-map-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(8, 126, 139, 0.3);
+  box-shadow: 0 4px 15px rgba(0, 102, 177, 0.3);
 }
 
 .view-full-map-btn svg {
