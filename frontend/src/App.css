@@ -1667,13 +1667,14 @@ body {
 }
 
 .filter-btn-small {
-  background: rgba(255, 255, 255, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  background: linear-gradient(135deg, #0066B1 0%, #003D78 100%);
+  border: 1px solid #003D78;
   color: white;
+  box-shadow: 0 4px 10px -3px rgba(0, 61, 120, 0.4);
 }
 
 .filter-btn-small:hover {
-  background: rgba(255, 255, 255, 0.3);
+  background: linear-gradient(135deg, #0074C9 0%, #00498F 100%);
   transform: translateY(-1px);
 }
 
