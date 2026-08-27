@@ -7,7 +7,7 @@ import './components/AgentInfoBottom.css';
 import './components/RoleMenu.css';
 import './components/FeaturedCards.css';
 import './components/WelcomeBanner.css';
-import { PropertyMap, FullPageMap, PropertyMiniMap } from './components/MapComponent';
+import { FullPageMap } from './components/MapComponent';
 import AdminDashboard from './AdminDashboard';
 import {
   AIHeroHook,
@@ -1682,6 +1682,12 @@ const Carousel = ({ children, title, subtitle, showMoreLink = "#" }) => {
           <h2 className="carousel-title">{title}</h2>
           {subtitle && <p className="carousel-subtitle">{subtitle}</p>}
         </div>
+        <a href={showMoreLink} className="view-more-top" data-testid="view-more-top-link">
+          <span>عرض المزيد</span>
+          <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+            <path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"/>
+          </svg>
+        </a>
       </div>
       <div className="carousel-wrapper">
         <button className="carousel-side-arrow left" onClick={() => scroll('right')}>
@@ -1692,17 +1698,6 @@ const Carousel = ({ children, title, subtitle, showMoreLink = "#" }) => {
         <div className="carousel-container" ref={scrollContainerRef}>
           <div className="carousel-track">
             {children}
-            {/* View More Card */}
-            <a href={showMoreLink} className="view-more-card">
-              <div className="view-more-content">
-                <div className="view-more-icon">
-                  <svg viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
-                  </svg>
-                </div>
-                <span>عرض المزيد</span>
-              </div>
-            </a>
           </div>
         </div>
         <button className="carousel-side-arrow right" onClick={() => scroll('left')}>
@@ -1941,23 +1936,6 @@ const PropertyCard = ({ property, marketAverages = {}, onClick }) => {
         </div>
 
         <div className="agent-info-bottom">
-          {/* Agent identity (right in RTL) */}
-          <div className="agent-identity">
-            <div className="agent-avatar-wrap">
-              <img
-                src={property.agent.image}
-                alt={property.agent.name}
-                className="agent-avatar"
-              />
-            </div>
-            <div className="agent-verified-badge">
-              <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14">
-                <path d="M12 1l3.22 3.22L20 4l-.78 4.78L22 12l-2.78 3.22L20 20l-4.78-.78L12 22l-3.22-2.78L4 20l.78-4.78L2 12l2.78-3.22L4 4l4.78.78L12 1zm-1 15l8-8-1.41-1.41L11 13.17l-3.59-3.58L6 11l5 5z" />
-              </svg>
-              <span>معتمد</span>
-            </div>
-          </div>
-
           {/* Contact action buttons (left in RTL) */}
           <div className="agent-actions">
             <a
@@ -2940,32 +2918,6 @@ function App() {
           </div>
         </section>
 
-        {/* Map Section */}
-        <section className="map-section">
-          <div className="container">
-            <div className="map-section-header">
-              <h2 className="map-section-title">استكشف العقارات على الخريطة</h2>
-              <button 
-                className="view-full-map-btn"
-                onClick={() => setShowFullMap(true)}
-                data-testid="view-full-map-btn"
-              >
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM15 19l-6-2.11V5l6 2.11V19z"/>
-                </svg>
-                عرض الخريطة الكاملة
-              </button>
-            </div>
-            <PropertyMap 
-              properties={SAMPLE_PROPERTIES}
-              height="450px"
-              showSearch={true}
-              zoom={11}
-              onPropertyClick={(p) => setSelectedPropertyDetails(p)}
-            />
-          </div>
-        </section>
-        
         {/* Latest Properties - Carousel */}
         <section className="properties-section latest">
           <div className="container">
