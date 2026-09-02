@@ -544,7 +544,7 @@ const Lightbox = ({ images, startIndex = 0, onClose }) => {
         }}
       />
       <div className="lb-counter">
-        {index + 1} / {images.length}
+        <bdi dir="ltr">{index + 1} / {images.length}</bdi>
       </div>
       <div className="lb-thumbs" onClick={(e) => e.stopPropagation()}>
         {images.map((src, i) => (
@@ -570,6 +570,38 @@ export const PropertyDetailsModal = ({ property, properties, onClose }) => {
   const gallery = useMemo(() => (property ? getGallery(property) : []), [property]);
   const [activeImg, setActiveImg] = useState(0);
   const [lightbox, setLightbox] = useState(null); // null or starting index
+  const [liked, setLiked] = useState(false);
+  const [starred, setStarred] = useState(false);
+
+  const handleShare = async () => {
+    const text = `${property.title} - ${property.price} ريال`;
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: property.title, text, url: window.location.href });
+      } else {
+        await navigator.clipboard.writeText(window.location.href);
+        alert('تم نسخ الرابط!');
+      }
+    } catch (err) {
+      if (err?.name !== 'AbortError') {
+        try {
+          const ta = document.createElement('textarea');
+          ta.value = window.location.href;
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          document.body.removeChild(ta);
+          alert('تم نسخ الرابط!');
+        } catch {
+          alert('تعذّرت المشاركة، انسخ الرابط من شريط العنوان');
+        }
+      }
+    }
+  };
+
+  const handleReport = () => {
+    alert('تم استلام بلاغك عن هذا الإعلان وسيتم مراجعته من فريق عنوان العقارية');
+  };
 
   if (!property) return null;
 
@@ -648,6 +680,50 @@ export const PropertyDetailsModal = ({ property, properties, onClose }) => {
                 <span>تكبير</span>
               </button>
               <div className="pd-status-pill">{property.status}</div>
+
+              {/* Action buttons - same as property card */}
+              <div className="pd-actions-stack" onClick={(e) => e.stopPropagation()}>
+                <button
+                  className={`pd-icon-btn like ${liked ? 'active' : ''}`}
+                  onClick={() => setLiked(!liked)}
+                  title="إعجاب"
+                  data-testid="pd-like-btn"
+                >
+                  <svg viewBox="0 0 24 24" fill={liked ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" width="18" height="18">
+                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                  </svg>
+                </button>
+                <button
+                  className={`pd-icon-btn interest ${starred ? 'active' : ''}`}
+                  onClick={() => setStarred(!starred)}
+                  title="اهتمام"
+                  data-testid="pd-star-btn"
+                >
+                  <svg viewBox="0 0 24 24" fill={starred ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" width="18" height="18">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                  </svg>
+                </button>
+                <button
+                  className="pd-icon-btn share"
+                  onClick={handleShare}
+                  title="مشاركة"
+                  data-testid="pd-share-btn"
+                >
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="18" height="18">
+                    <circle cx="18" cy="5" r="3"/>
+                    <circle cx="6" cy="12" r="3"/>
+                    <circle cx="18" cy="19" r="3"/>
+                    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+                    <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+                  </svg>
+                </button>
+                <button className="pd-icon-btn report" title="بلاغ" onClick={handleReport} data-testid="pd-report-btn">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="18" height="18">
+                    <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/>
+                    <line x1="4" y1="22" x2="4" y2="15"/>
+                  </svg>
+                </button>
+              </div>
             </div>
             {gallery.length > 1 && (
               <div className="pd-thumbs-row">

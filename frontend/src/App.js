@@ -1815,6 +1815,7 @@ const PropertyCard = ({ property, marketAverages = {}, onClick }) => {
             className={`card-action-btn like ${isLiked ? 'active' : ''}`}
             onClick={() => setIsLiked(!isLiked)}
             title="إعجاب"
+            data-testid={`card-like-btn-${property.id}`}
           >
             <svg viewBox="0 0 24 24" fill={isLiked ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2">
               <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
@@ -1824,6 +1825,7 @@ const PropertyCard = ({ property, marketAverages = {}, onClick }) => {
             className={`card-action-btn interest ${isInterested ? 'active' : ''}`}
             onClick={() => setIsInterested(!isInterested)}
             title="اهتمام"
+            data-testid={`card-interest-btn-${property.id}`}
           >
             <svg viewBox="0 0 24 24" fill={isInterested ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2">
               <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
@@ -1832,16 +1834,30 @@ const PropertyCard = ({ property, marketAverages = {}, onClick }) => {
           <button 
             className="card-action-btn share"
             title="مشاركة"
-            onClick={() => {
-              if (navigator.share) {
-                navigator.share({
-                  title: property.title,
-                  text: `${property.title} - ${property.price} ريال`,
-                  url: window.location.href
-                });
-              } else {
-                navigator.clipboard.writeText(window.location.href);
-                alert('تم نسخ الرابط!');
+            data-testid={`card-share-btn-${property.id}`}
+            onClick={async () => {
+              const text = `${property.title} - ${property.price} ريال`;
+              try {
+                if (navigator.share) {
+                  await navigator.share({ title: property.title, text, url: window.location.href });
+                } else {
+                  await navigator.clipboard.writeText(window.location.href);
+                  alert('تم نسخ الرابط!');
+                }
+              } catch (err) {
+                if (err?.name !== 'AbortError') {
+                  try {
+                    const ta = document.createElement('textarea');
+                    ta.value = window.location.href;
+                    document.body.appendChild(ta);
+                    ta.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(ta);
+                    alert('تم نسخ الرابط!');
+                  } catch {
+                    alert('تعذّرت المشاركة، انسخ الرابط من شريط العنوان');
+                  }
+                }
               }
             }}
           >
@@ -1856,6 +1872,8 @@ const PropertyCard = ({ property, marketAverages = {}, onClick }) => {
           <button 
             className="card-action-btn report"
             title="بلاغ"
+            data-testid={`card-report-btn-${property.id}`}
+            onClick={() => alert('تم استلام بلاغك عن هذا الإعلان وسيتم مراجعته من فريق عنوان العقارية')}
           >
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/>

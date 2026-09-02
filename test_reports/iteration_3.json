@@ -1,0 +1,34 @@
+{
+  "summary": "Frontend-only regression test of the PropertyDetailsModal action-button bug fix (Onwan, Arabic RTL). Verified on desktop 1920x1080 and mobile 390x844 using the public preview URL. All 6 requested test points PASS: homepage cards render 4 circular action buttons (.property-actions-left, 12 cards found); clicking a card opens data-testid='property-details-modal'; the modal gallery shows a vertical stack of pd-like-btn / pd-star-btn / pd-share-btn / pd-report-btn at top-right (x=1338, y=154/198/242/286) below the status pill; like toggles to active with bg rgb(226,39,24) (red) and star to rgb(247,183,51) (gold) and neither opens the lightbox (stopPropagation works); close button sits top-left (relative x=13.4, y=13.4 inside modal) and closes the modal; regression OK - clicking the gallery image opens data-testid='property-lightbox', Escape closes it, and thumbnails (5) switch the active image. Mobile layout also correct. One real defect found: the share handler has unhandled promise rejections (navigator.clipboard.writeText / navigator.share) which produced an 'Uncaught runtime errors: NotAllowedError: Failed to execute writeText on Clipboard: Write permission denied' overlay when clicking pd-share-btn.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [
+      {"component": "PropertyDetailsModal.handleShare (AIComponents.js:576-587) and PropertyCard share button (App.js:1835-1846)", "issue": "navigator.share(...) and navigator.clipboard.writeText(...) promises are not awaited/caught. In the preview (non-secure clipboard permission) clicking share throws NotAllowedError -> unhandled promise rejection + React dev error overlay that blocks all further clicks. Also uses native alert() instead of an in-app toast.", "selector": "[data-testid='pd-share-btn']", "priority": "HIGH"},
+      {"component": "PropertyDetailsModal report button", "issue": "pd-report-btn has no onClick handler - clicking does nothing (no report flow / no feedback). Same for the card-level report button in App.js.", "selector": "[data-testid='pd-report-btn']", "priority": "MEDIUM"},
+      {"component": "Lightbox counter", "issue": "Image counter renders as '5 / 1' instead of '1 / 5' because of RTL bidi ordering; wrap the counter in <bdi> or set direction:ltr.", "selector": "[data-testid='property-lightbox']", "priority": "LOW"}
+    ],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "Property details modal", "issues": ["Action stack, status pill and top-left close button are correctly positioned and non-overlapping on both desktop and mobile - no layout defect found", "Like/interest state in the modal is local component state only, so it is not synced with the same property's card state (toggling in the modal does not reflect on the card and is lost on reopen)"]}
+    ]
+  },
+  "test_report_links": [],
+  "action_items": [
+    "Wrap share logic in try/catch with .catch() on navigator.share and navigator.clipboard.writeText (with a fallback copy path) and replace alert() with a toast - currently throws an unhandled NotAllowedError overlay.",
+    "Add an onClick handler for the report buttons (modal + card) or hide them until the report flow exists.",
+    "Fix RTL number ordering of the lightbox '1 / 5' counter using <bdi> or direction:ltr.",
+    "Consider lifting liked/interested state (context or persisted store) so modal and card stay in sync."
+  ],
+  "critical_code_review_comments": [
+    "Share logic is duplicated verbatim between App.js PropertyCard and AIComponents.js PropertyDetailsModal - extract a shared shareProperty(property) util with error handling.",
+    "AIComponents.js is ~894 lines and App.js is very large; consider splitting PropertyDetailsModal/Lightbox into their own files.",
+    "Card action buttons had no data-testid; added card-like-btn-{id}, card-interest-btn-{id}, card-share-btn-{id}, card-report-btn-{id}."
+  ],
+  "updated_files": ["/app/frontend/src/App.js"],
+  "success_rate": {"backend": "not tested (per request)", "frontend": "100% of the 6 requested test points passed; 3 additional defects found (1 high)"},
+  "seed_data_creation": "None - homepage uses mocked SAMPLE_PROPERTIES",
+  "should_call_test_agent_after_fix": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Details-modal action stack fix is verified working on desktop + mobile. Selectors: pd-like-btn, pd-star-btn, pd-share-btn, pd-report-btn, pd-gallery-main, pd-thumb-{i}, property-details-close-btn, property-details-modal, property-lightbox. New card selectors: card-like-btn-{id} etc. IMPORTANT: do NOT click pd-share-btn / card-share-btn during a test run - it triggers a clipboard NotAllowedError and the webpack dev overlay iframe then intercepts all pointer events for the rest of the run (reload required).",
+  "rca_of_the_issue": "Original bug (missing action buttons in details modal) is resolved: .pd-actions-stack (top:60px; right:14px; z-index:3) is rendered inside .pd-gallery-main with onClick stopPropagation, so the buttons are visible and do not trigger setLightbox. New finding: handleShare fires floating promises; when the Clipboard permission is denied the rejection is unhandled, producing a runtime error overlay."
+}
