@@ -679,7 +679,11 @@ export const PropertyDetailsModal = ({ property, properties, onClose, favorites,
                 </svg>
                 <span>تكبير</span>
               </button>
-              <div className="pd-status-pill">{property.status}</div>
+              <div className={`pd-status-pill ${property.is_completed ? 'completed' : ''}`}>
+                {property.is_completed
+                  ? (property.status === 'للبيع' ? 'تم البيع' : 'تم التأجير')
+                  : property.status}
+              </div>
 
               {/* Action buttons - same as property card */}
               <div className="pd-actions-stack" onClick={(e) => e.stopPropagation()}>
@@ -869,31 +873,44 @@ export const PropertyDetailsModal = ({ property, properties, onClose, favorites,
               </>
             )}
 
-            <div className="pd-actions-row">
-              {property.agent && (
-                <>
-                  <a
-                    className="pd-action whatsapp"
-                    href={`https://wa.me/${property.agent.phone.replace(/[^0-9]/g, '')}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    data-testid="pd-whatsapp-btn"
-                  >
-                    تواصل عبر واتساب
-                  </a>
-                  <a
-                    className="pd-action call"
-                    href={`tel:${property.agent.phone}`}
-                    data-testid="pd-call-btn"
-                  >
-                    اتصال مباشر
-                  </a>
-                </>
-              )}
-              <button className="pd-action primary" data-testid="pd-interest-btn">
-                سجّل اهتمامك
-              </button>
-            </div>
+            {property.is_completed ? (
+              <div className="pd-completed-notice" data-testid="pd-completed-notice">
+                <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+                <span>
+                  {property.status === 'للبيع'
+                    ? 'هذا العقار تم بيعه'
+                    : 'هذا العقار تم تأجيره'}
+                </span>
+              </div>
+            ) : (
+              <div className="pd-actions-row">
+                {property.agent && (
+                  <>
+                    <a
+                      className="pd-action whatsapp"
+                      href={`https://wa.me/${property.agent.phone.replace(/[^0-9]/g, '')}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      data-testid="pd-whatsapp-btn"
+                    >
+                      تواصل عبر واتساب
+                    </a>
+                    <a
+                      className="pd-action call"
+                      href={`tel:${property.agent.phone}`}
+                      data-testid="pd-call-btn"
+                    >
+                      اتصال مباشر
+                    </a>
+                  </>
+                )}
+                <button className="pd-action primary" data-testid="pd-interest-btn">
+                  سجّل اهتمامك
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>

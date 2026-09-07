@@ -67,8 +67,13 @@
   box-shadow: 0 4px 12px -3px rgba(183, 31, 19, 0.55), 0 1px 2px rgba(0, 0, 0, 0.08);
 }
 
+.stack-badge.status.completed {
+  background: linear-gradient(135deg, #4b5563 0%, #374151 60%, #262626 100%);
+  box-shadow: 0 4px 12px -3px rgba(38, 38, 38, 0.5), 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
 .stack-badge.status.for-rent {
-  background: linear-gradient(135deg, #14B8A6 0%, #0F9C8D 60%, #0066B1 100%);
+  background: linear-gradient(135deg, #0066B1 0%, #00549A 60%, #003D78 100%);
   box-shadow: 0 4px 12px -3px rgba(0, 102, 177, 0.55), 0 1px 2px rgba(0, 0, 0, 0.08);
 }
 

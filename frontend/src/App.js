@@ -255,6 +255,7 @@ const SAMPLE_PROPERTIES = [
     image: 'https://images.unsplash.com/photo-1670589953882-b94c9cb380f5?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzB8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjB2aWxsYXxlbnwwfHx8fDE3NTUzNzUwMDd8MA&ixlib=rb-4.1.0&q=85',
     status: 'للبيع',
     featured: false,
+    is_completed: true,
     featured_type: 'standard',
     views: 765,
     publishDate: '2024-01-12',
@@ -277,6 +278,7 @@ const SAMPLE_PROPERTIES = [
     image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2Mzl8MHwxfHNlYXJjaHw0fHxjb21tZXJjaWFsJTIwYnVpbGRpbmd8ZW58MHx8fHwxNzU1Mzc1MDEyfDA&ixlib=rb-4.1.0&q=85',
     status: 'للإيجار',
     featured: false,
+    is_completed: true,
     featured_type: 'standard',
     views: 420,
     publishDate: '2024-01-18',
@@ -1757,13 +1759,15 @@ const PropertyCard = ({ property, marketAverages = {}, onClick, favorites, onTog
 
         {/* Unified Badge Stack (top-right, vertical) */}
         <div className="property-badge-stack" data-testid={`badge-stack-${property.id}`}>
-          {/* 1. Status: للبيع / للإيجار */}
+          {/* 1. Status: للبيع / للإيجار / تم البيع / تم التأجير */}
           <span
-            className={`stack-badge status ${property.status === 'للبيع' ? 'for-sale' : 'for-rent'}`}
+            className={`stack-badge status ${property.is_completed ? 'completed' : property.status === 'للبيع' ? 'for-sale' : 'for-rent'}`}
             data-testid={`status-badge-${property.id}`}
           >
             <span className="stack-badge-dot" aria-hidden="true"></span>
-            {property.status}
+            {property.is_completed
+              ? (property.status === 'للبيع' ? 'تم البيع' : 'تم التأجير')
+              : property.status}
           </span>
 
           {/* 2. Featured tier: مميز+ / مميز */}
@@ -2808,6 +2812,9 @@ function App() {
   const FEATURED_RANK = { premium_plus: 0, premium: 1, standard: 2 };
   const sortByFeatured = (list) =>
     list.slice().sort((a, b) => {
+      const ca = a.is_completed ? 1 : 0;
+      const cb = b.is_completed ? 1 : 0;
+      if (ca !== cb) return ca - cb;
       const ra = FEATURED_RANK[a.featured_type || 'standard'] ?? 2;
       const rb = FEATURED_RANK[b.featured_type || 'standard'] ?? 2;
       return ra - rb;
@@ -2940,7 +2947,7 @@ function App() {
 
   const featuredProperties = filteredProperties.filter(p => p.featured);
   const latestProperties = filteredProperties.slice().reverse().slice(0, 4);
-  const mostViewedProperties = filteredProperties.slice().sort((a, b) => b.views - a.views).slice(0, 4);
+  const mostViewedProperties = filteredProperties.slice().sort((a, b) => ((a.is_completed ? 1 : 0) - (b.is_completed ? 1 : 0)) || (b.views - a.views)).slice(0, 4);
 
   // When smart filter results in empty featured list, fallback to filteredProperties slice
   const effectiveFeatured = featuredProperties.length > 0 ? featuredProperties : filteredProperties.slice(0, 6);
