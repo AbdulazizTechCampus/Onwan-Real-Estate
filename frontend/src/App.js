@@ -4,6 +4,7 @@ import './App.css';
 import './components/MapStyles.css';
 import './components/AuthExtras.css';
 import './components/AgentInfoBottom.css';
+import './components/FavoritesPage.css';
 import './components/RoleMenu.css';
 import './components/FeaturedCards.css';
 import './components/WelcomeBanner.css';
@@ -665,7 +666,7 @@ const ProfileCompletion = ({ currentUser }) => {
 
 
 // Role-based User Menu (dropdown shown when clicking user name in header)
-const RoleMenu = ({ currentUser, onClose, onLogout, onOpenAdmin }) => {
+const RoleMenu = ({ currentUser, onClose, onLogout, onOpenAdmin, onOpenFavorites }) => {
   const menuRef = useRef(null);
 
   useEffect(() => {
@@ -700,8 +701,8 @@ const RoleMenu = ({ currentUser, onClose, onLogout, onOpenAdmin }) => {
 
   const COMMON_ITEMS = (
     <>
-      <a href="#favorites" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(); }} data-testid="role-menu-favorites">
-        {ICONS.heart}<span>المفضلة</span>
+      <a href="#favorites" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(onOpenFavorites); }} data-testid="role-menu-favorites">
+        {ICONS.heart}<span>مفضلتي</span>
       </a>
       <a href="#notifications" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(); }} data-testid="role-menu-notifications">
         {ICONS.bell}<span>الإشعارات</span>
@@ -823,7 +824,7 @@ const RoleMenu = ({ currentUser, onClose, onLogout, onOpenAdmin }) => {
 
 
 // Header Component - Modern Design
-const Header = ({ onLoginClick, currentUser, onLogout, onOpenMap, onOpenAdmin }) => {
+const Header = ({ onLoginClick, currentUser, onLogout, onOpenMap, onOpenAdmin, onOpenFavorites }) => {
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isArabic, setIsArabic] = useState(true);
@@ -1068,6 +1069,7 @@ const Header = ({ onLoginClick, currentUser, onLogout, onOpenMap, onOpenAdmin })
                   onClose={() => setUserMenuOpen(false)}
                   onLogout={onLogout}
                   onOpenAdmin={onOpenAdmin}
+                  onOpenFavorites={onOpenFavorites}
                 />
               )}
             </div>
@@ -2671,6 +2673,70 @@ const NafathModal = ({ isOpen, onClose, onSuccess, serviceName }) => {
 };
 
 // Main App Component
+// Favorites Page - shows liked & interested properties
+const FavoritesPage = ({ properties, favorites, onToggleFavorite, onSelectProperty, marketAverages, onClose }) => {
+  const [tab, setTab] = useState('all');
+
+  const existingIds = new Set(properties.map(p => p.id));
+  const likes = (favorites?.likes || []).filter(id => existingIds.has(id));
+  const interests = (favorites?.interests || []).filter(id => existingIds.has(id));
+  const allIds = [...new Set([...likes, ...interests])];
+  const visibleIds = tab === 'likes' ? likes : tab === 'interests' ? interests : allIds;
+  const visibleProperties = properties.filter(p => visibleIds.includes(p.id));
+
+  return (
+    <div className="fav-page-backdrop" onClick={onClose} data-testid="favorites-page-backdrop">
+      <div className="fav-page" onClick={(e) => e.stopPropagation()} data-testid="favorites-page">
+        <div className="fav-page-header">
+          <h2 className="fav-page-title">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
+            مفضلتي
+          </h2>
+          <button className="fav-page-close" onClick={onClose} aria-label="إغلاق" data-testid="favorites-page-close">✕</button>
+        </div>
+
+        <div className="fav-tabs">
+          <button className={`fav-tab ${tab === 'all' ? 'active' : ''}`} onClick={() => setTab('all')} data-testid="fav-tab-all">
+            الكل <span className="count">{allIds.length}</span>
+          </button>
+          <button className={`fav-tab ${tab === 'likes' ? 'active' : ''}`} onClick={() => setTab('likes')} data-testid="fav-tab-likes">
+            إعجاب <span className="count">{likes.length}</span>
+          </button>
+          <button className={`fav-tab ${tab === 'interests' ? 'active' : ''}`} onClick={() => setTab('interests')} data-testid="fav-tab-interests">
+            اهتمام <span className="count">{interests.length}</span>
+          </button>
+        </div>
+
+        {visibleProperties.length === 0 ? (
+          <div className="fav-empty" data-testid="favorites-empty-state">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
+            <h3>لا توجد عقارات في هذه القائمة</h3>
+            <p>اضغط على زر القلب ♥ أو النجمة ★ على أي إعلان لإضافته إلى مفضلتك</p>
+          </div>
+        ) : (
+          <div className="fav-grid" data-testid="favorites-grid">
+            {visibleProperties.map(property => (
+              <PropertyCard
+                key={property.id}
+                property={property}
+                marketAverages={marketAverages}
+                onClick={onSelectProperty}
+                favorites={favorites}
+                onToggleFavorite={onToggleFavorite}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+
 function App() {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showNafathModal, setShowNafathModal] = useState(false);
@@ -2683,6 +2749,7 @@ function App() {
   const [showAIMatching, setShowAIMatching] = useState(false);
   const [activeSmartFilter, setActiveSmartFilter] = useState('all');
   const [selectedPropertyDetails, setSelectedPropertyDetails] = useState(null);
+  const [showFavorites, setShowFavorites] = useState(false);
 
   // Favorites (likes / interests) - persisted in localStorage + synced to backend when logged in
   const [favorites, setFavorites] = useState(() => {
@@ -2886,6 +2953,7 @@ function App() {
         onLogout={handleLogout}
         onOpenMap={() => setShowFullMap(true)}
         onOpenAdmin={() => setShowAdminPanel(true)}
+        onOpenFavorites={() => setShowFavorites(true)}
       />
 
       <AIHeroHook onStartMatching={() => setShowAIMatching(true)} />
@@ -3168,6 +3236,18 @@ function App() {
         properties={SAMPLE_PROPERTIES}
         onSelectProperty={(p) => setSelectedPropertyDetails(p)}
       />
+
+      {/* Favorites Page */}
+      {showFavorites && (
+        <FavoritesPage
+          properties={SAMPLE_PROPERTIES}
+          favorites={favorites}
+          onToggleFavorite={toggleFavorite}
+          onSelectProperty={(p) => setSelectedPropertyDetails(p)}
+          marketAverages={marketAverages}
+          onClose={() => setShowFavorites(false)}
+        />
+      )}
 
       {/* Property Details Modal */}
       {selectedPropertyDetails && (

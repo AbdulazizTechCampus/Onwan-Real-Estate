@@ -214,6 +214,12 @@
 - مسح المفضلة المحلية عند تسجيل الخروج لمنع تسربها لحساب آخر
 - مُختبر بالكامل: iteration_4 ‏(9/9 backend، 5/5 frontend)
 
+## صفحة "مفضلتي" (7 سبتمبر 2026)
+- عنصر "مفضلتي" في قائمة المستخدم المنسدلة (RoleMenu) يفتح صفحة كاملة (overlay)
+- تبويبات: الكل / إعجاب / اهتمام مع عدّادات — تعرض بطاقات العقارات بنفس المكوّن مع تزامن المفضلة
+- حالة فارغة إرشادية + العدّادات تحسب العقارات الموجودة فعلاً فقط
+- ملفات: FavoritesPage داخل App.js + components/FavoritesPage.css — data-testids: favorites-page، fav-tab-all/likes/interests، favorites-grid، favorites-empty-state
+
 ---
 
 ## معلومات الدعم
