@@ -1712,9 +1712,9 @@ const Carousel = ({ children, title, subtitle, showMoreLink = "#" }) => {
 };
 
 // Property Card Component - Updated Design
-const PropertyCard = ({ property, marketAverages = {}, onClick }) => {
-  const [isLiked, setIsLiked] = useState(false);
-  const [isInterested, setIsInterested] = useState(false);
+const PropertyCard = ({ property, marketAverages = {}, onClick, favorites, onToggleFavorite }) => {
+  const isLiked = !!favorites?.likes?.includes(property.id);
+  const isInterested = !!favorites?.interests?.includes(property.id);
 
   // AI computed insights
   const badges = getPropertyBadges(property, marketAverages);
@@ -1813,7 +1813,7 @@ const PropertyCard = ({ property, marketAverages = {}, onClick }) => {
         <div className="property-actions-left">
           <button 
             className={`card-action-btn like ${isLiked ? 'active' : ''}`}
-            onClick={() => setIsLiked(!isLiked)}
+            onClick={() => onToggleFavorite && onToggleFavorite(property.id, 'like')}
             title="إعجاب"
             data-testid={`card-like-btn-${property.id}`}
           >
@@ -1823,7 +1823,7 @@ const PropertyCard = ({ property, marketAverages = {}, onClick }) => {
           </button>
           <button 
             className={`card-action-btn interest ${isInterested ? 'active' : ''}`}
-            onClick={() => setIsInterested(!isInterested)}
+            onClick={() => onToggleFavorite && onToggleFavorite(property.id, 'interest')}
             title="اهتمام"
             data-testid={`card-interest-btn-${property.id}`}
           >
@@ -2684,6 +2684,53 @@ function App() {
   const [activeSmartFilter, setActiveSmartFilter] = useState('all');
   const [selectedPropertyDetails, setSelectedPropertyDetails] = useState(null);
 
+  // Favorites (likes / interests) - persisted in localStorage + synced to backend when logged in
+  const [favorites, setFavorites] = useState(() => {
+    try {
+      const stored = JSON.parse(localStorage.getItem('favorites'));
+      return stored && Array.isArray(stored.likes) ? stored : { likes: [], interests: [] };
+    } catch {
+      return { likes: [], interests: [] };
+    }
+  });
+
+  const toggleFavorite = (propertyId, type) => {
+    const field = type === 'like' ? 'likes' : 'interests';
+    setFavorites(prev => {
+      const cur = prev[field] || [];
+      const next = cur.includes(propertyId)
+        ? cur.filter(id => id !== propertyId)
+        : [...cur, propertyId];
+      const updated = { ...prev, [field]: next };
+      localStorage.setItem('favorites', JSON.stringify(updated));
+      return updated;
+    });
+    const token = localStorage.getItem('access_token');
+    if (token) {
+      axios.post(`${API}/favorites/toggle`,
+        { property_id: propertyId, favorite_type: type },
+        { headers: { Authorization: `Bearer ${token}` } }
+      ).catch(() => {});
+    }
+  };
+
+  // On login: merge local favorites with server and use merged result
+  useEffect(() => {
+    const token = localStorage.getItem('access_token');
+    if (!currentUser || !token) return;
+    const local = (() => {
+      try { return JSON.parse(localStorage.getItem('favorites')) || { likes: [], interests: [] }; }
+      catch { return { likes: [], interests: [] }; }
+    })();
+    axios.post(`${API}/favorites/sync`, local, {
+      headers: { Authorization: `Bearer ${token}` }
+    }).then(res => {
+      const merged = { likes: res.data.likes || [], interests: res.data.interests || [] };
+      localStorage.setItem('favorites', JSON.stringify(merged));
+      setFavorites(merged);
+    }).catch(() => {});
+  }, [currentUser]);
+
   // Pre-compute market averages once for the property dataset
   const marketAverages = useMemo(
     () => computeMarketAverages(SAMPLE_PROPERTIES),
@@ -2740,6 +2787,7 @@ function App() {
   const handleLogout = () => {
     localStorage.removeItem('access_token');
     localStorage.removeItem('user_data');
+    localStorage.removeItem('favorites');
     setCurrentUser(null);
     setShowAdminPanel(false);
     window.location.href = '/';
@@ -2904,6 +2952,8 @@ function App() {
                   property={property}
                   marketAverages={marketAverages}
                   onClick={setSelectedPropertyDetails}
+                  favorites={favorites}
+                  onToggleFavorite={toggleFavorite}
                 />
               ))}
             </Carousel>
@@ -2920,6 +2970,8 @@ function App() {
                   property={property}
                   marketAverages={marketAverages}
                   onClick={setSelectedPropertyDetails}
+                  favorites={favorites}
+                  onToggleFavorite={toggleFavorite}
                 />
               ))}
             </Carousel>
@@ -2936,6 +2988,8 @@ function App() {
                   property={property}
                   marketAverages={marketAverages}
                   onClick={setSelectedPropertyDetails}
+                  favorites={favorites}
+                  onToggleFavorite={toggleFavorite}
                 />
               ))}
             </Carousel>
@@ -3120,6 +3174,8 @@ function App() {
         <PropertyDetailsModal
           property={selectedPropertyDetails}
           properties={SAMPLE_PROPERTIES}
+          favorites={favorites}
+          onToggleFavorite={toggleFavorite}
           onClose={() => setSelectedPropertyDetails(null)}
         />
       )}

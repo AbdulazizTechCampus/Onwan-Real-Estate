@@ -561,7 +561,7 @@ const Lightbox = ({ images, startIndex = 0, onClose }) => {
   );
 };
 
-export const PropertyDetailsModal = ({ property, properties, onClose }) => {
+export const PropertyDetailsModal = ({ property, properties, onClose, favorites, onToggleFavorite }) => {
   const averages = useMemo(
     () => computeMarketAverages(properties || []),
     [properties]
@@ -570,8 +570,8 @@ export const PropertyDetailsModal = ({ property, properties, onClose }) => {
   const gallery = useMemo(() => (property ? getGallery(property) : []), [property]);
   const [activeImg, setActiveImg] = useState(0);
   const [lightbox, setLightbox] = useState(null); // null or starting index
-  const [liked, setLiked] = useState(false);
-  const [starred, setStarred] = useState(false);
+  const liked = !!favorites?.likes?.includes(property?.id);
+  const starred = !!favorites?.interests?.includes(property?.id);
 
   const handleShare = async () => {
     const text = `${property.title} - ${property.price} ريال`;
@@ -685,7 +685,7 @@ export const PropertyDetailsModal = ({ property, properties, onClose }) => {
               <div className="pd-actions-stack" onClick={(e) => e.stopPropagation()}>
                 <button
                   className={`pd-icon-btn like ${liked ? 'active' : ''}`}
-                  onClick={() => setLiked(!liked)}
+                  onClick={() => onToggleFavorite && onToggleFavorite(property.id, 'like')}
                   title="إعجاب"
                   data-testid="pd-like-btn"
                 >
@@ -695,7 +695,7 @@ export const PropertyDetailsModal = ({ property, properties, onClose }) => {
                 </button>
                 <button
                   className={`pd-icon-btn interest ${starred ? 'active' : ''}`}
-                  onClick={() => setStarred(!starred)}
+                  onClick={() => onToggleFavorite && onToggleFavorite(property.id, 'interest')}
                   title="اهتمام"
                   data-testid="pd-star-btn"
                 >

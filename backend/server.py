@@ -556,6 +556,57 @@ async def get_user_types():
 async def health_check():
     return {"status": "healthy", "service": "Onwan Real Estate Auth Service"}
 
+# ==================== Favorites ====================
+class FavoriteToggleRequest(BaseModel):
+    property_id: int
+    favorite_type: str  # 'like' | 'interest'
+
+class FavoritesSyncRequest(BaseModel):
+    likes: List[int] = []
+    interests: List[int] = []
+
+def _fav_field(favorite_type: str) -> str:
+    if favorite_type not in ("like", "interest"):
+        raise HTTPException(status_code=400, detail="favorite_type must be 'like' or 'interest'")
+    return "likes" if favorite_type == "like" else "interests"
+
+@api_router.get("/favorites")
+async def get_favorites(current_user: User = Depends(AuthService.get_current_user)):
+    doc = await db.favorites.find_one({"user_id": current_user.id})
+    return {
+        "likes": doc.get("likes", []) if doc else [],
+        "interests": doc.get("interests", []) if doc else []
+    }
+
+@api_router.post("/favorites/toggle")
+async def toggle_favorite(payload: FavoriteToggleRequest, current_user: User = Depends(AuthService.get_current_user)):
+    field = _fav_field(payload.favorite_type)
+    doc = await db.favorites.find_one({"user_id": current_user.id})
+    existing = doc.get(field, []) if doc else []
+    if payload.property_id in existing:
+        op = {"$pull": {field: payload.property_id}}
+        active = False
+    else:
+        op = {"$addToSet": {field: payload.property_id}}
+        active = True
+    op.setdefault("$set", {})["updated_at"] = datetime.utcnow().isoformat()
+    await db.favorites.update_one({"user_id": current_user.id}, op, upsert=True)
+    return {"property_id": payload.property_id, "favorite_type": payload.favorite_type, "active": active}
+
+@api_router.post("/favorites/sync")
+async def sync_favorites(payload: FavoritesSyncRequest, current_user: User = Depends(AuthService.get_current_user)):
+    update = {"$set": {"updated_at": datetime.utcnow().isoformat()}}
+    if payload.likes or payload.interests:
+        update["$addToSet"] = {}
+        if payload.likes:
+            update["$addToSet"]["likes"] = {"$each": payload.likes}
+        if payload.interests:
+            update["$addToSet"]["interests"] = {"$each": payload.interests}
+    await db.favorites.update_one({"user_id": current_user.id}, update, upsert=True)
+    doc = await db.favorites.find_one({"user_id": current_user.id})
+    return {"likes": doc.get("likes", []), "interests": doc.get("interests", [])}
+
+
 # Import and setup admin routes
 from routes.admin import create_admin_routes
 admin_router = create_admin_routes(db, AuthService, User)

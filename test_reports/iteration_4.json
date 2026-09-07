@@ -1,0 +1,32 @@
+{
+  "summary": "Full backend + frontend testing of persistent favorites feature (Onwan, Arabic RTL). Backend: 9/9 pytest cases pass against /api/favorites, /api/favorites/toggle, /api/favorites/sync (auth guards 401/403, invalid favorite_type 400, toggle-on/off with GET verification, sync merges without duplicates, empty sync ok). Frontend guest flow: heart click on card sets active state (bg rgb(254,226,226) light red / modal bg rgb(226,39,24) red / star active rgb(247,183,51)), persists to localStorage as {likes:[1],interests:[]}, survives full page reload. Sync card<->modal: liking on card reflects in pd-like-btn (already red on open); toggling pd-star-btn in modal, then closing, updates card-interest-btn-{id} (bg rgb(254,243,199) active) and LS becomes {likes:[1],interests:[1]}. Regression: clicking card-like-btn / card-interest-btn does NOT open the details modal (verified) - stopPropagation intact. Logged-in flow via OTP login (0500000000, OTP surfaced in dev mode): after login, POST /api/favorites/sync fires with local {likes:[42],interests:[7]}, returns 200; local LS is merged with server-side favorites -> {likes:[3,1,2,42],interests:[5,7]}. Toggling a like while logged in fires POST /api/favorites/toggle 200 and GET /api/favorites confirms persistence server-side ({likes:[3,2,42], interests:[5,7]}). All 5 requested test areas PASS.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_favorites.py",
+    "/app/test_reports/pytest/favorites_results.xml"
+  ],
+  "action_items": [
+    "None for this feature. Pre-existing (iteration_3) still open: pd-share-btn clipboard NotAllowedError overlay in preview env (has try/catch now but avoid clicking); pd-report-btn has no handler; RTL '5 / 1' counter bidi issue in lightbox."
+  ],
+  "critical_code_review_comments": [
+    "toggleFavorite optimistically updates local state and fires backend toggle in fire-and-forget with .catch(()=>{}). If the backend toggle fails, the client and server drift silently. Consider reconciling with GET on failure, or at least surfacing a toast.",
+    "sync useEffect depends only on [currentUser] which is fine, but if the user logs out and back in as a different account, previous favorites in localStorage will be leaked into the new account via sync. Recommend clearing 'favorites' from localStorage on logout.",
+    "Backend /favorites/sync always sets updated_at even for empty payload but $addToSet is only added when arrays non-empty (good); however update_one with only $set works, so behavior is fine.",
+    "No pagination or size limit on favorites arrays - unbounded growth possible."
+  ],
+  "updated_files": [
+    "/app/backend/tests/test_favorites.py (new)"
+  ],
+  "success_rate": {"backend": "100% (9/9)", "frontend": "100% of the 5 requested test areas"},
+  "test_credentials": "Phone 0500000000, OTP surfaced in /api/auth/send-otp response and shown on-screen in dev mode.",
+  "seed_data_creation": "Test data via API using property_ids 9991, 9992, 7001-7003 - all cleaned up in tests.",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "Favorites feature is fully green. Selectors used: card-like-btn-{id}, card-interest-btn-{id}, pd-like-btn, pd-star-btn, property-details-modal, property-details-close-btn. Guest flow uses localStorage key 'favorites' = {likes:[], interests:[]}. Logged-in flow: sync fires on currentUser change; toggle fires per click. Avoid clicking pd-share-btn / card-share-btn (see iteration_3 note). Login flow requires clicking 'إنشاء الحساب وتسجيل الدخول' at step 3 - guest role is preselected which is enough to get an access_token.",
+  "rca_of_the_issue": "N/A - feature verified working end-to-end. Backend endpoints correct, frontend state properly lifted (favorites live in App-level state, PropertyCard and PropertyDetailsModal both receive favorites + onToggleFavorite as props giving card<->modal sync). LocalStorage write happens synchronously inside setFavorites updater so reload persistence is reliable."
+}
