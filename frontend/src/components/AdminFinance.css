@@ -1,0 +1,67 @@
+.admin-finance { padding: 4px; }
+
+.af-tabs {
+  display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px;
+}
+.af-tab {
+  padding: 8px 18px; border-radius: 999px; border: 1px solid #d7e3ee;
+  background: #fff; color: #262626; font-weight: 700; font-size: 0.85rem; cursor: pointer;
+  font-family: inherit;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.af-tab.active { background: #0066B1; border-color: #0066B1; color: #fff; }
+
+.af-toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.af-count { color: #6b7280; font-size: 0.85rem; }
+.af-add {
+  padding: 9px 20px; border: 0; border-radius: 10px; font-family: inherit;
+  background: linear-gradient(135deg, #0066B1, #003D78); color: #fff; font-weight: 800; cursor: pointer;
+}
+
+.af-loading, .af-empty { padding: 30px; text-align: center; color: #94a3b8; }
+
+.af-table-wrap { overflow-x: auto; background: #fff; border-radius: 14px; border: 1px solid #e2e8f0; }
+.af-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+.af-table th {
+  background: #f0f6fb; color: #003D78; text-align: right; padding: 12px 14px;
+  font-size: 0.78rem; white-space: nowrap;
+}
+.af-table td { padding: 11px 14px; border-top: 1px solid #f1f5f9; color: #374151; }
+.af-table tr.inactive td { opacity: 0.45; }
+
+.af-actions { display: flex; gap: 6px; }
+.af-actions button {
+  padding: 5px 14px; border-radius: 8px; border: 1px solid #0066B1; font-family: inherit;
+  background: #fff; color: #0066B1; font-weight: 700; font-size: 0.75rem; cursor: pointer;
+}
+.af-actions button.danger { border-color: #B71F13; color: #B71F13; }
+.af-actions button:hover { background: #f0f6fb; }
+
+.af-editor-backdrop {
+  position: fixed; inset: 0; background: rgba(0, 21, 41, 0.5); z-index: 1500;
+  display: flex; align-items: center; justify-content: center; padding: 16px;
+}
+.af-editor {
+  background: #fff; border-radius: 16px; padding: 22px; width: 100%; max-width: 560px;
+  max-height: 85vh; overflow-y: auto;
+}
+.af-editor h3 { margin: 0 0 14px; color: #003D78; font-size: 1rem; }
+.af-error { background: #fef2f2; color: #B71F13; padding: 8px 12px; border-radius: 8px; margin-bottom: 10px; font-size: 0.82rem; }
+
+.af-fields { display: flex; flex-direction: column; gap: 12px; }
+.af-field { display: flex; flex-direction: column; gap: 5px; font-size: 0.8rem; color: #374151; font-weight: 700; }
+.af-field input[type="text"], .af-field input[type="number"], .af-field textarea {
+  padding: 9px 12px; border: 1px solid #d7e3ee; border-radius: 9px; font-family: inherit; font-size: 0.85rem;
+}
+.af-field.bool { flex-direction: row; align-items: center; gap: 10px; }
+.af-field textarea { font-family: monospace; font-size: 0.78rem; }
+
+.af-editor-actions { display: flex; gap: 10px; margin-top: 18px; }
+.af-save {
+  flex: 1; padding: 11px; border: 0; border-radius: 10px; font-family: inherit;
+  background: linear-gradient(135deg, #0066B1, #003D78); color: #fff; font-weight: 800; cursor: pointer;
+}
+.af-cancel {
+  padding: 11px 22px; border: 1px solid #d7e3ee; border-radius: 10px; font-family: inherit;
+  background: #fff; color: #6b7280; font-weight: 700; cursor: pointer;
+}

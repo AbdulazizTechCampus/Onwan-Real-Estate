@@ -1,0 +1,37 @@
+{
+  "summary": "Backend + frontend testing of Onwan Configurable Rules Engine (Finance/Subscriptions/Payments). Backend: 16/16 pytest pass covering /api/finance/config, promo validation (ONWAN50 fixed, invalid, wrong-txn-type), select-model PARTNER, subscribe growth, success-fee preview (15% partner, 7.5% growth), pay success-fee (SUCCESS_FEE txn + 70 points + PARTNER badge), redeem-points LISTING_BOOST, /me shape, admin CRUD for plans & promo-codes (create/update/soft-delete), admin list of all 7 collections, non-admin 403, and CRITICAL configurability test: admin PUT growth plan features.success_fee_percentage 7.5->6 and broker /success-fee/preview immediately returns 6% then restored. Frontend broker flow (0501234567): OTP login -> role select -> role-menu-subscription opens SubscriptionCenter overlay, all elements visible (model-partner, model-subscription, plan-card-{partner,silver,growth,professional}, promo-input, promo-check-btn, sim-amount-input, sim-calc-btn, transactions-list); ONWAN50 shows '✓ خصم 50 ريال'; WELCOME20 shows '✓ خصم 20%' (contrary to E1 note it was NOT exhausted - used_count=2/100); fee simulator returned '750 ريال — صافي 9250'; subscribed to silver: FLASH '✓ تم الاشتراك في باقة الفضية - 79.2 ريال (خصم 19.8) + 50 نقطة' (WELCOME20 20% off 99 = 79.2 correct); current plan tag updated. Frontend admin flow (0500000000): OTP login -> role-menu-admin-panel -> AdminDashboard 'الإدارة المالية' sidebar -> AdminFinance rendered, all 7 tabs visible (plans/ad-products/commission-rules/point-rules/badges/promo-codes/transactions), af-add-btn opens af-editor with dynamic fields, af-save-btn saves and closes editor, new row appears in table. All acceptance criteria in the review request PASS.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [
+      {"component": "AdminFinance af-editor", "issue": "Save button accepts empty required fields (e.g., saved a promo-code row with empty code/value/type). No client- or server-side validation on POST /api/admin/finance/{collection}.", "selector": "[data-testid=\"af-save-btn\"]", "priority": "MEDIUM"}
+    ],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_finance.py",
+    "/app/test_reports/pytest/finance_results.xml"
+  ],
+  "action_items": [
+    "(Minor) Add server-side Pydantic validation on POST/PUT /api/admin/finance/{collection} to require key fields per collection (e.g., promo-codes must have code/discount_type/value; plans must have key/name_ar/user_types). Currently blank items can be created via the admin UI.",
+    "(Doc) E1 note said WELCOME20 exhausted (100/100 max), but actual DB shows used_count=2/100 — note is stale. No action required.",
+    "(Data) After my broker tests, broker 0501234567 is now on SILVER plan (was growth). growth plan features.success_fee_percentage was verified restored to 7.5 in finally block."
+  ],
+  "critical_code_review_comments": [
+    "routes/finance.py admin_create_config/admin_update_config accept arbitrary Dict[str, Any] with no schema validation - can persist malformed docs; recommend per-collection Pydantic models.",
+    "MockPaymentProvider always returns paid, no idempotency key; when RAED is plugged in the caller must supply idempotency_key to avoid duplicate charges on retries.",
+    "check_badges() awards ALL matching badges each success-fee call; a broker with 25+ transactions will get PARTNER/VERIFIED_PARTNER/PROFESSIONAL_PARTNER/ELITE_PARTNER in one shot - probably fine but consider a single 'highest tier' rule.",
+    "resolve_commission falls back to commission_rules by user_type only; a photographer with a plan does not go through PHOTOGRAPHY_COMMISSION rule because plan path wins - by-design but should be documented.",
+    "seed_finance_defaults uses count_documents({})==0 checks per collection but is NOT idempotent for individual documents; if admin deletes a seeded plan, restart won't restore it. Consider upsert-by-key seeding."
+  ],
+  "updated_files": [
+    "/app/backend/tests/test_finance.py (new)"
+  ],
+  "success_rate": {"backend": "100% (16/16)", "frontend": "100% of requested flows"},
+  "test_credentials": "Broker: 0501234567 role individual_broker (OTP in dev mode). Admin: 0500000000 role individual_broker (OTP in dev mode) - backend treats phone 0500000000 as admin regardless of selected role.",
+  "seed_data_creation": "Created TEST_* promo-codes and 'test_plan_*' plan via admin CRUD - all soft-deleted (is_active=false) in test teardown. Broker: additional SUCCESS_FEE tx (10000 SAR), SUBSCRIPTION_PAYMENT for silver (79.2 SAR, WELCOME20). Broker now on silver plan. Growth plan success_fee_percentage restored to 7.5 after configurability test.",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "Backend tests in /app/backend/tests/test_finance.py cover the full rules engine. Broker 0501234567 state after this run: silver plan active, ~500+ total points, PARTNER badge, multiple transactions. WELCOME20 used_count is now higher after tests (still under 100). All admin endpoints working. Frontend selectors verified: role-menu-subscription, subscription-center, model-{partner,subscription}, plan-card-{key}, plan-subscribe-{key}, promo-input, promo-check-btn, promo-result, sim-amount-input, sim-calc-btn, sim-result, subscription-flash, transactions-list, redeem-{key}. Admin: admin-finance, af-tab-{key}, af-add-btn, af-editor, af-save-btn, af-table. Login flow: phone->send OTP->OTP shown in .dev-otp-code->fill->auth-otp-submit-btn->role step (role-broker-individual/role-owner/etc)->auth-role-submit-btn.",
+  "rca_of_the_issue": "N/A - feature verified working end-to-end. Only nit is missing server-side validation on admin CRUD."
+}

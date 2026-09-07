@@ -633,6 +633,9 @@ async def set_property_status(property_id: int, payload: PropertyStatusRequest, 
 from routes.admin import create_admin_routes
 admin_router = create_admin_routes(db, AuthService, User)
 
+from routes.finance import create_finance_routes, seed_finance_defaults
+finance_router, admin_finance_router = create_finance_routes(db, AuthService, User)
+
 # Import and setup matching routes
 from routes.matching import create_matching_routes
 matching_router = create_matching_routes(db, AuthService, User)
@@ -641,6 +644,12 @@ matching_router = create_matching_routes(db, AuthService, User)
 app.include_router(api_router)
 app.include_router(admin_router, prefix="/api")
 app.include_router(matching_router, prefix="/api")
+app.include_router(finance_router, prefix="/api")
+app.include_router(admin_finance_router, prefix="/api")
+
+@app.on_event("startup")
+async def seed_finance():
+    await seed_finance_defaults(db)
 
 @app.on_event("shutdown")
 async def shutdown_db_client():

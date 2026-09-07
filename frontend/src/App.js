@@ -5,6 +5,7 @@ import './components/MapStyles.css';
 import './components/AuthExtras.css';
 import './components/AgentInfoBottom.css';
 import './components/FavoritesPage.css';
+import SubscriptionCenter from './components/SubscriptionCenter';
 import './components/RoleMenu.css';
 import './components/FeaturedCards.css';
 import './components/WelcomeBanner.css';
@@ -668,7 +669,7 @@ const ProfileCompletion = ({ currentUser }) => {
 
 
 // Role-based User Menu (dropdown shown when clicking user name in header)
-const RoleMenu = ({ currentUser, onClose, onLogout, onOpenAdmin, onOpenFavorites, onOpenMyProperties }) => {
+const RoleMenu = ({ currentUser, onClose, onLogout, onOpenAdmin, onOpenFavorites, onOpenMyProperties, onOpenSubscriptions }) => {
   const menuRef = useRef(null);
 
   useEffect(() => {
@@ -740,7 +741,7 @@ const RoleMenu = ({ currentUser, onClose, onLogout, onOpenAdmin, onOpenFavorites
         <a href="#contracts" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(); }} data-testid="role-menu-contracts">
           {ICONS.contract}<span>عقودي</span>
         </a>
-        <a href="#subscription" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(); }} data-testid="role-menu-subscription">
+        <a href="#subscription" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(onOpenSubscriptions); }} data-testid="role-menu-subscription">
           {ICONS.crown}<span>الاشتراك والباقات</span>
         </a>
       </>
@@ -759,7 +760,7 @@ const RoleMenu = ({ currentUser, onClose, onLogout, onOpenAdmin, onOpenFavorites
         <a href="#contracts" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(); }} data-testid="role-menu-contracts">
           {ICONS.contract}<span>عقودي</span>
         </a>
-        <a href="#subscription" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(); }} data-testid="role-menu-subscription">
+        <a href="#subscription" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(onOpenSubscriptions); }} data-testid="role-menu-subscription">
           {ICONS.crown}<span>الاشتراك</span>
         </a>
       </>
@@ -826,7 +827,7 @@ const RoleMenu = ({ currentUser, onClose, onLogout, onOpenAdmin, onOpenFavorites
 
 
 // Header Component - Modern Design
-const Header = ({ onLoginClick, currentUser, onLogout, onOpenMap, onOpenAdmin, onOpenFavorites, onOpenMyProperties }) => {
+const Header = ({ onLoginClick, currentUser, onLogout, onOpenMap, onOpenAdmin, onOpenFavorites, onOpenMyProperties, onOpenSubscriptions }) => {
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isArabic, setIsArabic] = useState(true);
@@ -1073,6 +1074,7 @@ const Header = ({ onLoginClick, currentUser, onLogout, onOpenMap, onOpenAdmin, o
                   onOpenAdmin={onOpenAdmin}
                   onOpenFavorites={onOpenFavorites}
                   onOpenMyProperties={onOpenMyProperties}
+                  onOpenSubscriptions={onOpenSubscriptions}
                 />
               )}
             </div>
@@ -2874,6 +2876,7 @@ function App() {
   // Property status overrides (sold / rented) - public read, advertiser write
   const [statusOverrides, setStatusOverrides] = useState({});
   const [showMyProperties, setShowMyProperties] = useState(false);
+  const [showSubscriptions, setShowSubscriptions] = useState(false);
 
   useEffect(() => {
     axios.get(`${API}/property-status`)
@@ -3058,6 +3061,7 @@ function App() {
         onOpenAdmin={() => setShowAdminPanel(true)}
         onOpenFavorites={() => setShowFavorites(true)}
         onOpenMyProperties={() => setShowMyProperties(true)}
+        onOpenSubscriptions={() => setShowSubscriptions(true)}
       />
 
       <AIHeroHook onStartMatching={() => setShowAIMatching(true)} />
@@ -3350,6 +3354,14 @@ function App() {
           onSelectProperty={(p) => setSelectedPropertyDetails(p)}
           marketAverages={marketAverages}
           onClose={() => setShowFavorites(false)}
+        />
+      )}
+
+      {/* Subscription Center */}
+      {showSubscriptions && currentUser && (
+        <SubscriptionCenter
+          currentUser={currentUser}
+          onClose={() => setShowSubscriptions(false)}
         />
       )}
 

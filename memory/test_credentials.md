@@ -19,3 +19,9 @@
 - **Role**: individual_broker (وسيط عقاري فرد)
 - OTP shown on screen in Dev Mode (same flow as admin account)
 - Note: admin account (0500000000) does NOT see "عقاراتي" in its menu
+
+## Finance / Subscriptions Testing
+- Broker 0501234567: currently on SILVER plan, has points + PARTNER badge, multiple transactions
+- Demo promo codes: WELCOME20 (20%), ONWAN50 (50 SAR fixed, subscriptions only)
+- Admin finance UI: Admin Dashboard -> "الإدارة المالية"
+- Backend tests: /app/backend/tests/test_finance.py

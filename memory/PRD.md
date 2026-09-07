@@ -235,6 +235,21 @@
 - مُختبر: curl للـ API ‏(auth 401 بدون توكن) + تدفق كامل بالمتصفح (تحويل وإعادة نشر)
 - حساب اختبار وسيط: 0501234567 (انظر test_credentials.md)
 
+## النظام المالي — Rules Engine (7 سبتمبر 2026)
+- **المعمارية**: Configurable Business Rules Engine — لا أسعار ولا عمولات داخل الكود، كلها في MongoDB وتُدار من لوحة التحكم
+- **بوابة الدفع**: MOCKED عبر Payment Adapter موحد (MockPaymentProvider) — منصة رائد RAED ليست بوابة دفع بـ API عام؛ عند توفر بيانات تاجر (رائد/Moyasar/HyperPay) تُوصل بدون تغيير بقية النظام
+- **Backend** (`routes/finance.py`):
+  - مجموعات قابلة للإدارة: plans (شريك 0/فضية 99/نمو 199/احترافية 399/أعمال custom مع features)، ad_products (مجاني/قياسي 79/مميز 149/مميز بلس 249/تعزيز 49)، commission_rules (وسيط 15%، مالك 1% بحد 25000، مصور 10%)، point_rules (earn/redeem)، badges (شريك/موثق/محترف/نخبة بشروط)، promo_codes (WELCOME20 نسبة 20%، ONWAN50 ثابت 50)
+  - Financial Transaction Engine موحد: execute_transaction (خصم → دفع → معاملة → نقاط → شارات)
+  - resolve_commission: عمولة النجاح من الباقة أولاً ثم commission_rules ‏(fallback)
+  - Endpoints: /api/finance/{config, validate-promo, select-model, subscribe, purchase-ad, success-fee/preview, success-fee, redeem-points, me}
+  - Admin CRUD: /api/admin/finance/{plans|ad-products|commission-rules|point-rules|badges|promo-codes|transactions} مع تحقق من الحقول المطلوبة (400 للفارغ)
+  - Seed تلقائي idempotent عند الإقلاع
+- **Frontend**: SubscriptionCenter.js (نموذج التعامل، الباقات، كود الخصم، حاسبة العمولة، استبدال النقاط، المعاملات) يُفتح من "الاشتراك والباقات" بقائمة المستخدم | AdminFinance.js تبويب "الإدارة المالية" بلوحة الأدمن (7 تبويبات CRUD)
+- **مُختبر**: iteration_5 — ‏16/16 backend، 100% frontend، بما فيها اختبار الـ configurability (تعديل عمولة النمو 7.5→6 من الأدمن انعكس فوراً ثم أعيد)
+- **المرحلة التالية (P1)**: عقود الوساطة والتسويق واتفاقيات التصوير (BROKERAGE_CONTRACT / MARKETING_CONTRACT / PHOTOGRAPHY_BOOKING) — نماذجها معرفة كـ"قريباً" في نماذج التعامل
+- ملاحظات مراجعة الكود للمستقبل: إضافة idempotency_key عند ربط بوابة حقيقية، seed لا يعيد عنصراً محذوفاً (by-design)
+
 ---
 
 ## معلومات الدعم
