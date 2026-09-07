@@ -1,0 +1,36 @@
+{
+  "summary": "Frontend verification of pricing/subscription link fix and guest access. All 4 role paths (guest, broker, photographer, property_owner) successfully open SubscriptionCenter via the appropriate entry point. Backend /api/finance/config?user_type=... verified for photographer and property_owner (returns proper plans/ad_products).",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "verified_flows": [
+    "GUEST: footer 'الأسعار' (footer-pricing-link) opens SubscriptionCenter. guest-cta visible; plan-card-partner/silver/growth/professional all rendered; billing-status/fee-simulator/redeem-section/transactions-list/points-balance all HIDDEN for guests (count=0).",
+    "GUEST: clicking plan-subscribe-silver closes SC and opens the auth (login) modal (phone-input step). Verified by screenshot.",
+    "BROKER 0501234567: OTP login (+ role step where applicable) -> user-menu-trigger -> role-menu-subscription opens SC with billing-status=1, fee-simulator=1, transactions-list=1, all 4 plan cards visible, guest-cta=0.",
+    "PHOTOGRAPHER (fresh phone 0511122233 / 0513344556): OTP -> role-photographer -> auth-role-submit-btn -> verify-otp returned user_type=photographer. Menu item 'الاشتراك والباقات' (role-menu-subscription) present and opens SC with all 4 plan cards, billing-status=1, guest-cta=0.",
+    "PROPERTY_OWNER 0508765432: OTP -> role-owner -> submit -> menu 'الباقات والأسعار' opens SC showing AD PRODUCTS (5 ad-buy* buttons: free, standard, featured + 2 additional variants) and engagement models (نشر مجاني / الدفع لكل إعلان active; عقد وساطة & عقد تسويق marked قريباً). No subscription plan cards for owners (correct).",
+    "Backend regression: GET /api/finance/config?user_type=photographer returns 4 plans (partner/silver/growth/professional). GET /api/finance/config?user_type=property_owner returns plans=[] and ad_products list including free/standard/featured — matches expected owner behaviour."
+  ],
+  "test_report_links": [],
+  "action_items": [
+    "MINOR (test-infra only, no functional bug): SubscriptionCenter engagement-model cards for property_owner do not have data-testids matching FREE_LISTING/PAY_PER_AD/BROKERAGE/MARKETING/EXCLUSIVE keys (all reported count=0 by test, but the cards ARE visible in screenshot). Similarly ad-product-premium test-id not found though 'مميز بلس' card is visible under a different key. Consider aligning data-testids to backend model keys for easier automated verification.",
+    "MINOR: AuthModal phone input & phone-submit button lack data-testids (auth-phone-input / auth-phone-submit-btn / auth-otp-input). Added CSS-selector fallback for tests; recommend adding testids for future regression stability.",
+    "MINOR: 'redeem-section' data-testid not present on broker SC even though 'استبدال النقاط' section is rendered — recommend adding testid to that block."
+  ],
+  "critical_code_review_comments": [
+    "Guest access to SubscriptionCenter (isGuest branch) correctly hides billing/simulator/redeem/transactions and shows guest-cta banner. onRequireLogin wiring works end-to-end (subscribe/select-model triggers login modal).",
+    "role-menu-subscription is now present for all 4 relevant roles (admin excluded, visitor null). Verified in App.js lines 744, 763, 779, 795.",
+    "Footer 'الأسعار' link (data-testid footer-pricing-link) now correctly opens SubscriptionCenter overlay instead of dead #pricing anchor."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "100%", "frontend": "100%"},
+  "test_credentials": "Broker 0501234567, Owner 0508765432 (existing), Photographer 0511122233/0513344556 (fresh). OTP dev-mode shown in .dev-otp-code.",
+  "seed_data_creation": "Created 2 fresh photographer accounts (0511122233, 0513344556) during testing. Also 0509876543 exists as visitor/property_seeker from prior iteration.",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "The bug 'رابط الاشتراكات والباقات أو الأسعار لا يعمل بصورة صحيحة' is fully resolved. NOTE: phone 0509876543 was reused across iterations and now exists as property_seeker; use a truly fresh phone number if re-testing photographer role selection. Auth-modal phone/otp inputs use class selectors (input.phone-input, input.otp-input, button.auth-submit-btn) — not data-testids.",
+  "rca of the issue": "N/A — bug already fixed by main agent. Testing confirmed all three fixes: (1) footer pricing link wired to open SubscriptionCenter, (2) role-menu-subscription added for photographer & property_owner menus, (3) SubscriptionCenter now supports guest mode via isGuest + onRequireLogin."
+}

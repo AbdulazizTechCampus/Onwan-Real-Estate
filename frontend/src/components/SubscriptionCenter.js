@@ -33,7 +33,7 @@ const fmtFeature = (key, val) => {
   return val;
 };
 
-export const SubscriptionCenter = ({ currentUser, onClose }) => {
+export const SubscriptionCenter = ({ currentUser, onClose, onRequireLogin }) => {
   const [config, setConfig] = useState(null);
   const [me, setMe] = useState(null);
   const [promo, setPromo] = useState('');
@@ -43,10 +43,17 @@ export const SubscriptionCenter = ({ currentUser, onClose }) => {
   const [simAmount, setSimAmount] = useState('10000');
   const [simResult, setSimResult] = useState(null);
 
+  const isGuest = !currentUser;
+  const userType = currentUser?.user_type || 'broker_individual';
+
   const load = useCallback(() => {
-    axios.get(`${API}/finance/config?user_type=${currentUser.user_type}`).then(r => setConfig(r.data)).catch(() => {});
-    axios.get(`${API}/finance/me`, authHeaders()).then(r => setMe(r.data)).catch(() => {});
-  }, [currentUser.user_type]);
+    axios.get(`${API}/finance/config?user_type=${userType}`).then(r => setConfig(r.data)).catch(() => {});
+    if (!isGuest && localStorage.getItem('access_token')) {
+      axios.get(`${API}/finance/me`, authHeaders()).then(r => setMe(r.data)).catch(() => setMe({ billing: {}, wallet: { available_points: 0 }, badges: [], transactions: [], commission: null }));
+    } else {
+      setMe({ billing: {}, wallet: { available_points: 0 }, badges: [], transactions: [], commission: null });
+    }
+  }, [userType, isGuest]);
 
   useEffect(() => { load(); }, [load]);
 
@@ -66,6 +73,7 @@ export const SubscriptionCenter = ({ currentUser, onClose }) => {
   };
 
   const selectModel = async (model) => {
+    if (isGuest) { onRequireLogin && onRequireLogin(); return; }
     setBusy(true);
     try {
       await axios.post(`${API}/finance/select-model`, { model }, authHeaders());
@@ -77,6 +85,7 @@ export const SubscriptionCenter = ({ currentUser, onClose }) => {
   };
 
   const subscribe = async (plan) => {
+    if (isGuest) { onRequireLogin && onRequireLogin(); return; }
     setBusy(true);
     try {
       const r = await axios.post(`${API}/finance/subscribe`,
@@ -108,7 +117,7 @@ export const SubscriptionCenter = ({ currentUser, onClose }) => {
   }
 
   const billing = me.billing || {};
-  const isOwnerType = ['property_owner', 'property_seeker'].includes(currentUser.user_type);
+  const isOwnerType = ['property_owner', 'property_seeker'].includes(userType);
 
   return (
     <div className="sub-backdrop" onClick={onClose} data-testid="subscription-backdrop">
@@ -122,7 +131,15 @@ export const SubscriptionCenter = ({ currentUser, onClose }) => {
           <div className={`sub-flash ${message.type}`} data-testid="subscription-flash">{message.text}</div>
         )}
 
+        {/* Guest CTA */}
+        {isGuest && (
+          <div className="sub-flash success" data-testid="guest-cta">
+            تصفّح الباقات والأسعار بحرية — سجّل الدخول للاشتراك وإدارة باقتك ونقاطك
+          </div>
+        )}
+
         {/* Current status */}
+        {!isGuest && (
         <div className="sub-status" data-testid="billing-status">
           <div className="sub-status-item">
             <span className="lbl">نموذج التعامل</span>
@@ -141,6 +158,7 @@ export const SubscriptionCenter = ({ currentUser, onClose }) => {
             <strong data-testid="points-balance">{me.wallet?.available_points ?? 0} نقطة</strong>
           </div>
         </div>
+        )}
 
         {/* Badges */}
         {me.badges?.length > 0 && (
@@ -220,6 +238,8 @@ export const SubscriptionCenter = ({ currentUser, onClose }) => {
             </div>
 
             {/* Success fee simulator */}
+            {!isGuest && (
+            <>
             <h3 className="sub-section-title">حاسبة عمولة النجاح</h3>
             <div className="sub-sim" data-testid="fee-simulator">
               <input
@@ -237,10 +257,10 @@ export const SubscriptionCenter = ({ currentUser, onClose }) => {
                 </div>
               )}
             </div>
+            </>
+            )}
           </>
         )}
-
-        {/* Ad products (owners) */}
         {isOwnerType && (
           <>
             <h3 className="sub-section-title">منتجات الإعلانات</h3>
@@ -258,6 +278,7 @@ export const SubscriptionCenter = ({ currentUser, onClose }) => {
                     className="plan-btn"
                     disabled={busy}
                     onClick={async () => {
+                      if (isGuest) { onRequireLogin && onRequireLogin(); return; }
                       setBusy(true);
                       try {
                         const r = await axios.post(`${API}/finance/purchase-ad`,
@@ -279,7 +300,7 @@ export const SubscriptionCenter = ({ currentUser, onClose }) => {
         )}
 
         {/* Redeem points */}
-        {config.redeem_rules?.length > 0 && (
+        {!isGuest && config.redeem_rules?.length > 0 && (
           <>
             <h3 className="sub-section-title">استبدال النقاط</h3>
             <div className="sub-redeem">
@@ -309,6 +330,8 @@ export const SubscriptionCenter = ({ currentUser, onClose }) => {
         )}
 
         {/* Transactions */}
+        {!isGuest && (
+        <>
         <h3 className="sub-section-title">آخر المعاملات المالية</h3>
         {me.transactions?.length === 0 ? (
           <div className="sub-empty">لا توجد معاملات بعد</div>
@@ -325,6 +348,8 @@ export const SubscriptionCenter = ({ currentUser, onClose }) => {
               </div>
             ))}
           </div>
+        )}
+        </>
         )}
       </div>
     </div>

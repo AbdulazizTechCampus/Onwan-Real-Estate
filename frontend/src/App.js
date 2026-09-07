@@ -776,6 +776,9 @@ const RoleMenu = ({ currentUser, onClose, onLogout, onOpenAdmin, onOpenFavorites
         <a href="#stats" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(); }} data-testid="role-menu-stats">
           {ICONS.stats}<span>إحصائيات الإعلانات</span>
         </a>
+        <a href="#subscription" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(onOpenSubscriptions); }} data-testid="role-menu-subscription">
+          {ICONS.crown}<span>الباقات والأسعار</span>
+        </a>
       </>
     ),
     photographer: (
@@ -788,6 +791,9 @@ const RoleMenu = ({ currentUser, onClose, onLogout, onOpenAdmin, onOpenFavorites
         </a>
         <a href="#earnings" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(); }} data-testid="role-menu-earnings">
           {ICONS.stats}<span>الأرباح والإحصائيات</span>
+        </a>
+        <a href="#subscription" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(onOpenSubscriptions); }} data-testid="role-menu-subscription">
+          {ICONS.crown}<span>الاشتراك والباقات</span>
         </a>
       </>
     ),
@@ -3230,7 +3236,7 @@ function App() {
                 <li><a href="#properties">العقارات</a></li>
                 <li><a href="#brokers">الوسطاء</a></li>
                 <li><a href="#photography">التصوير</a></li>
-                <li><a href="#pricing">الأسعار</a></li>
+                <li><a href="#pricing" onClick={(e) => { e.preventDefault(); setShowSubscriptions(true); }} data-testid="footer-pricing-link">الأسعار</a></li>
               </ul>
             </div>
             
@@ -3358,9 +3364,10 @@ function App() {
       )}
 
       {/* Subscription Center */}
-      {showSubscriptions && currentUser && (
+      {showSubscriptions && (
         <SubscriptionCenter
           currentUser={currentUser}
+          onRequireLogin={() => { setShowSubscriptions(false); setShowLoginModal(true); }}
           onClose={() => setShowSubscriptions(false)}
         />
       )}
