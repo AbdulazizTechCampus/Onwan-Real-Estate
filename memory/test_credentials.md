@@ -13,3 +13,9 @@
 - Backend env var `DEV_MODE` must be `true` to surface OTP in responses.
 - `/api/auth/send-otp` body: `{"phone_number":"0500000000"}`
 - `/api/auth/verify-otp` body: `{"phone_number":"0500000000","otp_code":"<code>","user_type":"individual_broker"}`
+
+## Broker Test Account (for "عقاراتي" / My Properties page)
+- **Phone**: `0501234567`
+- **Role**: individual_broker (وسيط عقاري فرد)
+- OTP shown on screen in Dev Mode (same flow as admin account)
+- Note: admin account (0500000000) does NOT see "عقاراتي" in its menu

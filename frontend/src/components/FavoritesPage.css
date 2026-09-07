@@ -146,3 +146,39 @@
   .fav-tabs { padding: 14px 16px 0; flex-wrap: wrap; }
   .fav-page-header { padding: 16px 18px; }
 }
+
+/* My Properties status controls */
+.mp-card-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mp-status-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 16px;
+  border-radius: 12px;
+  border: 0;
+  font-weight: 800;
+  font-size: 0.9rem;
+  cursor: pointer;
+  color: #fff;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+}
+
+.mp-status-btn:hover {
+  transform: translateY(-2px);
+}
+
+.mp-status-btn.complete {
+  background: linear-gradient(135deg, #4b5563 0%, #262626 100%);
+  box-shadow: 0 6px 16px -6px rgba(38, 38, 38, 0.5);
+}
+
+.mp-status-btn.republish {
+  background: linear-gradient(135deg, #0066B1 0%, #003D78 100%);
+  box-shadow: 0 6px 16px -6px rgba(0, 61, 120, 0.5);
+}

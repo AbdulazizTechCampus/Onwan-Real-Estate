@@ -606,6 +606,28 @@ async def sync_favorites(payload: FavoritesSyncRequest, current_user: User = Dep
     doc = await db.favorites.find_one({"user_id": current_user.id})
     return {"likes": doc.get("likes", []), "interests": doc.get("interests", [])}
 
+# ==================== Property Status (sold / rented) ====================
+class PropertyStatusRequest(BaseModel):
+    is_completed: bool
+
+@api_router.get("/property-status")
+async def get_property_status():
+    docs = await db.property_status.find().to_list(1000)
+    return {str(d["property_id"]): d["is_completed"] for d in docs}
+
+@api_router.post("/my-properties/{property_id}/status")
+async def set_property_status(property_id: int, payload: PropertyStatusRequest, current_user: User = Depends(AuthService.get_current_user)):
+    await db.property_status.update_one(
+        {"property_id": property_id},
+        {"$set": {
+            "is_completed": payload.is_completed,
+            "updated_by": current_user.id,
+            "updated_at": datetime.utcnow().isoformat()
+        }},
+        upsert=True
+    )
+    return {"property_id": property_id, "is_completed": payload.is_completed}
+
 
 # Import and setup admin routes
 from routes.admin import create_admin_routes

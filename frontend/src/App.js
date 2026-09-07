@@ -668,7 +668,7 @@ const ProfileCompletion = ({ currentUser }) => {
 
 
 // Role-based User Menu (dropdown shown when clicking user name in header)
-const RoleMenu = ({ currentUser, onClose, onLogout, onOpenAdmin, onOpenFavorites }) => {
+const RoleMenu = ({ currentUser, onClose, onLogout, onOpenAdmin, onOpenFavorites, onOpenMyProperties }) => {
   const menuRef = useRef(null);
 
   useEffect(() => {
@@ -731,7 +731,7 @@ const RoleMenu = ({ currentUser, onClose, onLogout, onOpenAdmin, onOpenFavorites
         <button type="button" className="role-menu-item primary" onClick={() => handleAction(onOpenAdmin)} data-testid="role-menu-broker-dashboard">
           {ICONS.dashboard}<span>لوحة تحكم المنشأة</span>
         </button>
-        <a href="#my-properties" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(); }} data-testid="role-menu-my-properties">
+        <a href="#my-properties" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(onOpenMyProperties); }} data-testid="role-menu-my-properties">
           {ICONS.list}<span>عقاراتي</span>
         </a>
         <a href="#add-property" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(); }} data-testid="role-menu-add-property">
@@ -750,7 +750,7 @@ const RoleMenu = ({ currentUser, onClose, onLogout, onOpenAdmin, onOpenFavorites
         <button type="button" className="role-menu-item primary" onClick={() => handleAction(onOpenAdmin)} data-testid="role-menu-broker-dashboard">
           {ICONS.dashboard}<span>لوحة تحكم الوسيط</span>
         </button>
-        <a href="#my-properties" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(); }} data-testid="role-menu-my-properties">
+        <a href="#my-properties" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(onOpenMyProperties); }} data-testid="role-menu-my-properties">
           {ICONS.list}<span>عقاراتي</span>
         </a>
         <a href="#add-property" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(); }} data-testid="role-menu-add-property">
@@ -766,7 +766,7 @@ const RoleMenu = ({ currentUser, onClose, onLogout, onOpenAdmin, onOpenFavorites
     ),
     property_owner: (
       <>
-        <a href="#my-properties" className="role-menu-item primary" onClick={(e) => { e.preventDefault(); handleAction(); }} data-testid="role-menu-my-properties">
+        <a href="#my-properties" className="role-menu-item primary" onClick={(e) => { e.preventDefault(); handleAction(onOpenMyProperties); }} data-testid="role-menu-my-properties">
           {ICONS.list}<span>عقاراتي</span>
         </a>
         <a href="#add-property" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(); }} data-testid="role-menu-add-property">
@@ -826,7 +826,7 @@ const RoleMenu = ({ currentUser, onClose, onLogout, onOpenAdmin, onOpenFavorites
 
 
 // Header Component - Modern Design
-const Header = ({ onLoginClick, currentUser, onLogout, onOpenMap, onOpenAdmin, onOpenFavorites }) => {
+const Header = ({ onLoginClick, currentUser, onLogout, onOpenMap, onOpenAdmin, onOpenFavorites, onOpenMyProperties }) => {
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isArabic, setIsArabic] = useState(true);
@@ -1072,6 +1072,7 @@ const Header = ({ onLoginClick, currentUser, onLogout, onOpenMap, onOpenAdmin, o
                   onLogout={onLogout}
                   onOpenAdmin={onOpenAdmin}
                   onOpenFavorites={onOpenFavorites}
+                  onOpenMyProperties={onOpenMyProperties}
                 />
               )}
             </div>
@@ -2741,6 +2742,74 @@ const FavoritesPage = ({ properties, favorites, onToggleFavorite, onSelectProper
 };
 
 
+// Demo: property ids owned by the logged-in advertiser
+const MY_PROPERTY_IDS = [1, 2, 4, 5];
+
+// My Properties Page - advertiser controls listing status (sold / rented)
+const MyPropertiesPage = ({ properties, favorites, onToggleFavorite, onToggleStatus, onSelectProperty, marketAverages, onClose }) => {
+  const myProperties = properties.filter(p => MY_PROPERTY_IDS.includes(p.id));
+
+  return (
+    <div className="fav-page-backdrop" onClick={onClose} data-testid="my-properties-backdrop">
+      <div className="fav-page" onClick={(e) => e.stopPropagation()} data-testid="my-properties-page">
+        <div className="fav-page-header">
+          <h2 className="fav-page-title">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+            </svg>
+            عقاراتي
+          </h2>
+          <button className="fav-page-close" onClick={onClose} aria-label="إغلاق" data-testid="my-properties-close">✕</button>
+        </div>
+
+        {myProperties.length === 0 ? (
+          <div className="fav-empty">
+            <h3>لا توجد إعلانات منشورة</h3>
+            <p>أضف عقارك الأول ليظهر هنا</p>
+          </div>
+        ) : (
+          <div className="fav-grid" data-testid="my-properties-grid">
+            {myProperties.map(property => (
+              <div className="mp-card-wrap" key={property.id}>
+                <PropertyCard
+                  property={property}
+                  marketAverages={marketAverages}
+                  onClick={onSelectProperty}
+                  favorites={favorites}
+                  onToggleFavorite={onToggleFavorite}
+                />
+                {property.is_completed ? (
+                  <button
+                    className="mp-status-btn republish"
+                    onClick={() => onToggleStatus(property.id, false)}
+                    data-testid={`mp-republish-btn-${property.id}`}
+                  >
+                    <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+                      <path d="M17.65 6.35A7.958 7.958 0 0012 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0112 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>
+                    </svg>
+                    إعادة النشر كمتاح
+                  </button>
+                ) : (
+                  <button
+                    className="mp-status-btn complete"
+                    onClick={() => onToggleStatus(property.id, true)}
+                    data-testid={`mp-complete-btn-${property.id}`}
+                  >
+                    <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+                      <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                    </svg>
+                    {property.status === 'للبيع' ? 'تحويل إلى "تم البيع"' : 'تحويل إلى "تم التأجير"'}
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
 function App() {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showNafathModal, setShowNafathModal] = useState(false);
@@ -2802,6 +2871,33 @@ function App() {
     }).catch(() => {});
   }, [currentUser]);
 
+  // Property status overrides (sold / rented) - public read, advertiser write
+  const [statusOverrides, setStatusOverrides] = useState({});
+  const [showMyProperties, setShowMyProperties] = useState(false);
+
+  useEffect(() => {
+    axios.get(`${API}/property-status`)
+      .then(res => setStatusOverrides(res.data || {}))
+      .catch(() => {});
+  }, []);
+
+  const allProperties = useMemo(
+    () => SAMPLE_PROPERTIES.map(p =>
+      statusOverrides[p.id] !== undefined ? { ...p, is_completed: statusOverrides[p.id] } : p
+    ),
+    [statusOverrides]
+  );
+
+  const togglePropertyStatus = (propertyId, isCompleted) => {
+    const token = localStorage.getItem('access_token');
+    if (!token) return;
+    setStatusOverrides(prev => ({ ...prev, [propertyId]: isCompleted }));
+    axios.post(`${API}/my-properties/${propertyId}/status`,
+      { is_completed: isCompleted },
+      { headers: { Authorization: `Bearer ${token}` } }
+    ).catch(() => {});
+  };
+
   // Pre-compute market averages once for the property dataset
   const marketAverages = useMemo(
     () => computeMarketAverages(SAMPLE_PROPERTIES),
@@ -2823,10 +2919,10 @@ function App() {
   // Apply smart filter to base list (all properties), then sort by featured priority
   const filteredProperties = useMemo(() => {
     const base = activeSmartFilter === 'all'
-      ? SAMPLE_PROPERTIES
-      : smartFilter(SAMPLE_PROPERTIES, activeSmartFilter);
+      ? allProperties
+      : smartFilter(allProperties, activeSmartFilter);
     return sortByFeatured(base);
-  }, [activeSmartFilter]);
+  }, [activeSmartFilter, allProperties]);
 
   useEffect(() => {
     const token = localStorage.getItem('access_token');
@@ -2961,6 +3057,7 @@ function App() {
         onOpenMap={() => setShowFullMap(true)}
         onOpenAdmin={() => setShowAdminPanel(true)}
         onOpenFavorites={() => setShowFavorites(true)}
+        onOpenMyProperties={() => setShowMyProperties(true)}
       />
 
       <AIHeroHook onStartMatching={() => setShowAIMatching(true)} />
@@ -3227,7 +3324,7 @@ function App() {
       {/* Full Page Map Modal */}
       {showFullMap && (
         <FullPageMap
-          properties={SAMPLE_PROPERTIES}
+          properties={allProperties}
           onClose={() => setShowFullMap(false)}
           onPropertySelect={(p) => {
             setShowFullMap(false);
@@ -3240,14 +3337,14 @@ function App() {
       <AIMatchingModal
         isOpen={showAIMatching}
         onClose={() => setShowAIMatching(false)}
-        properties={SAMPLE_PROPERTIES}
+        properties={allProperties}
         onSelectProperty={(p) => setSelectedPropertyDetails(p)}
       />
 
       {/* Favorites Page */}
       {showFavorites && (
         <FavoritesPage
-          properties={SAMPLE_PROPERTIES}
+          properties={allProperties}
           favorites={favorites}
           onToggleFavorite={toggleFavorite}
           onSelectProperty={(p) => setSelectedPropertyDetails(p)}
@@ -3256,11 +3353,24 @@ function App() {
         />
       )}
 
+      {/* My Properties Page */}
+      {showMyProperties && (
+        <MyPropertiesPage
+          properties={allProperties}
+          favorites={favorites}
+          onToggleFavorite={toggleFavorite}
+          onToggleStatus={togglePropertyStatus}
+          onSelectProperty={(p) => setSelectedPropertyDetails(p)}
+          marketAverages={marketAverages}
+          onClose={() => setShowMyProperties(false)}
+        />
+      )}
+
       {/* Property Details Modal */}
       {selectedPropertyDetails && (
         <PropertyDetailsModal
-          property={selectedPropertyDetails}
-          properties={SAMPLE_PROPERTIES}
+          property={allProperties.find(p => p.id === selectedPropertyDetails.id) || selectedPropertyDetails}
+          properties={allProperties}
           favorites={favorites}
           onToggleFavorite={toggleFavorite}
           onClose={() => setSelectedPropertyDetails(null)}
