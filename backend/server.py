@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
 from pydantic import BaseModel, Field, validator
 from datetime import datetime, timedelta
-from typing import Optional, Dict, Any, List
+from typing import Optional, Dict, Any, List, Union
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 import os
@@ -558,12 +558,12 @@ async def health_check():
 
 # ==================== Favorites ====================
 class FavoriteToggleRequest(BaseModel):
-    property_id: int
+    property_id: Union[int, str]
     favorite_type: str  # 'like' | 'interest'
 
 class FavoritesSyncRequest(BaseModel):
-    likes: List[int] = []
-    interests: List[int] = []
+    likes: List[Union[int, str]] = []
+    interests: List[Union[int, str]] = []
 
 def _fav_field(favorite_type: str) -> str:
     if favorite_type not in ("like", "interest"):
@@ -636,6 +636,9 @@ admin_router = create_admin_routes(db, AuthService, User)
 from routes.finance import create_finance_routes, seed_finance_defaults
 finance_router, admin_finance_router = create_finance_routes(db, AuthService, User)
 
+from routes.properties import create_properties_routes
+properties_router = create_properties_routes(db, AuthService, User)
+
 # Import and setup matching routes
 from routes.matching import create_matching_routes
 matching_router = create_matching_routes(db, AuthService, User)
@@ -646,6 +649,7 @@ app.include_router(admin_router, prefix="/api")
 app.include_router(matching_router, prefix="/api")
 app.include_router(finance_router, prefix="/api")
 app.include_router(admin_finance_router, prefix="/api")
+app.include_router(properties_router, prefix="/api")
 
 @app.on_event("startup")
 async def seed_finance():

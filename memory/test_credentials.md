@@ -25,3 +25,8 @@
 - Demo promo codes: WELCOME20 (20%), ONWAN50 (50 SAR fixed, subscriptions only)
 - Admin finance UI: Admin Dashboard -> "الإدارة المالية"
 - Backend tests: /app/backend/tests/test_finance.py
+
+## Properties DB (10 Sep 2026)
+- Properties now in MongoDB (db.properties). Seeded ids 1-6 (owner_id=null). New listings get uuid ids.
+- Broker 0501234567 owns test listing(s); silver plan max_listings=20
+- Add property: user menu -> "إضافة عقار". My listings: "عقاراتي"

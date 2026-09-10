@@ -6,6 +6,7 @@ import './components/AuthExtras.css';
 import './components/AgentInfoBottom.css';
 import './components/FavoritesPage.css';
 import SubscriptionCenter from './components/SubscriptionCenter';
+import AddPropertyModal from './components/AddPropertyModal';
 import './components/RoleMenu.css';
 import './components/FeaturedCards.css';
 import './components/WelcomeBanner.css';
@@ -669,7 +670,7 @@ const ProfileCompletion = ({ currentUser }) => {
 
 
 // Role-based User Menu (dropdown shown when clicking user name in header)
-const RoleMenu = ({ currentUser, onClose, onLogout, onOpenAdmin, onOpenFavorites, onOpenMyProperties, onOpenSubscriptions }) => {
+const RoleMenu = ({ currentUser, onClose, onLogout, onOpenAdmin, onOpenFavorites, onOpenMyProperties, onOpenSubscriptions, onOpenAddProperty }) => {
   const menuRef = useRef(null);
 
   useEffect(() => {
@@ -735,7 +736,7 @@ const RoleMenu = ({ currentUser, onClose, onLogout, onOpenAdmin, onOpenFavorites
         <a href="#my-properties" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(onOpenMyProperties); }} data-testid="role-menu-my-properties">
           {ICONS.list}<span>عقاراتي</span>
         </a>
-        <a href="#add-property" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(); }} data-testid="role-menu-add-property">
+        <a href="#add-property" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(onOpenAddProperty); }} data-testid="role-menu-add-property">
           {ICONS.plus}<span>إضافة عقار</span>
         </a>
         <a href="#contracts" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(); }} data-testid="role-menu-contracts">
@@ -754,7 +755,7 @@ const RoleMenu = ({ currentUser, onClose, onLogout, onOpenAdmin, onOpenFavorites
         <a href="#my-properties" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(onOpenMyProperties); }} data-testid="role-menu-my-properties">
           {ICONS.list}<span>عقاراتي</span>
         </a>
-        <a href="#add-property" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(); }} data-testid="role-menu-add-property">
+        <a href="#add-property" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(onOpenAddProperty); }} data-testid="role-menu-add-property">
           {ICONS.plus}<span>إضافة عقار</span>
         </a>
         <a href="#contracts" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(); }} data-testid="role-menu-contracts">
@@ -770,7 +771,7 @@ const RoleMenu = ({ currentUser, onClose, onLogout, onOpenAdmin, onOpenFavorites
         <a href="#my-properties" className="role-menu-item primary" onClick={(e) => { e.preventDefault(); handleAction(onOpenMyProperties); }} data-testid="role-menu-my-properties">
           {ICONS.list}<span>عقاراتي</span>
         </a>
-        <a href="#add-property" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(); }} data-testid="role-menu-add-property">
+        <a href="#add-property" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(onOpenAddProperty); }} data-testid="role-menu-add-property">
           {ICONS.plus}<span>إضافة عقار للبيع/الإيجار</span>
         </a>
         <a href="#stats" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(); }} data-testid="role-menu-stats">
@@ -833,7 +834,7 @@ const RoleMenu = ({ currentUser, onClose, onLogout, onOpenAdmin, onOpenFavorites
 
 
 // Header Component - Modern Design
-const Header = ({ onLoginClick, currentUser, onLogout, onOpenMap, onOpenAdmin, onOpenFavorites, onOpenMyProperties, onOpenSubscriptions }) => {
+const Header = ({ onLoginClick, currentUser, onLogout, onOpenMap, onOpenAdmin, onOpenFavorites, onOpenMyProperties, onOpenSubscriptions, onOpenAddProperty }) => {
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isArabic, setIsArabic] = useState(true);
@@ -1081,6 +1082,7 @@ const Header = ({ onLoginClick, currentUser, onLogout, onOpenMap, onOpenAdmin, o
                   onOpenFavorites={onOpenFavorites}
                   onOpenMyProperties={onOpenMyProperties}
                   onOpenSubscriptions={onOpenSubscriptions}
+                  onOpenAddProperty={onOpenAddProperty}
                 />
               )}
             </div>
@@ -2750,12 +2752,28 @@ const FavoritesPage = ({ properties, favorites, onToggleFavorite, onSelectProper
 };
 
 
-// Demo: property ids owned by the logged-in advertiser
-const MY_PROPERTY_IDS = [1, 2, 4, 5];
+// My Properties Page - advertiser's real listings from database
+const MyPropertiesPage = ({ favorites, onToggleFavorite, onToggleStatus, onSelectProperty, marketAverages, onClose, onOpenAddProperty }) => {
+  const [myProperties, setMyProperties] = useState([]);
+  const [maxListings, setMaxListings] = useState(null);
+  const [loaded, setLoaded] = useState(false);
 
-// My Properties Page - advertiser controls listing status (sold / rented)
-const MyPropertiesPage = ({ properties, favorites, onToggleFavorite, onToggleStatus, onSelectProperty, marketAverages, onClose }) => {
-  const myProperties = properties.filter(p => MY_PROPERTY_IDS.includes(p.id));
+  const fetchMine = () => {
+    axios.get(`${API}/properties/mine`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` },
+    }).then(res => {
+      setMyProperties(res.data.properties || []);
+      setMaxListings(res.data.max_listings);
+      setLoaded(true);
+    }).catch(() => setLoaded(true));
+  };
+
+  useEffect(() => { fetchMine(); }, []);
+
+  const handleToggle = async (id, val) => {
+    await onToggleStatus(id, val);
+    fetchMine();
+  };
 
   return (
     <div className="fav-page-backdrop" onClick={onClose} data-testid="my-properties-backdrop">
@@ -2766,14 +2784,18 @@ const MyPropertiesPage = ({ properties, favorites, onToggleFavorite, onToggleSta
               <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
             </svg>
             عقاراتي
+            {maxListings !== null && (
+              <span className="mp-limit" data-testid="mp-limit">{myProperties.length} / {maxListings} إعلان</span>
+            )}
           </h2>
           <button className="fav-page-close" onClick={onClose} aria-label="إغلاق" data-testid="my-properties-close">✕</button>
         </div>
 
-        {myProperties.length === 0 ? (
-          <div className="fav-empty">
+        {loaded && myProperties.length === 0 ? (
+          <div className="fav-empty" data-testid="my-properties-empty">
             <h3>لا توجد إعلانات منشورة</h3>
             <p>أضف عقارك الأول ليظهر هنا</p>
+            <button className="mp-add-btn" onClick={onOpenAddProperty} data-testid="mp-add-first-btn">+ إضافة عقار</button>
           </div>
         ) : (
           <div className="fav-grid" data-testid="my-properties-grid">
@@ -2789,7 +2811,7 @@ const MyPropertiesPage = ({ properties, favorites, onToggleFavorite, onToggleSta
                 {property.is_completed ? (
                   <button
                     className="mp-status-btn republish"
-                    onClick={() => onToggleStatus(property.id, false)}
+                    onClick={() => handleToggle(property.id, false)}
                     data-testid={`mp-republish-btn-${property.id}`}
                   >
                     <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
@@ -2800,7 +2822,7 @@ const MyPropertiesPage = ({ properties, favorites, onToggleFavorite, onToggleSta
                 ) : (
                   <button
                     className="mp-status-btn complete"
-                    onClick={() => onToggleStatus(property.id, true)}
+                    onClick={() => handleToggle(property.id, true)}
                     data-testid={`mp-complete-btn-${property.id}`}
                   >
                     <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
@@ -2879,38 +2901,42 @@ function App() {
     }).catch(() => {});
   }, [currentUser]);
 
-  // Property status overrides (sold / rented) - public read, advertiser write
-  const [statusOverrides, setStatusOverrides] = useState({});
+  // Properties from database (seeded + user-created)
+  const [dbProperties, setDbProperties] = useState(null);
   const [showMyProperties, setShowMyProperties] = useState(false);
   const [showSubscriptions, setShowSubscriptions] = useState(false);
+  const [showAddProperty, setShowAddProperty] = useState(false);
 
-  useEffect(() => {
-    axios.get(`${API}/property-status`)
-      .then(res => setStatusOverrides(res.data || {}))
+  const fetchProperties = () => {
+    axios.get(`${API}/properties`)
+      .then(res => setDbProperties(res.data.properties || []))
       .catch(() => {});
-  }, []);
+  };
+
+  useEffect(() => { fetchProperties(); }, []);
 
   const allProperties = useMemo(
-    () => SAMPLE_PROPERTIES.map(p =>
-      statusOverrides[p.id] !== undefined ? { ...p, is_completed: statusOverrides[p.id] } : p
-    ),
-    [statusOverrides]
+    () => (dbProperties && dbProperties.length ? dbProperties : SAMPLE_PROPERTIES),
+    [dbProperties]
   );
 
-  const togglePropertyStatus = (propertyId, isCompleted) => {
+  const togglePropertyStatus = async (propertyId, isCompleted) => {
     const token = localStorage.getItem('access_token');
     if (!token) return;
-    setStatusOverrides(prev => ({ ...prev, [propertyId]: isCompleted }));
-    axios.post(`${API}/my-properties/${propertyId}/status`,
-      { is_completed: isCompleted },
-      { headers: { Authorization: `Bearer ${token}` } }
-    ).catch(() => {});
+    try {
+      await axios.post(`${API}/properties/${propertyId}/status`,
+        { is_completed: isCompleted },
+        { headers: { Authorization: `Bearer ${token}` } });
+      fetchProperties();
+    } catch (e) {
+      alert(e.response?.data?.detail || 'فشل تحديث الحالة');
+    }
   };
 
   // Pre-compute market averages once for the property dataset
   const marketAverages = useMemo(
-    () => computeMarketAverages(SAMPLE_PROPERTIES),
-    []
+    () => computeMarketAverages(allProperties),
+    [allProperties]
   );
 
   // Featured ordering: premium_plus pinned at top, then premium, then standard
@@ -3068,6 +3094,7 @@ function App() {
         onOpenFavorites={() => setShowFavorites(true)}
         onOpenMyProperties={() => setShowMyProperties(true)}
         onOpenSubscriptions={() => setShowSubscriptions(true)}
+        onOpenAddProperty={() => setShowAddProperty(true)}
       />
 
       <AIHeroHook onStartMatching={() => setShowAIMatching(true)} />
@@ -3372,16 +3399,27 @@ function App() {
         />
       )}
 
+      {/* Add Property Modal */}
+      {showAddProperty && currentUser && (
+        <AddPropertyModal
+          onClose={() => setShowAddProperty(false)}
+          onCreated={(data) => {
+            fetchProperties();
+            alert(`تم نشر إعلانك بنجاح${data.max_listings ? ` (${data.used}/${data.max_listings} من باقتك)` : ''}`);
+          }}
+        />
+      )}
+
       {/* My Properties Page */}
       {showMyProperties && (
         <MyPropertiesPage
-          properties={allProperties}
           favorites={favorites}
           onToggleFavorite={toggleFavorite}
           onToggleStatus={togglePropertyStatus}
           onSelectProperty={(p) => setSelectedPropertyDetails(p)}
           marketAverages={marketAverages}
           onClose={() => setShowMyProperties(false)}
+          onOpenAddProperty={() => { setShowMyProperties(false); setShowAddProperty(true); }}
         />
       )}
 

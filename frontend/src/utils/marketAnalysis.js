@@ -130,8 +130,11 @@ export const getAISummary = (property) => {
  */
 export const getInterestedNow = (property) => {
   const views = property.views || 0;
-  // 1.5% to 3% of views, deterministic-ish
-  const seed = (property.id || 0) % 7;
+  // 1.5% to 3% of views, deterministic-ish (supports numeric and uuid ids)
+  const rawId = property.id || 0;
+  const seed = (typeof rawId === 'number'
+    ? rawId
+    : String(rawId).split('').reduce((a, c) => a + c.charCodeAt(0), 0)) % 7;
   return Math.max(3, Math.round((views * (0.015 + seed * 0.002))));
 };
 

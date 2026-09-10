@@ -621,9 +621,12 @@ export const PropertyDetailsModal = ({ property, properties, onClose, favorites,
     };
   }
 
+  const idSeed = (typeof property.id === 'number'
+    ? property.id
+    : String(property.id || '').split('').reduce((a, c) => a + c.charCodeAt(0), 0)) % 7;
   const interestedNow = Math.max(
     3,
-    Math.round((property.views || 0) * 0.018) + ((property.id || 0) % 7)
+    Math.round((property.views || 0) * 0.018) + idSeed
   );
 
   const summaryParts = [];
