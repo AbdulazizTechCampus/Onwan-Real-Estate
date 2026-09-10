@@ -2565,9 +2565,9 @@ body {
 }
 
 .logo-slider-wrapper.brokers-slider {
-  background: linear-gradient(180deg, #ffffff 0%, #f6f8fa 100%);
-  border-top: 1px solid #eef2f6;
-  border-bottom: 1px solid #eef2f6;
+  background: linear-gradient(180deg, #eef2f6 0%, #e3e9f0 100%);
+  border-top: 1px solid #dde4ec;
+  border-bottom: 1px solid #dde4ec;
 }
 
 .logo-slider-section {
@@ -2580,7 +2580,7 @@ body {
 }
 
 .logo-slider-section.broker-theme .logo-slider-title::after {
-  background: linear-gradient(135deg, #0066B1 0%, #003D78 100%);
+  background: linear-gradient(135deg, #E22718 0%, #B71F13 100%);
 }
 
 .logo-slider-section.broker-theme .logo-slider-arrow {
@@ -2590,15 +2590,15 @@ body {
 }
 
 .logo-slider-section.broker-theme .logo-slider-arrow:hover {
-  background: #003D78;
-  border-color: #003D78;
+  background: #E22718;
+  border-color: #E22718;
   color: #fff;
 }
 
 .logo-slider-section.broker-theme .logo-slider-item.active .logo-box,
 .logo-slider-section.broker-theme .logo-slider-item.center .logo-box {
-  border-color: #0066B1;
-  box-shadow: 0 10px 28px -8px rgba(0, 61, 120, 0.25);
+  border-color: #E22718;
+  box-shadow: 0 10px 28px -8px rgba(183, 31, 19, 0.28);
 }
 
 .logo-slider-section.broker-theme .logo-slider-details {
@@ -2628,7 +2628,7 @@ body {
 }
 
 .logo-slider-section.broker-theme .slider-dot.active {
-  background: #0066B1;
+  background: #E22718;
 }
 
 /* Photographer Theme - professional neutral */
@@ -2997,11 +2997,11 @@ body {
 }
 
 .broker-theme .logo-slider-viewport::before {
-  background: linear-gradient(to left, #fafbfc 0%, transparent 100%);
+  background: linear-gradient(to left, #e9eef4 0%, transparent 100%);
 }
 
 .broker-theme .logo-slider-viewport::after {
-  background: linear-gradient(to right, #fafbfc 0%, transparent 100%);
+  background: linear-gradient(to right, #e9eef4 0%, transparent 100%);
 }
 
 .logo-slider-track-centered {
