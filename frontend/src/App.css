@@ -2565,158 +2565,162 @@ body {
 }
 
 .logo-slider-wrapper.brokers-slider {
-  background:
-    radial-gradient(800px 300px at 90% 0%, rgba(255, 215, 145, 0.25), transparent 65%),
-    radial-gradient(700px 300px at 10% 100%, rgba(212, 175, 55, 0.18), transparent 65%),
-    linear-gradient(135deg, #FFFBEC 0%, #FCF4D9 50%, #F5E6B8 100%);
+  background: linear-gradient(180deg, #ffffff 0%, #f6f8fa 100%);
+  border-top: 1px solid #eef2f6;
+  border-bottom: 1px solid #eef2f6;
 }
 
 .logo-slider-section {
   text-align: center;
 }
 
-/* Broker Theme Styles - Light gold palette */
+/* Broker Theme - professional neutral */
 .logo-slider-section.broker-theme .logo-slider-title {
-  color: #6B4F12;
+  color: #262626;
 }
 
 .logo-slider-section.broker-theme .logo-slider-title::after {
-  background: linear-gradient(135deg, #D4AF37 0%, #B89020 100%);
+  background: linear-gradient(135deg, #0066B1 0%, #003D78 100%);
 }
 
 .logo-slider-section.broker-theme .logo-slider-arrow {
-  border-color: #D4AF37;
-  color: #B89020;
+  border-color: #e2e8f0;
+  color: #64748b;
+  background: #fff;
 }
 
 .logo-slider-section.broker-theme .logo-slider-arrow:hover {
-  background: #D4AF37;
+  background: #003D78;
+  border-color: #003D78;
   color: #fff;
 }
 
 .logo-slider-section.broker-theme .logo-slider-item.active .logo-box,
 .logo-slider-section.broker-theme .logo-slider-item.center .logo-box {
-  border-color: #D4AF37;
-  box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+  border-color: #0066B1;
+  box-shadow: 0 10px 28px -8px rgba(0, 61, 120, 0.25);
 }
 
 .logo-slider-section.broker-theme .logo-slider-details {
-  background: linear-gradient(135deg, rgba(255, 251, 236, 0.9) 0%, rgba(252, 244, 217, 0.85) 100%);
-  border: 1px solid rgba(212, 175, 55, 0.25);
+  background: #ffffff;
+  border: 1px solid #e8edf3;
+  box-shadow: 0 6px 18px -10px rgba(15, 23, 42, 0.12);
 }
 
 .logo-slider-section.broker-theme .selected-item-name {
-  color: #6B4F12;
+  color: #262626;
 }
 
 .logo-slider-section.broker-theme .selected-item-stats {
-  color: #8B6914;
+  color: #6b7280;
 }
 
 .logo-slider-section.broker-theme .stats-divider {
-  color: rgba(139, 105, 20, 0.4);
+  color: #cbd5e1;
 }
 
 .logo-slider-section.broker-theme .item-name-small {
-  color: rgba(107, 79, 18, 0.8);
+  color: #64748b;
 }
 
 .logo-slider-section.broker-theme .slider-dot {
-  background: rgba(212, 175, 55, 0.35);
+  background: #cbd5e1;
 }
 
 .logo-slider-section.broker-theme .slider-dot.active {
-  background: #D4AF37;
+  background: #0066B1;
 }
 
-/* Photographer Theme Styles - Light coral/peach palette */
+/* Photographer Theme - professional neutral */
 .logo-slider-wrapper.photographers-slider {
-  background:
-    radial-gradient(700px 300px at 90% 0%, rgba(226, 39, 24, 0.20), transparent 65%),
-    radial-gradient(600px 250px at 10% 100%, rgba(226, 39, 24, 0.15), transparent 65%),
-    linear-gradient(135deg, #FFF6F5 0%, #FBE3E0 50%, #F5CFCA 100%);
+  background: linear-gradient(180deg, #f6f8fa 0%, #eef2f6 100%);
+  border-top: 1px solid #e8edf3;
+  border-bottom: 1px solid #e8edf3;
 }
 
 .logo-slider-section.photographer-theme .logo-slider-title {
-  color: #8F1710;
+  color: #262626;
 }
 
 .logo-slider-section.photographer-theme .logo-slider-title::after {
-  background: linear-gradient(135deg, #E22718 0%, #B71F13 100%);
+  background: linear-gradient(135deg, #0066B1 0%, #003D78 100%);
 }
 
 .logo-slider-section.photographer-theme .logo-slider-arrow {
-  border-color: #E22718;
-  color: #B71F13;
+  border-color: #e2e8f0;
+  color: #64748b;
+  background: #fff;
 }
 
 .logo-slider-section.photographer-theme .logo-slider-arrow:hover {
-  background: #E22718;
+  background: #003D78;
+  border-color: #003D78;
   color: #ffffff;
 }
 
 .logo-slider-section.photographer-theme .logo-slider-item.center .logo-box {
-  border-color: #E22718;
-  box-shadow: 0 8px 25px rgba(226, 39, 24, 0.4);
+  border-color: #0066B1;
+  box-shadow: 0 10px 28px -8px rgba(0, 61, 120, 0.25);
 }
 
 .logo-slider-section.photographer-theme .logo-box {
-  background: linear-gradient(135deg, #FFFFFF 0%, #FDF0EF 100%);
-  border-color: rgba(226, 39, 24, 0.3);
+  background: #ffffff;
+  border-color: #e2e8f0;
 }
 
 .logo-slider-section.photographer-theme .logo-placeholder {
   background: transparent;
-  color: #B71F13;
+  color: #003D78;
 }
 
 .logo-slider-section.photographer-theme .logo-placeholder svg {
-  color: rgba(183, 31, 19, 0.7);
+  color: #64748b;
 }
 
 .logo-slider-section.photographer-theme .company-initial {
-  color: #B71F13;
+  color: #003D78;
 }
 
 .logo-slider-section.photographer-theme .logo-slider-details {
-  background: linear-gradient(135deg, rgba(255, 248, 243, 0.9) 0%, rgba(255, 238, 226, 0.85) 100%);
-  border: 1px solid rgba(226, 39, 24, 0.25);
+  background: #ffffff;
+  border: 1px solid #e8edf3;
+  box-shadow: 0 6px 18px -10px rgba(15, 23, 42, 0.12);
 }
 
 .logo-slider-section.photographer-theme .selected-item-name {
-  color: #8F1710;
+  color: #262626;
 }
 
 .logo-slider-section.photographer-theme .selected-item-stats {
-  color: #B71F13;
+  color: #6b7280;
 }
 
 .logo-slider-section.photographer-theme .stats-divider {
-  color: rgba(183, 31, 19, 0.4);
+  color: #cbd5e1;
 }
 
 .logo-slider-section.photographer-theme .item-name-small {
-  color: rgba(143, 23, 16, 0.8);
+  color: #64748b;
 }
 
 .logo-slider-section.photographer-theme .slider-dot {
-  background: rgba(226, 39, 24, 0.35);
+  background: #cbd5e1;
 }
 
 .logo-slider-section.photographer-theme .slider-dot.active {
-  background: #E22718;
+  background: #0066B1;
 }
 
 .logo-slider-section.photographer-theme .logo-slider-viewport::before {
-  background: linear-gradient(to left, #FBE3E0 0%, transparent 100%);
+  background: linear-gradient(to left, #f2f5f8 0%, transparent 100%);
 }
 
 .logo-slider-section.photographer-theme .logo-slider-viewport::after {
-  background: linear-gradient(to right, #FBE3E0 0%, transparent 100%);
+  background: linear-gradient(to right, #f2f5f8 0%, transparent 100%);
 }
 
 .logo-placeholder.photographer-icon {
-  background: linear-gradient(135deg, #E22718 0%, #B71F13 100%);
+  background: linear-gradient(135deg, #0066B1 0%, #003D78 100%);
 }
 
 .logo-placeholder.photographer-icon svg {
@@ -2993,11 +2997,11 @@ body {
 }
 
 .broker-theme .logo-slider-viewport::before {
-  background: linear-gradient(to left, #FCF4D9 0%, transparent 100%);
+  background: linear-gradient(to left, #fafbfc 0%, transparent 100%);
 }
 
 .broker-theme .logo-slider-viewport::after {
-  background: linear-gradient(to right, #FCF4D9 0%, transparent 100%);
+  background: linear-gradient(to right, #fafbfc 0%, transparent 100%);
 }
 
 .logo-slider-track-centered {
