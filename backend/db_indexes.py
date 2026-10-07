@@ -8,6 +8,8 @@ INDEXES = {
         IndexModel([("id", ASCENDING)], unique=True, name="uq_id"),
         IndexModel([("phone_number", ASCENDING)], unique=True, name="uq_phone"),
         IndexModel([("user_type", ASCENDING), ("is_nafath_verified", ASCENDING)], name="type_verified"),
+        IndexModel([("user_type", ASCENDING), ("region", ASCENDING), ("city", ASCENDING)], name="type_region_city"),
+        IndexModel([("email", ASCENDING)], name="email", sparse=True),
         IndexModel([("created_at", DESCENDING)], name="created_desc"),
     ],
     "properties": [

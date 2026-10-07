@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
+import { SAUDI_REGIONS } from './utils/saudiRegions';
 import axios from 'axios';
 import './App.css';
 import './components/MapStyles.css';
@@ -7,6 +8,7 @@ import './components/AgentInfoBottom.css';
 import './components/FavoritesPage.css';
 import SubscriptionCenter from './components/SubscriptionCenter';
 import AddPropertyModal from './components/AddPropertyModal';
+import ProfileModal from './components/ProfileModal';
 import './components/RoleMenu.css';
 import './components/FeaturedCards.css';
 import './components/WelcomeBanner.css';
@@ -77,60 +79,6 @@ const PROPERTY_TYPES = {
 };
 
 // المناطق الإدارية الـ 13 في المملكة العربية السعودية
-const SAUDI_REGIONS = {
-  riyadh: {
-    name: 'منطقة الرياض',
-    cities: ['الرياض', 'الخرج', 'الدوادمي', 'المجمعة', 'الزلفي', 'شقراء', 'عفيف', 'القويعية', 'وادي الدواسر', 'الحوطة والحريق', 'حريملاء', 'الدرعية', 'المزاحمية']
-  },
-  makkah: {
-    name: 'منطقة مكة المكرمة',
-    cities: ['مكة المكرمة', 'جدة', 'الطائف', 'رابغ', 'الليث', 'القنفذة', 'الجموم', 'خليص', 'الكامل', 'تربة', 'الخرمة', 'رنية', 'الموية']
-  },
-  madinah: {
-    name: 'منطقة المدينة المنورة',
-    cities: ['المدينة المنورة', 'ينبع', 'العلا', 'المهد', 'بدر', 'خيبر', 'الحناكية', 'العيص', 'وادي الفرع']
-  },
-  qassim: {
-    name: 'منطقة القصيم',
-    cities: ['بريدة', 'عنيزة', 'الرس', 'المذنب', 'البكيرية', 'البدائع', 'الأسياح', 'النبهانية', 'عيون الجواء', 'رياض الخبراء', 'الشماسية', 'عقلة الصقور', 'ضرية']
-  },
-  eastern: {
-    name: 'المنطقة الشرقية',
-    cities: ['الدمام', 'الخبر', 'الظهران', 'الأحساء', 'حفر الباطن', 'الجبيل', 'القطيف', 'رأس تنورة', 'بقيق', 'النعيرية', 'الخفجي', 'قرية العليا', 'العديد']
-  },
-  asir: {
-    name: 'منطقة عسير',
-    cities: ['أبها', 'خميس مشيط', 'بيشة', 'النماص', 'محايل عسير', 'سراة عبيدة', 'تنومة', 'رجال ألمع', 'بلقرن', 'المجاردة', 'أحد رفيدة', 'ظهران الجنوب', 'تثليث']
-  },
-  tabuk: {
-    name: 'منطقة تبوك',
-    cities: ['تبوك', 'الوجه', 'ضباء', 'تيماء', 'أملج', 'حقل', 'البدع']
-  },
-  hail: {
-    name: 'منطقة حائل',
-    cities: ['حائل', 'بقعاء', 'الغزالة', 'الشنان', 'الحائط', 'السليمي', 'موقق', 'الشملي']
-  },
-  northern_borders: {
-    name: 'منطقة الحدود الشمالية',
-    cities: ['عرعر', 'رفحاء', 'طريف', 'العويقيلة']
-  },
-  jazan: {
-    name: 'منطقة جازان',
-    cities: ['جازان', 'صبيا', 'أبو عريش', 'صامطة', 'أحد المسارحة', 'الحرث', 'ضمد', 'الريث', 'فرسان', 'العيدابي', 'الدرب', 'العارضة', 'فيفا', 'الداير', 'بيش']
-  },
-  najran: {
-    name: 'منطقة نجران',
-    cities: ['نجران', 'شرورة', 'حبونا', 'بدر الجنوب', 'يدمة', 'ثار', 'خباش']
-  },
-  bahah: {
-    name: 'منطقة الباحة',
-    cities: ['الباحة', 'بلجرشي', 'المندق', 'المخواة', 'قلوة', 'العقيق', 'غامد الزناد', 'الحجرة', 'بني حسن']
-  },
-  jawf: {
-    name: 'منطقة الجوف',
-    cities: ['سكاكا', 'دومة الجندل', 'القريات', 'طبرجل']
-  }
-};
 
 // أشهر الأحياء في المدن الرئيسية
 const CITY_DISTRICTS = {
@@ -577,9 +525,10 @@ const ProfileCompletion = ({ currentUser }) => {
   const checks = useMemo(() => [
     { key: 'phone', label: 'تأكيد رقم الهاتف', weight: 15, done: !!currentUser.is_verified || !!currentUser.phone_number },
     { key: 'role', label: 'اختيار نوع الحساب', weight: 15, done: !!currentUser.user_type && currentUser.user_type !== 'visitor' },
-    { key: 'name', label: 'الاسم الكامل (عربي)', weight: 20, done: !!currentUser.full_name_arabic },
-    { key: 'email', label: 'البريد الإلكتروني', weight: 15, done: !!currentUser.email },
-    { key: 'nafath', label: 'التحقق عبر نفاذ', weight: 25, done: !!currentUser.is_nafath_verified },
+    { key: 'name', label: 'الاسم الكامل (عربي)', weight: 15, done: !!currentUser.full_name_arabic },
+    { key: 'email', label: 'البريد الإلكتروني', weight: 10, done: !!currentUser.email },
+    { key: 'location', label: 'المنطقة والمدينة', weight: 15, done: !!currentUser.region && !!currentUser.city },
+    { key: 'nafath', label: 'التحقق عبر نفاذ', weight: 20, done: !!currentUser.is_nafath_verified },
     { key: 'avatar', label: 'الصورة الشخصية', weight: 10, done: !!currentUser.profile_image || !!currentUser.avatar_url },
   ], [currentUser]);
 
@@ -670,7 +619,7 @@ const ProfileCompletion = ({ currentUser }) => {
 
 
 // Role-based User Menu (dropdown shown when clicking user name in header)
-const RoleMenu = ({ currentUser, onClose, onLogout, onOpenAdmin, onOpenFavorites, onOpenMyProperties, onOpenSubscriptions, onOpenAddProperty }) => {
+const RoleMenu = ({ currentUser, onClose, onLogout, onOpenAdmin, onOpenFavorites, onOpenMyProperties, onOpenSubscriptions, onOpenAddProperty, onOpenProfile }) => {
   const menuRef = useRef(null);
 
   useEffect(() => {
@@ -689,6 +638,7 @@ const RoleMenu = ({ currentUser, onClose, onLogout, onOpenAdmin, onOpenFavorites
   };
 
   const ICONS = {
+    user: <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>,
     dashboard: <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>,
     list: <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zm0-10v2h14V7H7z"/></svg>,
     plus: <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>,
@@ -705,6 +655,11 @@ const RoleMenu = ({ currentUser, onClose, onLogout, onOpenAdmin, onOpenFavorites
 
   const COMMON_ITEMS = (
     <>
+      {currentUser.user_type !== 'admin' && (
+        <a href="#profile" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(onOpenProfile); }} data-testid="role-menu-profile">
+          {ICONS.user}<span>ملفي الشخصي</span>
+        </a>
+      )}
       <a href="#favorites" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(onOpenFavorites); }} data-testid="role-menu-favorites">
         {ICONS.heart}<span>مفضلتي</span>
       </a>
@@ -834,7 +789,7 @@ const RoleMenu = ({ currentUser, onClose, onLogout, onOpenAdmin, onOpenFavorites
 
 
 // Header Component - Modern Design
-const Header = ({ onLoginClick, currentUser, onLogout, onOpenMap, onOpenAdmin, onOpenFavorites, onOpenMyProperties, onOpenSubscriptions, onOpenAddProperty }) => {
+const Header = ({ onLoginClick, currentUser, onLogout, onOpenMap, onOpenAdmin, onOpenFavorites, onOpenMyProperties, onOpenSubscriptions, onOpenAddProperty, onOpenProfile }) => {
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isArabic, setIsArabic] = useState(true);
@@ -1083,6 +1038,7 @@ const Header = ({ onLoginClick, currentUser, onLogout, onOpenMap, onOpenAdmin, o
                   onOpenMyProperties={onOpenMyProperties}
                   onOpenSubscriptions={onOpenSubscriptions}
                   onOpenAddProperty={onOpenAddProperty}
+                  onOpenProfile={onOpenProfile}
                 />
               )}
             </div>
@@ -2915,6 +2871,7 @@ function App() {
   const [showMyProperties, setShowMyProperties] = useState(false);
   const [showSubscriptions, setShowSubscriptions] = useState(false);
   const [showAddProperty, setShowAddProperty] = useState(false);
+  const [showProfile, setShowProfile] = useState(false);
 
   const fetchProperties = () => {
     axios.get(`${API}/properties`)
@@ -3104,6 +3061,7 @@ function App() {
         onOpenMyProperties={() => setShowMyProperties(true)}
         onOpenSubscriptions={() => setShowSubscriptions(true)}
         onOpenAddProperty={() => setShowAddProperty(true)}
+        onOpenProfile={() => setShowProfile(true)}
       />
 
       <AIHeroHook onStartMatching={() => setShowAIMatching(true)} />
@@ -3409,6 +3367,14 @@ function App() {
       )}
 
       {/* Add Property Modal */}
+      {showProfile && currentUser && (
+        <ProfileModal
+          currentUser={currentUser}
+          onClose={() => setShowProfile(false)}
+          onSaved={(u) => setCurrentUser(u)}
+        />
+      )}
+
       {showAddProperty && currentUser && (
         <AddPropertyModal
           onClose={() => setShowAddProperty(false)}

@@ -311,6 +311,8 @@ class AuthService:
         user_data = await db.users.find_one({"id": payload.get("sub")})
         if not user_data:
             raise HTTPException(status_code=401, detail="User not found")
+        if user_data.get("is_active") is False:
+            raise HTTPException(status_code=403, detail="تم إيقاف حسابك من قبل الإدارة. تواصل مع الدعم للمزيد")
         
         return User(**user_data)
 
@@ -417,6 +419,8 @@ async def verify_otp(request: VerifyOTPRequest):
             user = new_user
         else:
             user = User(**user_data)
+            if user_data.get("is_active") is False:
+                raise HTTPException(status_code=403, detail="تم إيقاف حسابك من قبل الإدارة. تواصل مع الدعم للمزيد")
             # Update verification status
             await db.users.update_one(
                 {"phone_number": request.phone_number},
@@ -442,7 +446,9 @@ async def verify_otp(request: VerifyOTPRequest):
                 "user_type_arabic": USER_TYPES.get(user.user_type),
                 "is_phone_verified": user.is_phone_verified,
                 "is_nafath_verified": user.is_nafath_verified,
-                "full_name_arabic": user.full_name_arabic
+                "full_name_arabic": user.full_name_arabic,
+                **{k: (user_data or {}).get(k) for k in ["email", "region", "city", "districts", "specializations",
+                                                           "fal_license", "experience_years", "company_name"]}
             }
         }
         
@@ -655,6 +661,11 @@ app.include_router(properties_router, prefix="/api")
 from routes.audit import create_audit_routes
 audit_router = create_audit_routes(db, AuthService, User)
 app.include_router(audit_router, prefix="/api")
+
+from routes.profiles import create_profile_routes
+from routes.admin_directory import create_directory_routes
+app.include_router(create_profile_routes(db, AuthService, User), prefix="/api")
+app.include_router(create_directory_routes(db, AuthService, User), prefix="/api")
 
 from db_indexes import ensure_indexes
 

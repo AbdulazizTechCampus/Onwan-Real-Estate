@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import './AdminDashboard.css';
 import AdminFinance from './components/AdminFinance';
 import AdminAuditLog from './components/AdminAuditLog';
+import AdminDirectory from './components/AdminDirectory';
 
 const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
 
@@ -51,9 +52,9 @@ function AdminDashboard({ currentUser, onLogout }) {
   const [activeSection, setActiveSection] = useState('dashboard');
   const [sidebarOpen, setSidebarOpen] = useState(true);
   
-  const getAuthHeaders = () => ({
+  const getAuthHeaders = useCallback(() => ({
     headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` }
-  });
+  }), []);
 
   const renderContent = () => {
     switch (activeSection) {
@@ -62,9 +63,9 @@ function AdminDashboard({ currentUser, onLogout }) {
       case 'users':
         return <UsersManagement getAuthHeaders={getAuthHeaders} />;
       case 'brokers':
-        return <BrokersManagement getAuthHeaders={getAuthHeaders} />;
+        return <AdminDirectory role="brokers" getAuthHeaders={getAuthHeaders} />;
       case 'photographers':
-        return <PhotographersManagement getAuthHeaders={getAuthHeaders} />;
+        return <AdminDirectory role="photographers" getAuthHeaders={getAuthHeaders} />;
       case 'finance':
         return <AdminFinance getAuthHeaders={getAuthHeaders} />;
       case 'audit':
@@ -314,114 +315,6 @@ function UsersManagement({ getAuthHeaders }) {
           <Pagination page={page} totalPages={totalPages} setPage={setPage} />
         </>
       )}
-    </div>
-  );
-}
-
-// Brokers Management Component
-function BrokersManagement({ getAuthHeaders }) {
-  const [brokers, setBrokers] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetchBrokers();
-  }, []);
-
-  const fetchBrokers = async () => {
-    try {
-      const response = await axios.get(`${API}/admin/brokers`, getAuthHeaders());
-      setBrokers(response.data.brokers);
-    } catch (error) {
-      console.error('Error fetching brokers:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  if (loading) return <LoadingSpinner />;
-
-  return (
-    <div className="management-section">
-      <div className="section-header">
-        <p>إجمالي الوسطاء المعتمدين: {brokers.length}</p>
-      </div>
-      
-      <div className="cards-grid">
-        {brokers.length === 0 ? (
-          <div className="empty-state">
-            <span className="empty-icon">🏢</span>
-            <h3>لا يوجد وسطاء معتمدين حتى الآن</h3>
-            <p>سيظهر هنا الوسطاء بعد التحقق من هويتهم عبر نفاذ</p>
-          </div>
-        ) : (
-          brokers.map(broker => (
-            <div key={broker.id} className="broker-card">
-              <div className="broker-avatar">
-                {broker.full_name_arabic ? broker.full_name_arabic.charAt(0) : '🏢'}
-              </div>
-              <div className="broker-info">
-                <h4>{broker.full_name_arabic || broker.phone_number}</h4>
-                <p>{USER_TYPES[broker.user_type]}</p>
-                <p dir="ltr">{broker.phone_number}</p>
-              </div>
-              <div className="broker-status">
-                <span className="verified-badge">✓ موثق</span>
-              </div>
-            </div>
-          ))
-        )}
-      </div>
-    </div>
-  );
-}
-
-// Photographers Management Component
-function PhotographersManagement({ getAuthHeaders }) {
-  const [photographers, setPhotographers] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetchPhotographers();
-  }, []);
-
-  const fetchPhotographers = async () => {
-    try {
-      const response = await axios.get(`${API}/admin/photographers`, getAuthHeaders());
-      setPhotographers(response.data.photographers);
-    } catch (error) {
-      console.error('Error fetching photographers:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  if (loading) return <LoadingSpinner />;
-
-  return (
-    <div className="management-section">
-      <div className="section-header">
-        <p>إجمالي المصورين: {photographers.length}</p>
-      </div>
-      
-      <div className="cards-grid">
-        {photographers.length === 0 ? (
-          <div className="empty-state">
-            <span className="empty-icon">📷</span>
-            <h3>لا يوجد مصورين مسجلين حتى الآن</h3>
-            <p>سيظهر هنا المصورين بعد تسجيلهم</p>
-          </div>
-        ) : (
-          photographers.map(photographer => (
-            <div key={photographer.id} className="photographer-card">
-              <div className="photographer-avatar">📷</div>
-              <div className="photographer-info">
-                <h4>{photographer.full_name_arabic || photographer.phone_number}</h4>
-                <p dir="ltr">{photographer.phone_number}</p>
-              </div>
-            </div>
-          ))
-        )}
-      </div>
     </div>
   );
 }
