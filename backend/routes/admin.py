@@ -11,6 +11,8 @@ admin_router = APIRouter(prefix="/admin", tags=["Admin"])
 
 # Import will be done in server.py to access db and auth
 
+from routes.audit import log_audit
+
 def create_admin_routes(db, AuthService, User):
     """Factory function to create admin routes with dependencies"""
     
@@ -90,6 +92,7 @@ def create_admin_routes(db, AuthService, User):
             result = await db.users.update_one({"id": user_id}, {"$set": filtered_updates})
             if result.modified_count == 0:
                 raise HTTPException(status_code=404, detail="المستخدم غير موجود")
+            await log_audit(db, admin, "USER_UPDATE", "user", user_id, filtered_updates)
             
             return {"success": True, "message": "تم تحديث المستخدم بنجاح"}
         except HTTPException:
@@ -105,6 +108,7 @@ def create_admin_routes(db, AuthService, User):
             result = await db.users.delete_one({"id": user_id})
             if result.deleted_count == 0:
                 raise HTTPException(status_code=404, detail="المستخدم غير موجود")
+            await log_audit(db, admin, "USER_DELETE", "user", user_id)
             
             return {"success": True, "message": "تم حذف المستخدم بنجاح"}
         except HTTPException:
@@ -219,6 +223,7 @@ def create_admin_routes(db, AuthService, User):
             
             await db.popup_messages.insert_one(popup)
             popup.pop("_id", None)
+            await log_audit(db, admin, "POPUP_CREATE", "popup", popup["id"], {"title": popup["title"]})
             
             return {"success": True, "message": "تم إنشاء الرسالة بنجاح", "popup": popup}
         except Exception as e:
@@ -236,6 +241,7 @@ def create_admin_routes(db, AuthService, User):
             result = await db.popup_messages.update_one({"id": popup_id}, {"$set": updates})
             if result.modified_count == 0:
                 raise HTTPException(status_code=404, detail="الرسالة غير موجودة")
+            await log_audit(db, admin, "POPUP_UPDATE", "popup", popup_id, updates)
             
             return {"success": True, "message": "تم تحديث الرسالة بنجاح"}
         except HTTPException:
@@ -251,6 +257,7 @@ def create_admin_routes(db, AuthService, User):
             result = await db.popup_messages.delete_one({"id": popup_id})
             if result.deleted_count == 0:
                 raise HTTPException(status_code=404, detail="الرسالة غير موجودة")
+            await log_audit(db, admin, "POPUP_DELETE", "popup", popup_id)
             
             return {"success": True, "message": "تم حذف الرسالة بنجاح"}
         except HTTPException:

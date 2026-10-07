@@ -5,6 +5,7 @@ from typing import Optional, List, Union, Any
 from datetime import datetime
 import uuid
 import logging
+from routes.audit import log_audit
 
 logger = logging.getLogger(__name__)
 
@@ -111,6 +112,8 @@ def create_properties_routes(db, AuthService, User):
             "created_at": now_iso(),
         }
         await db.properties.insert_one({**doc})
+        await log_audit(db, current_user, "PROPERTY_CREATE", "property", doc["id"],
+                        {"title": doc["title"], "city": doc["city"], "status": doc["status"]})
         return {"success": True, "property": doc, "used": owned + 1, "max_listings": limit}
 
     @properties_router.post("/{property_id}/status")
@@ -129,6 +132,8 @@ def create_properties_routes(db, AuthService, User):
             {"id": doc["id"]},
             {"$set": {"is_completed": payload.is_completed, "status_updated_at": now_iso(),
                       "status_updated_by": current_user.id}})
+        await log_audit(db, current_user, "PROPERTY_STATUS_CHANGE", "property", doc["id"],
+                        {"is_completed": payload.is_completed, "owner_id": owner})
         return {"success": True, "property_id": doc["id"], "is_completed": payload.is_completed}
 
     @properties_router.post("/seed")

@@ -5,6 +5,7 @@ from typing import Optional, List, Dict, Any
 from datetime import datetime, timedelta
 import uuid
 import logging
+from routes.audit import log_audit
 
 logger = logging.getLogger(__name__)
 
@@ -365,6 +366,8 @@ def create_finance_routes(db, AuthService, User):
         monthly_points = plan.get("features", {}).get("monthly_points") or 0
         points = await award_points(current_user.id, "MONTHLY_SUBSCRIPTION_REWARD",
                                     reference_id=txn["id"], override_points=monthly_points)
+        await log_audit(db, current_user, "SUBSCRIBE", "plan", plan["id"],
+                        {"plan_key": plan["key"], "amount": price, "transaction_id": txn["id"]})
         return {"success": True, "transaction": txn, "points_awarded": points,
                 "billing": await get_billing(current_user.id)}
 
@@ -384,6 +387,8 @@ def create_finance_routes(db, AuthService, User):
             "id": str(uuid.uuid4()), "user_id": current_user.id, "product_key": product["key"],
             "property_id": payload.property_id, "transaction_id": txn["id"],
             "activated_at": now_iso(), "expires_at": expires, "status": "active"})
+        await log_audit(db, current_user, "AD_PURCHASE", "property", payload.property_id,
+                        {"product_key": product["key"], "transaction_id": txn["id"]})
         return {"success": True, "transaction": txn, "expires_at": expires}
 
     @finance_router.post("/success-fee/preview")
@@ -414,6 +419,8 @@ def create_finance_routes(db, AuthService, User):
         p1 = await award_points(current_user.id, "COMPLETED_TRANSACTION", reference_id=txn["id"])
         p2 = await award_points(current_user.id, "PAID_PLATFORM_FEE", reference_id=txn["id"])
         new_badges = await check_badges(current_user)
+        await log_audit(db, current_user, "SUCCESS_FEE_PAID", "deal", payload.reference_id,
+                        {"amount": payload.amount, "platform_fee": fee, "transaction_id": txn["id"]})
         return {"success": True, "transaction": txn, "platform_fee": fee,
                 "net_amount": round(payload.amount - fee, 2),
                 "points_awarded": p1 + p2, "new_badges": new_badges}
@@ -437,6 +444,8 @@ def create_finance_routes(db, AuthService, User):
             "points": -rule["points"], "reason": payload.service_key,
             "reference_id": str(payload.property_id) if payload.property_id else None,
             "created_at": now_iso()})
+        await log_audit(db, current_user, "POINTS_REDEEM", "points", payload.service_key,
+                        {"points": rule["points"], "property_id": payload.property_id})
         return {"success": True, "service": rule["name_ar"], "points_used": rule["points"],
                 "remaining_points": available - rule["points"]}
 
@@ -518,6 +527,7 @@ def create_finance_routes(db, AuthService, User):
             payload.setdefault("used_count", 0)
         payload["created_at"] = now_iso()
         await col.insert_one({**payload})
+        await log_audit(db, admin, "CONFIG_CREATE", collection, payload["id"], payload)
         return {"success": True, "item": payload}
 
     @admin_finance_router.put("/{collection}/{item_id}")
@@ -534,6 +544,7 @@ def create_finance_routes(db, AuthService, User):
         if result.matched_count == 0:
             raise HTTPException(status_code=404, detail="العنصر غير موجود")
         item = await col.find_one({"id": item_id}, {"_id": 0})
+        await log_audit(db, admin, "CONFIG_UPDATE", collection, item_id, payload)
         return {"success": True, "item": item}
 
     @admin_finance_router.delete("/{collection}/{item_id}")
@@ -545,6 +556,7 @@ def create_finance_routes(db, AuthService, User):
         result = await col.update_one({"id": item_id}, {"$set": {"is_active": False, "updated_at": now_iso()}})
         if result.matched_count == 0:
             raise HTTPException(status_code=404, detail="العنصر غير موجود")
+        await log_audit(db, admin, "CONFIG_DEACTIVATE", collection, item_id)
         return {"success": True, "deactivated": item_id}
 
     return finance_router, admin_finance_router

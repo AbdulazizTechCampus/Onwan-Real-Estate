@@ -651,9 +651,16 @@ app.include_router(finance_router, prefix="/api")
 app.include_router(admin_finance_router, prefix="/api")
 app.include_router(properties_router, prefix="/api")
 
+from routes.audit import create_audit_routes
+audit_router = create_audit_routes(db, AuthService, User)
+app.include_router(audit_router, prefix="/api")
+
+from db_indexes import ensure_indexes
+
 @app.on_event("startup")
 async def seed_finance():
     await seed_finance_defaults(db)
+    await ensure_indexes(db)
 
 @app.on_event("shutdown")
 async def shutdown_db_client():
