@@ -365,7 +365,8 @@ async def send_otp(request: SendOTPRequest, background_tasks: BackgroundTasks):
         response_data = {
             "success": True,
             "message": messages['otp_sent'],
-            "phone_number": request.phone_number
+            "phone_number": request.phone_number,
+            "is_existing_user": await db.users.count_documents({"phone_number": request.phone_number}) > 0
         }
         
         # In dev mode or if Unifonic not configured, return OTP for testing

@@ -2230,6 +2230,7 @@ const LoginModal = ({ isOpen, onClose, onSuccess }) => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
   const [devOtpCode, setDevOtpCode] = useState(null);
+  const [isExistingUser, setIsExistingUser] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -2252,6 +2253,7 @@ const LoginModal = ({ isOpen, onClose, onSuccess }) => {
         if (response.data.dev_mode && response.data.otp_code) {
           setDevOtpCode(response.data.otp_code);
         }
+        setIsExistingUser(!!response.data.is_existing_user);
         setStep('otp');
       }
     } catch (error) {
@@ -2261,13 +2263,17 @@ const LoginModal = ({ isOpen, onClose, onSuccess }) => {
     }
   };
 
-  // After entering OTP code, advance to role selection step (no API call yet)
+  // After entering OTP: existing users log in directly, new users pick a role
   const proceedToRole = () => {
     if (formData.otp_code.length !== 6) {
       setMessage('الرجاء إدخال رمز مكون من 6 أرقام');
       return;
     }
     setMessage('');
+    if (isExistingUser) {
+      verifyOTP();
+      return;
+    }
     setStep('role');
   };
 
@@ -2303,6 +2309,7 @@ const LoginModal = ({ isOpen, onClose, onSuccess }) => {
     setStep('phone');
     setFormData({ phone_number: '', otp_code: '' });
     setSelectedRole('visitor');
+    setIsExistingUser(false);
     setDevOtpCode(null);
     setMessage('');
   };
@@ -2325,11 +2332,13 @@ const LoginModal = ({ isOpen, onClose, onSuccess }) => {
             <div className="step-circle">2</div>
             <span>رمز التحقق</span>
           </div>
+          {!isExistingUser && (<>
           <div className={`progress-line ${step === 'role' ? 'active' : ''}`}></div>
           <div className={`progress-step ${step === 'role' ? 'active' : ''}`}>
             <div className="step-circle">3</div>
             <span>صفة المستخدم</span>
           </div>
+          </>)}
         </div>
 
         <div className="auth-modal-body">
@@ -2420,7 +2429,7 @@ const LoginModal = ({ isOpen, onClose, onSuccess }) => {
                   className="auth-submit-btn"
                   data-testid="auth-otp-submit-btn"
                 >
-                  متابعة
+                  {loading ? 'جاري التحقق...' : isExistingUser ? 'تسجيل الدخول' : 'متابعة'}
                 </button>
                 
                 <div className="auth-actions">

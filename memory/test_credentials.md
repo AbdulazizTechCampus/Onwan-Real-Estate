@@ -6,8 +6,9 @@
 - After OTP verify, the user is prompted to pick a role: `property_owner`, `individual_broker`, `company_broker`, `photographer`, or stays as `guest`.
 
 ## Admin Access
-- Phone: `0500000000` (admin role is assigned to this seeded test user; if not, login then select role).
-- Path `/admin` triggers the admin dashboard for admin users.
+- Phone: `0500000000` (user_type=admin, name "مدير النظام"). Second admin: `0555964559`.
+- Flow: open `/admin` -> "تسجيل الدخول" -> phone -> OTP shown on screen (DEV_MODE) -> logs in directly (existing users skip the role step since 7 Oct 2026).
+- Admin dashboard tabs include "الإدارة المالية" and "سجل التدقيق" (audit log).
 
 ## Notes
 - Backend env var `DEV_MODE` must be `true` to surface OTP in responses.

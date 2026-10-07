@@ -271,6 +271,14 @@
 - المفضلة تدعم الآن ids رقمية ونصية (Union[int,str])
 - إصلاح "NaN شخص": getInterestedNow وinterestedNow في التفاصيل يدعمان uuid ids ‏(hash نصي)
 
+## الامتثال: سجل التدقيق + فهارس MongoDB (7 أكتوبر 2026)
+- `routes/audit.py`: دالة `log_audit(db, actor, action, entity_type, entity_id, details)` تكتب في `db.audit_logs` مع إخفاء المفاتيح الحساسة (password/otp/token/national_id) — ‏GET /api/admin/audit-logs (أدمن، ترقيم صفحات، فلاتر action/entity_type/actor_id)
+- العمليات المسجلة: USER_UPDATE/DELETE، POPUP_CREATE/UPDATE/DELETE، CONFIG_CREATE/UPDATE/DEACTIVATE (الإعدادات المالية)، SUBSCRIBE، AD_PURCHASE، SUCCESS_FEE_PAID، POINTS_REDEEM، PROPERTY_CREATE، PROPERTY_STATUS_CHANGE
+- `db_indexes.py`: ‏36 فهرساً عبر 20 مجموعة تُنشأ عند startup (unique على users.id/phone، properties.id، plans.key، promo_codes.code، favorites/user_billing/points_wallets.user_id …)
+- لوحة الأدمن: تبويب جديد "سجل التدقيق" (`components/AdminAuditLog.js`) مع فلاتر وتوسيع التفاصيل
+- إصلاح تسجيل الدخول: `send-otp` يُرجع `is_existing_user`؛ المستخدم المسجّل (ومنهم الأدمن) يدخل مباشرة بعد الرمز دون خطوة "اختر صفتك" — الخطوة تظهر للأرقام الجديدة فقط
+- مؤجل للنشر: منطقة Atlas داخل السعودية، Advanced Auditing، تشفير الحقول الحساسة (نقطة 2)
+
 ---
 
 ## معلومات الدعم

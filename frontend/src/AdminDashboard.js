@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './AdminDashboard.css';
 import AdminFinance from './components/AdminFinance';
+import AdminAuditLog from './components/AdminAuditLog';
 
 const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
 
@@ -15,6 +16,7 @@ const MENU_ITEMS = [
   { key: 'requests', label: 'طلبات العقارات', icon: '📋' },
   { key: 'photo-requests', label: 'طلبات التصوير', icon: '🎬' },
   { key: 'finance', label: 'الإدارة المالية', icon: '💰' },
+  { key: 'audit', label: 'سجل التدقيق', icon: '🛡️' },
   { key: 'popups', label: 'الرسائل المنبثقة', icon: '💬' },
   { key: 'matches', label: 'التوفيقات', icon: '🔗' },
   { key: 'settings', label: 'الإعدادات', icon: '⚙️' }
@@ -65,6 +67,8 @@ function AdminDashboard({ currentUser, onLogout }) {
         return <PhotographersManagement getAuthHeaders={getAuthHeaders} />;
       case 'finance':
         return <AdminFinance getAuthHeaders={getAuthHeaders} />;
+      case 'audit':
+        return <AdminAuditLog getAuthHeaders={getAuthHeaders} />;
       case 'popups':
         return <PopupsManagement getAuthHeaders={getAuthHeaders} />;
       case 'requests':
