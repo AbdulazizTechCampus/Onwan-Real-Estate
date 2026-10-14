@@ -51,7 +51,7 @@ class ProfileUpdate(BaseModel):
 
 
 def public_profile(doc: dict) -> dict:
-    return {k: doc.get(k) for k in ["id", "phone_number", "user_type", "is_phone_verified",
+    return {k: doc.get(k) for k in ["id", "phone_number", "user_type", "is_phone_verified", "avatar_url",
                                      "is_nafath_verified", "is_active", "created_at", "last_login"] + PROFILE_FIELDS}
 
 

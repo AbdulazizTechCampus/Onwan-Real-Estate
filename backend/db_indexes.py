@@ -46,6 +46,12 @@ INDEXES = {
     "property_requests": [IndexModel([("is_active", ASCENDING), ("created_at", DESCENDING)], name="active_created")],
     "photography_requests": [IndexModel([("created_at", DESCENDING)], name="created_desc")],
     "property_status": [IndexModel([("property_id", ASCENDING)], unique=True, name="uq_property")],
+    "property_views_daily": [
+        IndexModel([("property_id", ASCENDING), ("date", ASCENDING)], unique=True, name="uq_property_date"),
+        IndexModel([("owner_id", ASCENDING), ("date", ASCENDING)], name="owner_date"),
+    ],
+    "files": [IndexModel([("storage_path", ASCENDING)], unique=True, name="uq_path"),
+              IndexModel([("owner_id", ASCENDING), ("kind", ASCENDING), ("is_deleted", ASCENDING)], name="owner_kind")],
     "audit_logs": [
         IndexModel([("created_at", DESCENDING)], name="created_desc"),
         IndexModel([("actor_id", ASCENDING), ("created_at", DESCENDING)], name="actor_created"),

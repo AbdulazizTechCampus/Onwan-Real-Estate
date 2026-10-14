@@ -864,9 +864,10 @@ export const PropertyDetailsModal = ({ property, properties, onClose, favorites,
                 <h3 className="pd-section-title">الوسيط المسؤول</h3>
                 <div className="pd-agent-row">
                   <img
-                    src={property.agent.image}
+                    src={property.agent.image?.startsWith('/') ? `${process.env.REACT_APP_BACKEND_URL}${property.agent.image}` : property.agent.image}
                     alt={property.agent.name}
                     className="pd-agent-avatar"
+                    data-testid="pd-agent-avatar"
                   />
                   <div>
                     <div className="pd-agent-name">{property.agent.name}</div>

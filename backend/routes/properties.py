@@ -116,6 +116,19 @@ def create_properties_routes(db, AuthService, User):
                         {"title": doc["title"], "city": doc["city"], "status": doc["status"]})
         return {"success": True, "property": doc, "used": owned + 1, "max_listings": limit}
 
+    @properties_router.post("/{property_id}/view")
+    async def track_view(property_id: str):
+        ids: List[Any] = [property_id] + ([int(property_id)] if property_id.isdigit() else [])
+        doc = await db.properties.find_one({"id": {"$in": ids}}, {"_id": 0, "id": 1, "owner_id": 1})
+        if not doc:
+            raise HTTPException(status_code=404, detail="العقار غير موجود")
+        pid = doc["id"]
+        await db.properties.update_one({"id": pid}, {"$inc": {"views": 1}})
+        await db.property_views_daily.update_one(
+            {"property_id": pid, "date": datetime.utcnow().strftime("%Y-%m-%d")},
+            {"$inc": {"count": 1}, "$setOnInsert": {"owner_id": doc.get("owner_id")}}, upsert=True)
+        return {"success": True}
+
     @properties_router.post("/{property_id}/status")
     async def update_property_status(property_id: str, payload: StatusUpdate,
                                      current_user: User = Depends(AuthService.get_current_user)):

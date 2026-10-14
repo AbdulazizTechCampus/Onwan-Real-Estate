@@ -15,7 +15,7 @@ ROLE_TYPES = {
 }
 SORT_FIELDS = {"created_at", "last_login", "active_listings", "completed_deals", "full_name_arabic", "total_revenue"}
 
-USER_PROJECTION = {k: 1 for k in ["id", "phone_number", "user_type", "is_nafath_verified", "is_active",
+USER_PROJECTION = {k: 1 for k in ["id", "phone_number", "user_type", "is_nafath_verified", "is_active", "avatar_url",
                                   "created_at", "last_login", "suspension_reason"] + PROFILE_FIELDS}
 USER_PROJECTION["_id"] = 0
 

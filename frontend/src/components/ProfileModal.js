@@ -18,6 +18,25 @@ export default function ProfileModal({ currentUser, onClose, onSaved }) {
   const [busy, setBusy] = useState(false);
   const [loading, setLoading] = useState(true);
   const [msg, setMsg] = useState(null);
+  const [avatarBusy, setAvatarBusy] = useState(false);
+  const [avatarUrl, setAvatarUrl] = useState(currentUser?.avatar_url || null);
+
+  const uploadAvatar = async (file) => {
+    if (!file) return;
+    setAvatarBusy(true); setMsg(null);
+    try {
+      const fd = new FormData();
+      fd.append('file', file);
+      const r = await axios.post(`${API}/profile/avatar`, fd, auth());
+      setAvatarUrl(r.data.avatar_url);
+      const merged = { ...currentUser, avatar_url: r.data.avatar_url };
+      localStorage.setItem('user_data', JSON.stringify(merged));
+      onSaved && onSaved(merged);
+      setMsg({ type: 'ok', text: isCompany ? 'تم تحديث شعار المنشأة' : 'تم تحديث صورتك الشخصية' });
+    } catch (e) {
+      setMsg({ type: 'error', text: e.response?.data?.detail || 'فشل رفع الصورة' });
+    } finally { setAvatarBusy(false); }
+  };
 
   const role = currentUser?.user_type || '';
   const isBroker = role.startsWith('broker');
@@ -72,6 +91,23 @@ export default function ProfileModal({ currentUser, onClose, onSaved }) {
 
         {loading ? <div className="pm-loading">جاري التحميل...</div> : (
           <div className="pm-body">
+            <section className="pm-section pm-avatar-section" data-testid="profile-avatar-section">
+              <div className="pm-avatar">
+                {avatarUrl ? <img src={`${process.env.REACT_APP_BACKEND_URL}${avatarUrl}`} alt="" data-testid="profile-avatar-img" />
+                  : <span>{(form.full_name_arabic || form.company_name || '?').charAt(0)}</span>}
+                {avatarBusy && <div className="pm-avatar-busy">...</div>}
+              </div>
+              <div className="pm-avatar-text">
+                <strong>{isCompany ? 'شعار المنشأة' : 'الصورة الشخصية'}</strong>
+                <span>تظهر في قائمتك وبجانب اسمك في تفاصيل كل إعلان. JPG أو PNG أو WEBP حتى 3 ميجابايت.</span>
+                <label className="pm-upload-btn">
+                  {avatarUrl ? 'تغيير الصورة' : 'رفع صورة'}
+                  <input type="file" accept="image/jpeg,image/png,image/webp" hidden data-testid="profile-avatar-input"
+                    onChange={(e) => { uploadAvatar(e.target.files?.[0]); e.target.value = ''; }} />
+                </label>
+              </div>
+            </section>
+
             <section className="pm-section">
               <h3>البيانات الأساسية</h3>
               <div className="pm-grid">

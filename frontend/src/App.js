@@ -10,6 +10,7 @@ import SubscriptionCenter from './components/SubscriptionCenter';
 import AddPropertyModal from './components/AddPropertyModal';
 import ProfileModal from './components/ProfileModal';
 import ProfileNudgeBanner from './components/ProfileNudgeBanner';
+import BrokerDashboard from './components/BrokerDashboard';
 import './components/RoleMenu.css';
 import './components/FeaturedCards.css';
 import './components/WelcomeBanner.css';
@@ -620,7 +621,7 @@ const ProfileCompletion = ({ currentUser }) => {
 
 
 // Role-based User Menu (dropdown shown when clicking user name in header)
-const RoleMenu = ({ currentUser, onClose, onLogout, onOpenAdmin, onOpenFavorites, onOpenMyProperties, onOpenSubscriptions, onOpenAddProperty, onOpenProfile }) => {
+const RoleMenu = ({ currentUser, onClose, onLogout, onOpenAdmin, onOpenFavorites, onOpenMyProperties, onOpenSubscriptions, onOpenAddProperty, onOpenProfile, onOpenBrokerDashboard }) => {
   const menuRef = useRef(null);
 
   useEffect(() => {
@@ -686,7 +687,7 @@ const RoleMenu = ({ currentUser, onClose, onLogout, onOpenAdmin, onOpenFavorites
     ),
     broker_company: (
       <>
-        <button type="button" className="role-menu-item primary" onClick={() => handleAction(onOpenAdmin)} data-testid="role-menu-broker-dashboard">
+        <button type="button" className="role-menu-item primary" onClick={() => handleAction(() => onOpenBrokerDashboard('overview'))} data-testid="role-menu-broker-dashboard">
           {ICONS.dashboard}<span>لوحة تحكم المنشأة</span>
         </button>
         <a href="#my-properties" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(onOpenMyProperties); }} data-testid="role-menu-my-properties">
@@ -695,9 +696,6 @@ const RoleMenu = ({ currentUser, onClose, onLogout, onOpenAdmin, onOpenFavorites
         <a href="#add-property" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(onOpenAddProperty); }} data-testid="role-menu-add-property">
           {ICONS.plus}<span>إضافة عقار</span>
         </a>
-        <a href="#contracts" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(); }} data-testid="role-menu-contracts">
-          {ICONS.contract}<span>عقودي</span>
-        </a>
         <a href="#subscription" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(onOpenSubscriptions); }} data-testid="role-menu-subscription">
           {ICONS.crown}<span>الاشتراك والباقات</span>
         </a>
@@ -705,7 +703,7 @@ const RoleMenu = ({ currentUser, onClose, onLogout, onOpenAdmin, onOpenFavorites
     ),
     broker_individual: (
       <>
-        <button type="button" className="role-menu-item primary" onClick={() => handleAction(onOpenAdmin)} data-testid="role-menu-broker-dashboard">
+        <button type="button" className="role-menu-item primary" onClick={() => handleAction(() => onOpenBrokerDashboard('overview'))} data-testid="role-menu-broker-dashboard">
           {ICONS.dashboard}<span>لوحة تحكم الوسيط</span>
         </button>
         <a href="#my-properties" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(onOpenMyProperties); }} data-testid="role-menu-my-properties">
@@ -713,9 +711,6 @@ const RoleMenu = ({ currentUser, onClose, onLogout, onOpenAdmin, onOpenFavorites
         </a>
         <a href="#add-property" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(onOpenAddProperty); }} data-testid="role-menu-add-property">
           {ICONS.plus}<span>إضافة عقار</span>
-        </a>
-        <a href="#contracts" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(); }} data-testid="role-menu-contracts">
-          {ICONS.contract}<span>عقودي</span>
         </a>
         <a href="#subscription" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(onOpenSubscriptions); }} data-testid="role-menu-subscription">
           {ICONS.crown}<span>الاشتراك</span>
@@ -730,7 +725,7 @@ const RoleMenu = ({ currentUser, onClose, onLogout, onOpenAdmin, onOpenFavorites
         <a href="#add-property" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(onOpenAddProperty); }} data-testid="role-menu-add-property">
           {ICONS.plus}<span>إضافة عقار للبيع/الإيجار</span>
         </a>
-        <a href="#stats" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(); }} data-testid="role-menu-stats">
+        <a href="#stats" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(() => onOpenBrokerDashboard('stats')); }} data-testid="role-menu-stats">
           {ICONS.stats}<span>إحصائيات الإعلانات</span>
         </a>
         <a href="#subscription" className="role-menu-item" onClick={(e) => { e.preventDefault(); handleAction(onOpenSubscriptions); }} data-testid="role-menu-subscription">
@@ -790,7 +785,7 @@ const RoleMenu = ({ currentUser, onClose, onLogout, onOpenAdmin, onOpenFavorites
 
 
 // Header Component - Modern Design
-const Header = ({ onLoginClick, currentUser, onLogout, onOpenMap, onOpenAdmin, onOpenFavorites, onOpenMyProperties, onOpenSubscriptions, onOpenAddProperty, onOpenProfile }) => {
+const Header = ({ onLoginClick, currentUser, onLogout, onOpenMap, onOpenAdmin, onOpenFavorites, onOpenMyProperties, onOpenSubscriptions, onOpenAddProperty, onOpenProfile, onOpenBrokerDashboard }) => {
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isArabic, setIsArabic] = useState(true);
@@ -1015,10 +1010,14 @@ const Header = ({ onLoginClick, currentUser, onLogout, onOpenMap, onOpenAdmin, o
                 onClick={(e) => { e.stopPropagation(); setUserMenuOpen((v) => !v); }}
                 data-testid="user-menu-trigger"
               >
-                <div className="user-avatar">
+                <div className="user-avatar" data-testid="header-avatar">
+                  {currentUser.avatar_url ? (
+                    <img src={`${process.env.REACT_APP_BACKEND_URL}${currentUser.avatar_url}`} alt="" className="user-avatar-img" />
+                  ) : (
                   <svg viewBox="0 0 24 24" fill="currentColor">
                     <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
                   </svg>
+                  )}
                 </div>
                 <div className="user-details">
                   <span className="user-greeting">{currentUser.full_name_arabic || currentUser.phone_number}</span>
@@ -1040,6 +1039,7 @@ const Header = ({ onLoginClick, currentUser, onLogout, onOpenMap, onOpenAdmin, o
                   onOpenSubscriptions={onOpenSubscriptions}
                   onOpenAddProperty={onOpenAddProperty}
                   onOpenProfile={onOpenProfile}
+                  onOpenBrokerDashboard={onOpenBrokerDashboard}
                 />
               )}
             </div>
@@ -2818,6 +2818,11 @@ function App() {
   const [showAIMatching, setShowAIMatching] = useState(false);
   const [activeSmartFilter, setActiveSmartFilter] = useState('all');
   const [selectedPropertyDetails, setSelectedPropertyDetails] = useState(null);
+  useEffect(() => {
+    if (selectedPropertyDetails?.id != null) {
+      axios.post(`${API}/properties/${selectedPropertyDetails.id}/view`).catch(() => {});
+    }
+  }, [selectedPropertyDetails?.id]);
   const [showFavorites, setShowFavorites] = useState(false);
 
   // Favorites (likes / interests) - persisted in localStorage + synced to backend when logged in
@@ -2873,6 +2878,8 @@ function App() {
   const [showSubscriptions, setShowSubscriptions] = useState(false);
   const [showAddProperty, setShowAddProperty] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
+  const [showBrokerDashboard, setShowBrokerDashboard] = useState(false);
+  const [brokerDashTab, setBrokerDashTab] = useState('overview');
 
   const fetchProperties = () => {
     axios.get(`${API}/properties`)
@@ -3063,6 +3070,7 @@ function App() {
         onOpenSubscriptions={() => setShowSubscriptions(true)}
         onOpenAddProperty={() => setShowAddProperty(true)}
         onOpenProfile={() => setShowProfile(true)}
+        onOpenBrokerDashboard={(tab) => { setBrokerDashTab(tab || 'overview'); setShowBrokerDashboard(true); }}
       />
 
       <AIHeroHook onStartMatching={() => setShowAIMatching(true)} />
@@ -3369,6 +3377,19 @@ function App() {
       )}
 
       {/* Add Property Modal */}
+      {showBrokerDashboard && currentUser && (
+        <BrokerDashboard
+          currentUser={currentUser}
+          initialTab={brokerDashTab}
+          onClose={() => setShowBrokerDashboard(false)}
+          onOpenAddProperty={() => setShowAddProperty(true)}
+          onOpenProfile={() => setShowProfile(true)}
+          onOpenSubscriptions={() => setShowSubscriptions(true)}
+          onSelectProperty={(p) => setSelectedPropertyDetails(p)}
+          onToggleStatus={togglePropertyStatus}
+        />
+      )}
+
       {showProfile && currentUser && (
         <ProfileModal
           currentUser={currentUser}

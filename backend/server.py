@@ -448,7 +448,7 @@ async def verify_otp(request: VerifyOTPRequest):
                 "is_nafath_verified": user.is_nafath_verified,
                 "full_name_arabic": user.full_name_arabic,
                 **{k: (user_data or {}).get(k) for k in ["email", "region", "city", "districts", "specializations",
-                                                           "fal_license", "experience_years", "company_name"]}
+                                                           "fal_license", "experience_years", "company_name", "avatar_url"]}
             }
         }
         
@@ -666,6 +666,21 @@ from routes.profiles import create_profile_routes
 from routes.admin_directory import create_directory_routes
 app.include_router(create_profile_routes(db, AuthService, User), prefix="/api")
 app.include_router(create_directory_routes(db, AuthService, User), prefix="/api")
+
+from routes.files import create_files_routes
+from routes.broker import create_broker_routes
+app.include_router(create_files_routes(db, AuthService, User), prefix="/api")
+app.include_router(create_broker_routes(db, AuthService, User), prefix="/api")
+
+from storage import init_storage
+
+@app.on_event("startup")
+async def init_object_storage():
+    try:
+        await asyncio.to_thread(init_storage)
+        logger.info("Object storage initialized")
+    except Exception as e:
+        logger.error(f"Object storage init failed: {e}")
 
 from db_indexes import ensure_indexes
 
