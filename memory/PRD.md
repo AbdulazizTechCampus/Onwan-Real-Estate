@@ -279,6 +279,13 @@
 - إصلاح تسجيل الدخول: `send-otp` يُرجع `is_existing_user`؛ المستخدم المسجّل (ومنهم الأدمن) يدخل مباشرة بعد الرمز دون خطوة "اختر صفتك" — الخطوة تظهر للأرقام الجديدة فقط
 - مؤجل للنشر: منطقة Atlas داخل السعودية، Advanced Auditing، تشفير الحقول الحساسة (نقطة 2)
 
+## ملف الوسيط/المصور + دليل الأدمن (7 أكتوبر 2026) — iteration_8: 14/14 backend، 100% frontend
+- `routes/profiles.py`: GET/PUT `/api/profile/me` — الحقول: full_name_arabic, email, region, city, districts[], specializations[], fal_license, experience_years, company_name, commercial_register, bio, portfolio_url. التخصصات محددة (وسيط: residential_sale/residential_rent/commercial/land/projects/management — مصور: photo/video/drone/virtual_tour/staging). يسجل PROFILE_UPDATE في التدقيق
+- `routes/admin_directory.py`: GET `/api/admin/directory/{brokers|photographers|owners}` (aggregation + $facet) مع فلاتر region/city/user_type/verified/status/plan_key/specialization/search وفرز created_at/last_login/active_listings/completed_deals/full_name_arabic/total_revenue + summary (by_region/by_type/by_plan/verified/suspended) — مؤشرات الأداء مستخلصة تلقائياً (إعلانات نشطة، صفقات مكتملة، إعلانات مميزة، إيراد المنصة، نقاط، باقة). GET `/user/{id}` تفاصيل كاملة. POST `/user/{id}/suspend` إيقاف/تفعيل (الموقوف يُرفض 403 في get_current_user وverify-otp؛ لا يمكن إيقاف admin)
+- واجهة: `components/ProfileModal.js` ("ملفي الشخصي" في قائمة المستخدم لغير الأدمن)، `components/AdminDirectory.js` + `AdminUserDetail.js` (استبدلتا BrokersManagement/PhotographersManagement في لوحة الأدمن)، `utils/saudiRegions.js` (نُقل SAUDI_REGIONS من App.js)
+- مؤشر اكتمال الملف أصبح يتضمن "المنطقة والمدينة" (15%)
+- verify-otp يعيد حقول الملف (email/region/city/…) ضمن user
+
 ---
 
 ## معلومات الدعم
