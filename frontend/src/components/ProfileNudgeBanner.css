@@ -1,0 +1,40 @@
+.nudge-banner { padding: 18px 0 0; animation: nudgeIn .4s ease both; }
+@keyframes nudgeIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: none; } }
+
+.nudge-inner {
+  display: flex; align-items: center; gap: 18px; padding: 16px 22px;
+  background: #003D78; color: #fff; border-radius: 16px;
+  border-inline-start: 5px solid #E7222E; box-shadow: 0 10px 30px -14px rgba(0, 61, 120, .6);
+  position: relative; overflow: hidden;
+}
+.nudge-inner::after {
+  content: ''; position: absolute; inset-inline-end: -60px; top: -60px; width: 200px; height: 200px;
+  border-radius: 50%; background: rgba(255,255,255,.05); pointer-events: none;
+}
+.nudge-icon {
+  width: 44px; height: 44px; border-radius: 12px; background: rgba(255,255,255,.12); display: grid; place-items: center;
+  flex-shrink: 0; color: #fff;
+}
+.nudge-text { flex: 1; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.nudge-text strong { font-size: .98rem; font-weight: 800; }
+.nudge-text span { font-size: .82rem; opacity: .85; line-height: 1.6; }
+.nudge-text em {
+  font-style: normal; background: #E7222E; color: #fff; padding: 1px 9px; border-radius: 999px;
+  font-size: .76rem; font-weight: 700; margin-inline-end: 6px; white-space: nowrap;
+}
+.nudge-actions { display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
+.nudge-cta {
+  padding: 10px 20px; border: 0; border-radius: 999px; background: #fff; color: #003D78; font-weight: 800;
+  cursor: pointer; font-family: inherit; font-size: .88rem; transition: transform .15s, background-color .2s;
+}
+.nudge-cta:hover { background: #E7222E; color: #fff; transform: translateY(-1px); }
+.nudge-later {
+  padding: 10px 14px; border: 1px solid rgba(255,255,255,.3); border-radius: 999px; background: transparent;
+  color: #fff; cursor: pointer; font-family: inherit; font-size: .85rem; transition: background-color .2s;
+}
+.nudge-later:hover { background: rgba(255,255,255,.12); }
+
+@media (max-width: 760px) {
+  .nudge-inner { flex-wrap: wrap; }
+  .nudge-actions { width: 100%; justify-content: flex-start; }
+}

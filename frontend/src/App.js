@@ -9,6 +9,7 @@ import './components/FavoritesPage.css';
 import SubscriptionCenter from './components/SubscriptionCenter';
 import AddPropertyModal from './components/AddPropertyModal';
 import ProfileModal from './components/ProfileModal';
+import ProfileNudgeBanner from './components/ProfileNudgeBanner';
 import './components/RoleMenu.css';
 import './components/FeaturedCards.css';
 import './components/WelcomeBanner.css';
@@ -3071,6 +3072,7 @@ function App() {
       <SmartFilters active={activeSmartFilter} onChange={setActiveSmartFilter} />
       
       <main className="main-content">
+        <ProfileNudgeBanner currentUser={currentUser} onOpenProfile={() => setShowProfile(true)} />
         {currentUser && (
           <section className="user-welcome-banner" data-testid="user-welcome-banner">
             <div className="container">

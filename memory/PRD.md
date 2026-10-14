@@ -285,6 +285,7 @@
 - واجهة: `components/ProfileModal.js` ("ملفي الشخصي" في قائمة المستخدم لغير الأدمن)، `components/AdminDirectory.js` + `AdminUserDetail.js` (استبدلتا BrokersManagement/PhotographersManagement في لوحة الأدمن)، `utils/saudiRegions.js` (نُقل SAUDI_REGIONS من App.js)
 - مؤشر اكتمال الملف أصبح يتضمن "المنطقة والمدينة" (15%)
 - verify-otp يعيد حقول الملف (email/region/city/…) ضمن user
+- **Profile Nudge Banner** (`components/ProfileNudgeBanner.js`): يظهر للوسطاء (فرد/شركة) أعلى بانر الترحيب عند نقص المنطقة أو المدينة أو رخصة فال، بزر "إكمال الملف الآن" يفتح ProfileModal و"لاحقاً" يخفيه للجلسة فقط (sessionStorage)؛ يختفي تلقائياً بعد الحفظ. مختبر بلقطة شاشة e2e بحساب 0533333333
 
 ---
 
